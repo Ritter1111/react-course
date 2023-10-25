@@ -1,31 +1,43 @@
+export interface ICard {
+  info: Info;
+  results: IResult[];
+}
+
+export interface Info {
+  count: number;
+  pages: number;
+  next: string;
+  prev: string;
+}
+
+export interface IResult {
+  id?: number
+  name: string;
+  status?: string
+  species?: string
+  type?: string
+  gender?: string
+  origin?: IOrigin
+  location?: ILocation
+  image?: string;
+  episode?: string[]
+  url?: string
+  created?: string
+}
+
+export interface IOrigin {
+  name: string;
+  url: string;
+}
+
+export interface ILocation {
+  name: string;
+  url: string;
+}
+
 export interface AppProps {}
 
 export interface AppState {
   data: ICard;
-}
-
-export interface ICard {
-  count: number;
-  next: string;
-  previous: string;
-  results: IResult[];
-}
-
-export interface IResult {
-  name: string;
-  // height: string;
-  // mass: string;
-  // hair_color: string;
-  // skin_color: string;
-  // eye_color: string;
-  // birth_year: string;
-  // gender: string;
-  // homeworld: string;
-  // films: string[];
-  // species: string[];
-  // vehicles: string[];
-  // starships: string[];
-  // created: string;
-  // edited: string;
-  // url: string;
+  param: string;
 }

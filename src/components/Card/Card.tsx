@@ -1,14 +1,16 @@
-import React from 'react'
-import { IResult } from '../../interfaces/Card.interface'
-import styles from './Card.module.css'
+import React from 'react';
+import { IResult } from '../../interfaces/Card.interface';
+import styles from './Card.module.css';
 
 export default class Card extends React.Component<IResult> {
   render() {
-    const { name } = this.props
+    const { name, image, species } = this.props;
     return (
       <div className={styles.container}>
-        <h5>{name}</h5>
+        <img src={image} />
+        <h4 className={styles.img}>{name}</h4>
+        <p className={styles.species}>Species: {species}</p>
       </div>
-    )
+    );
   }
 }
