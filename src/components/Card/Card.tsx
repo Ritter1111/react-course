@@ -1,8 +1,8 @@
 import React from 'react';
-import { IResult } from '../../interfaces/Card.interface';
+import { ICardData } from '../../interfaces/Card.interface';
 import styles from './Card.module.css';
 
-export default class Card extends React.Component<IResult> {
+export default class Card extends React.Component<ICardData> {
   render() {
     const { name, image, species } = this.props;
     return (

@@ -1,28 +1,20 @@
 export interface ICard {
-  info: Info;
-  results: IResult[];
+  results: ICardData[];
 }
 
-export interface Info {
-  count: number;
-  pages: number;
-  next: string;
-  prev: string;
-}
-
-export interface IResult {
-  id?: number
+export interface ICardData {
+  id?: number;
   name: string;
-  status?: string
-  species?: string
-  type?: string
-  gender?: string
-  origin?: IOrigin
-  location?: ILocation
+  status?: string;
+  species?: string;
+  type?: string;
+  gender?: string;
+  origin?: IOrigin;
+  location?: ILocation;
   image?: string;
-  episode?: string[]
-  url?: string
-  created?: string
+  episode?: string[];
+  url?: string;
+  created?: string;
 }
 
 export interface IOrigin {

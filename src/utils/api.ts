@@ -1,4 +1,4 @@
-import { ICard } from "../interfaces/Card.interface";
+import { ICard } from '../interfaces/Card.interface';
 
 export const fetchCards = (param?: string): Promise<ICard> => {
   const apiUrl = param
