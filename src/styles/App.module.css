@@ -1,0 +1,15 @@
+.app {
+  background-color: #eee;
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 5vh;
+}
