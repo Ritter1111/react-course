@@ -31,5 +31,5 @@ export interface AppProps {}
 
 export interface AppState {
   data: ICard;
-  param: string;
+  value: string;
 }

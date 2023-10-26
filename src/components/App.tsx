@@ -1,8 +1,10 @@
 import React from 'react';
 import { AppProps, AppState } from '../interfaces/Card.interface';
 import Card from './Card/Card';
-import { fetchCards } from '../utils/Api';
 import CardFilter from './CardSearch/CardFilter';
+import NotFound from './NotFound/NotFound';
+import { fetchCards } from '../utils/api';
+import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import styles from '../styles/App.module.css';
 
 class App extends React.Component<AppProps, AppState> {
@@ -12,43 +14,35 @@ class App extends React.Component<AppProps, AppState> {
       data: {
         results: [],
       },
-      param: '',
+      value: '',
     };
   }
 
   componentDidMount(): void {
-    if (this.getSearchParam()) {
-      this.getCards(this.getSearchParam());
+    if (getSearchParam('searchValue')) {
+      this.getCards(getSearchParam('searchValue'));
+      this.setState({ value: `${getSearchParam('searchValue')}` });
     } else {
       this.getCards();
     }
   }
 
-  getSearchParam = () => {
-    const searchParam = localStorage.getItem('searchParam') || '';
-    return searchParam;
-  };
-
-  setSearchParam = (param: string) => {
-    localStorage.setItem('searchParam', param);
-  };
-
-  getCards = async (param?: string) => {
-    const cardsData = await fetchCards(param);
+  getCards = async (value?: string) => {
+    const cardsData = await fetchCards(value);
     this.setState({ data: cardsData });
-    if (param) {
-      this.setSearchParam(param);
+    if (value) {
+      setSearchParam('searchValue', value);
     }
   };
 
   handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ param: event.target.value });
+    this.setState({ value: event.target.value });
   };
 
   handleClick = () => {
-    if (this.state.param === '') return;
-    this.getCards(this.state.param);
-    this.setState({ param: '' });
+    if (this.state.value === '') return;
+    this.getCards(this.state.value);
+    this.setState({ value: '' });
   };
 
   render() {
@@ -58,16 +52,20 @@ class App extends React.Component<AppProps, AppState> {
           <CardFilter
             handleInput={this.handleInput}
             handleClick={this.handleClick}
-            param={this.state.param}
+            param={this.state.value}
           />
-          {this.state.data.results.map((item) => (
-            <Card
-              key={item.id}
-              image={item.image}
-              species={item.species}
-              name={item.name}
-            />
-          ))}
+          {!this.state.data.results ? (
+            <NotFound />
+          ) : (
+            this.state.data.results.map((item) => (
+              <Card
+                key={item.id}
+                image={item.image}
+                species={item.species}
+                name={item.name}
+              />
+            ))
+          )}
         </div>
       </div>
     );
