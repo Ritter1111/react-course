@@ -2,9 +2,10 @@ import React from 'react';
 import { AppProps, AppState } from '../interfaces/Card.interface';
 import Card from './Card/Card';
 import CardFilter from './CardSearch/CardFilter';
-import NotFound from './NotFound/NotFound';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
+import NotFound from './NotFound/NotFound';
+import ErrorBtn from './ErrorBtn/ErrorBtn';
 import styles from '../styles/App.module.css';
 
 class App extends React.Component<AppProps, AppState> {
@@ -15,6 +16,7 @@ class App extends React.Component<AppProps, AppState> {
         results: [],
       },
       value: '',
+      hasError: false,
     };
   }
 
@@ -45,10 +47,18 @@ class App extends React.Component<AppProps, AppState> {
     this.setState({ value: '' });
   };
 
+  throwError = () => {
+    this.setState({ hasError: true });
+  };
+
   render() {
+    if (this.state.hasError) {
+      throw new Error('Error on click');
+    }
     return (
       <div className={styles.app}>
         <div className={styles.container}>
+          <ErrorBtn throwError={this.throwError} />
           <CardFilter
             handleInput={this.handleInput}
             handleClick={this.handleClick}

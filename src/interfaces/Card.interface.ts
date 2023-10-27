@@ -32,4 +32,5 @@ export interface AppProps {}
 export interface AppState {
   data: ICard;
   value: string;
+  hasError: boolean;
 }

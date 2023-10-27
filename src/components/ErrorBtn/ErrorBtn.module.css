@@ -1,0 +1,13 @@
+.error_btn {
+  padding: 7px 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: rgba(246, 249, 252, 0.748);
+  transition: 0.5s ease-in;
+  border: none;
+}
+
+.error_btn:hover {
+  background-color: rgba(246, 249, 252, 0.871);
+  transition: 0.5s ease-in;
+}

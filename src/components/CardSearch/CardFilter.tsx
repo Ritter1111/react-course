@@ -9,7 +9,6 @@ export default class CardFilter extends React.Component<ICardSearchProps> {
   render() {
     return (
       <div className={styles.container}>
-        <BsSearchHeart />
         <MyInput
           value={this.props.param}
           placeholder="Type to search..."
@@ -20,7 +19,7 @@ export default class CardFilter extends React.Component<ICardSearchProps> {
           className={styles.btn_search}
           onClick={this.props.handleClick}
         >
-          Search
+          <BsSearchHeart className={styles.search_icon} />
         </MyButton>
       </div>
     );
