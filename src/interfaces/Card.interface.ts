@@ -27,10 +27,11 @@ export interface ILocation {
   url: string;
 }
 
-export interface AppProps {}
+export interface IAppProps {}
 
-export interface AppState {
+export interface IAppState {
   data: ICard;
   value: string;
   hasError: boolean;
+  loading: boolean;
 }

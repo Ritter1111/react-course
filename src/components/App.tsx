@@ -1,15 +1,15 @@
 import React from 'react';
-import { AppProps, AppState } from '../interfaces/Card.interface';
+import { IAppProps, IAppState } from '../interfaces/Card.interface';
 import Card from './Card/Card';
-import CardFilter from './CardSearch/CardFilter';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import NotFound from './NotFound/NotFound';
-import ErrorBtn from './ErrorBtn/ErrorBtn';
 import styles from '../styles/App.module.css';
+import Loader from './Loader/Loader';
+import CardSearch from './CardSearch/CardSearch';
 
-class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
+class App extends React.Component<IAppProps, IAppState> {
+  constructor(props: IAppProps) {
     super(props);
     this.state = {
       data: {
@@ -17,16 +17,21 @@ class App extends React.Component<AppProps, AppState> {
       },
       value: '',
       hasError: false,
+      loading: false,
     };
   }
 
   componentDidMount(): void {
-    if (getSearchParam('searchValue')) {
-      this.getCards(getSearchParam('searchValue'));
-      this.setState({ value: `${getSearchParam('searchValue')}` });
-    } else {
-      this.getCards();
-    }
+    this.setState({ loading: true });
+    setTimeout(() => {
+      if (getSearchParam('searchValue')) {
+        this.getCards(getSearchParam('searchValue'));
+        this.setState({ value: `${getSearchParam('searchValue')}` });
+      } else {
+        this.getCards();
+      }
+      this.setState({ loading: false });
+    }, 2000);
   }
 
   getCards = async (value?: string) => {
@@ -58,13 +63,15 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <div className={styles.app}>
         <div className={styles.container}>
-          <ErrorBtn throwError={this.throwError} />
-          <CardFilter
+          <CardSearch
             handleInput={this.handleInput}
             handleClick={this.handleClick}
+            throwError={this.throwError}
             param={this.state.value}
           />
-          {!this.state.data.results ? (
+          {this.state.loading ? (
+            <Loader />
+          ) : !this.state.data.results ? (
             <NotFound />
           ) : (
             this.state.data.results.map((item) => (

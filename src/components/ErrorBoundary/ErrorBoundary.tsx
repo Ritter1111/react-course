@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-  ErrorBoundaryProps,
-  ErrorBoundaryState,
+  IErrorBoundaryProps,
+  IErrorBoundaryState,
 } from '../../interfaces/ErrorBoudary.interface';
 import styles from './ErrorBoundary.module.css';
 
 export default class ErrorBoundary extends React.Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
+  IErrorBoundaryProps,
+  IErrorBoundaryState
 > {
-  constructor(props: ErrorBoundaryProps) {
+  constructor(props: IErrorBoundaryProps) {
     super(props);
     this.state = {
       hasError: null,
