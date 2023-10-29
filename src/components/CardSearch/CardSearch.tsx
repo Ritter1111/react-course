@@ -11,7 +11,7 @@ export default class CardSearch extends React.Component<ICardSearchProps> {
       <div className={styles.container}>
         <div className={styles.container_input}>
           <MyInput
-            value={this.props.param}
+            value={this.props.value}
             placeholder="Type to search..."
             className={styles.input}
             onChange={this.props.handleInput}

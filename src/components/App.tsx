@@ -1,12 +1,12 @@
 import React from 'react';
 import { IAppProps, IAppState } from '../interfaces/Card.interface';
-import Card from './Card/Card';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import NotFound from './NotFound/NotFound';
-import styles from '../styles/App.module.css';
 import Loader from './Loader/Loader';
 import CardSearch from './CardSearch/CardSearch';
+import CardList from './CardList/CardList';
+import styles from '../styles/App.module.css';
 
 class App extends React.Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
@@ -31,7 +31,7 @@ class App extends React.Component<IAppProps, IAppState> {
         this.getCards();
       }
       this.setState({ loading: false });
-    }, 2000);
+    }, 1500);
   }
 
   getCards = async (value?: string) => {
@@ -67,21 +67,14 @@ class App extends React.Component<IAppProps, IAppState> {
             handleInput={this.handleInput}
             handleClick={this.handleClick}
             throwError={this.throwError}
-            param={this.state.value}
+            value={this.state.value}
           />
           {this.state.loading ? (
             <Loader />
           ) : !this.state.data.results ? (
             <NotFound />
           ) : (
-            this.state.data.results.map((item) => (
-              <Card
-                key={item.id}
-                image={item.image}
-                species={item.species}
-                name={item.name}
-              />
-            ))
+            <CardList results={this.state.data.results} />
           )}
         </div>
       </div>
