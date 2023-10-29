@@ -1,5 +1,5 @@
 import React from 'react';
-import { IMyInputProps } from '../../interfaces/Input.interface';
+import { IMyInputProps } from '../../interfaces/search-bar.interface';
 
 export default class MyInput extends React.Component<IMyInputProps> {
   render() {

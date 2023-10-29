@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  IErrorBoundaryProps,
-  IErrorBoundaryState,
-} from '../../interfaces/ErrorBoudary.interface';
+import { IErrorBoundaryProps, IErrorBoundaryState } from '../../interfaces/error-boudary.interface';
 import styles from './ErrorBoundary.module.css';
 
 export default class ErrorBoundary extends React.Component<

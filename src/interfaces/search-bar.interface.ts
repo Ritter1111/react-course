@@ -16,4 +16,5 @@ export interface ICardSearchProps {
   handleClick: (event: React.MouseEvent<HTMLElement>) => void;
   throwError: (event: React.MouseEvent<HTMLElement>) => void;
   value: string;
+  hasError: boolean;
 }

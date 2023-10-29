@@ -1,5 +1,5 @@
 import React from 'react';
-import { IMyButtonProps } from '../../interfaces/Input.interface';
+import { IMyButtonProps } from '../../interfaces/search-bar.interface';
 
 export default class MyButton extends React.Component<IMyButtonProps> {
   render() {

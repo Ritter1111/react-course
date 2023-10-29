@@ -2,24 +2,20 @@ import React from 'react';
 import { IAppProps, IAppState } from '../interfaces/Card.interface';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
-import NotFound from './NotFound/NotFound';
 import Loader from './Loader/Loader';
 import CardSearch from './CardSearch/CardSearch';
 import CardList from './CardList/CardList';
 import styles from '../styles/App.module.css';
 
 class App extends React.Component<IAppProps, IAppState> {
-  constructor(props: IAppProps) {
-    super(props);
-    this.state = {
-      data: {
-        results: [],
-      },
-      value: '',
-      hasError: false,
-      loading: false,
-    };
-  }
+  state = {
+    data: {
+      results: [],
+    },
+    value: '',
+    hasError: false,
+    loading: false,
+  };
 
   componentDidMount(): void {
     this.setState({ loading: true });
@@ -47,7 +43,6 @@ class App extends React.Component<IAppProps, IAppState> {
   };
 
   handleClick = () => {
-    if (this.state.value === '') return;
     this.getCards(this.state.value);
     this.setState({ value: '' });
   };
@@ -57,9 +52,6 @@ class App extends React.Component<IAppProps, IAppState> {
   };
 
   render() {
-    if (this.state.hasError) {
-      throw new Error('Error on click');
-    }
     return (
       <div className={styles.app}>
         <div className={styles.container}>
@@ -68,11 +60,10 @@ class App extends React.Component<IAppProps, IAppState> {
             handleClick={this.handleClick}
             throwError={this.throwError}
             value={this.state.value}
+            hasError={this.state.hasError}
           />
           {this.state.loading ? (
             <Loader />
-          ) : !this.state.data.results ? (
-            <NotFound />
           ) : (
             <CardList results={this.state.data.results} />
           )}
