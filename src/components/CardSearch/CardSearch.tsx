@@ -1,18 +1,14 @@
 import MyInput from '../../UI/Input/MyInput';
 import MyButton from '../../UI/Button/MyButton';
-import { useState } from 'react';
 import styles from './CardSearch.module.css';
 import { ICardSearchProps } from '../../interfaces/search-bar.interface';
+import ErrorBtn from '../Error/ErrorBtn/ErrorBtn';
 
 export default function CardSearch({
   handleSearchClick,
   handleInputChange,
   value,
 }: ICardSearchProps) {
-  const [error, setError] = useState(false);
-
-  if (error) throw new Error('Error on click');
-
   return (
     <div className={styles.container}>
       <div className={styles.container_input}>
@@ -26,9 +22,7 @@ export default function CardSearch({
           <div className={styles.search_icon}>Search</div>
         </MyButton>
       </div>
-      <MyButton className={styles.error_btn} onClick={() => setError(true)}>
-        Error
-      </MyButton>
+      <ErrorBtn />
     </div>
   );
 }
