@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import Loader from './Loader/Loader';
@@ -10,15 +10,14 @@ import { ICardData } from '../interfaces/Card.interface';
 export default function App() {
   const [data, setData] = useState({ results: [] as ICardData[] });
   const [value, setValue] = useState('')
-  const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
 
-    const getCards = async (value?: string) => {
+  const getCards = async (value?: string) => {
     const cardsData = await fetchCards(value);
     setData(cardsData)
-    if (value) {
-      setSearchParam('searchValue', value);
-    }
+     if (value) {
+       setSearchParam('searchValue', value);
+     }
   };
 
   useEffect(() => {
@@ -31,35 +30,21 @@ export default function App() {
         getCards();
       }
       setLoading(false);
-
-    setLoading(false)
-      
     }, 1500);
   }, [])
 
-  
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-   setValue(event.target.value)
-  };
-
-  const handleClick = () => {
-  getCards(value)
-  setValue('')
-  };
-
-  const throwError = () => {
-   setError(true)
-  };
+  const handleSearchClick = () => {
+    getCards(value)
+    setValue('')
+  }
 
   return (
     <div className={styles.app}>
       <div className={styles.container}>
         <CardSearch
-          handleInput={handleInput}
-          handleClick={handleClick}
-          throwError={throwError}
+          handleInputChange={(e) => setValue(e.target.value)}
+          handleSearchClick={handleSearchClick}
           value={value}
-          hasError={error}
         />
         {loading ? (
           <Loader />

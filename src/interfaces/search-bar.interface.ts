@@ -12,9 +12,9 @@ export interface IMyButtonProps {
 }
 
 export interface ICardSearchProps {
-  handleInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleClick: (event: React.MouseEvent<HTMLElement>) => void;
-  throwError: (event: React.MouseEvent<HTMLElement>) => void;
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearchClick: (event: React.MouseEvent<HTMLElement>) => void;
+  // throwError: (event: React.MouseEvent<HTMLElement>) => void;
   value: string;
-  hasError: boolean;
+  // hasError: boolean;
 }
