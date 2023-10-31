@@ -9,34 +9,34 @@ import { ICardData } from '../interfaces/Card.interface';
 
 export default function App() {
   const [data, setData] = useState({ results: [] as ICardData[] });
-  const [value, setValue] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [value, setValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const getCards = async (value?: string) => {
     const cardsData = await fetchCards(value);
-    setData(cardsData)
-     if (value) {
-       setSearchParam('searchValue', value);
-     }
+    setData(cardsData);
+    if (value) {
+      setSearchParam('searchValue', value);
+    }
   };
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
       if (getSearchParam('searchValue')) {
         getCards(getSearchParam('searchValue'));
-        setValue(getSearchParam('searchValue'))
+        setValue(getSearchParam('searchValue'));
       } else {
         getCards();
       }
       setLoading(false);
     }, 1500);
-  }, [])
+  }, []);
 
   const handleSearchClick = () => {
-    getCards(value)
-    setValue('')
-  }
+    getCards(value);
+    setValue('');
+  };
 
   return (
     <div className={styles.app}>
@@ -46,11 +46,7 @@ export default function App() {
           handleSearchClick={handleSearchClick}
           value={value}
         />
-        {loading ? (
-          <Loader />
-        ) : (
-          <CardList results={data.results} />
-        )}
+        {loading ? <Loader /> : <CardList results={data.results} />}
       </div>
     </div>
   );
