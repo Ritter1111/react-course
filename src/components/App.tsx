@@ -1,76 +1,72 @@
-import React from 'react';
-import { IAppProps, IAppState } from '../interfaces/Card.interface';
+import React, { useEffect, useState } from 'react';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import Loader from './Loader/Loader';
 import CardSearch from './CardSearch/CardSearch';
 import CardList from './CardList/CardList';
 import styles from '../styles/App.module.css';
+import { ICardData } from '../interfaces/Card.interface';
 
-class App extends React.Component<IAppProps, IAppState> {
-  state = {
-    data: {
-      results: [],
-    },
-    value: '',
-    hasError: false,
-    loading: false,
-  };
+export default function App() {
+  const [data, setData] = useState({ results: [] as ICardData[] });
+  const [value, setValue] = useState('')
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  componentDidMount(): void {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      if (getSearchParam('searchValue')) {
-        this.getCards(getSearchParam('searchValue'));
-        this.setState({ value: `${getSearchParam('searchValue')}` });
-      } else {
-        this.getCards();
-      }
-      this.setState({ loading: false });
-    }, 1500);
-  }
-
-  getCards = async (value?: string) => {
+    const getCards = async (value?: string) => {
     const cardsData = await fetchCards(value);
-    this.setState({ data: cardsData });
+    setData(cardsData)
     if (value) {
       setSearchParam('searchValue', value);
     }
   };
 
-  handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ value: event.target.value });
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      if (getSearchParam('searchValue')) {
+        getCards(getSearchParam('searchValue'));
+        setValue(getSearchParam('searchValue'))
+      } else {
+        getCards();
+      }
+      setLoading(false);
+
+    setLoading(false)
+      
+    }, 1500);
+  }, [])
+
+  
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+   setValue(event.target.value)
   };
 
-  handleClick = () => {
-    this.getCards(this.state.value);
-    this.setState({ value: '' });
+  const handleClick = () => {
+  getCards(value)
+  setValue('')
   };
 
-  throwError = () => {
-    this.setState({ hasError: true });
+  const throwError = () => {
+   setError(true)
   };
 
-  render() {
-    return (
-      <div className={styles.app}>
-        <div className={styles.container}>
-          <CardSearch
-            handleInput={this.handleInput}
-            handleClick={this.handleClick}
-            throwError={this.throwError}
-            value={this.state.value}
-            hasError={this.state.hasError}
-          />
-          {this.state.loading ? (
-            <Loader />
-          ) : (
-            <CardList results={this.state.data.results} />
-          )}
-        </div>
+  return (
+    <div className={styles.app}>
+      <div className={styles.container}>
+        <CardSearch
+          handleInput={handleInput}
+          handleClick={handleClick}
+          throwError={throwError}
+          value={value}
+          hasError={error}
+        />
+        {loading ? (
+          <Loader />
+        ) : (
+          <CardList results={data.results} />
+        )}
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default App;
