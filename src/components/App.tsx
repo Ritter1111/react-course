@@ -18,24 +18,25 @@ class App extends React.Component<IAppProps, IAppState> {
   };
 
   componentDidMount(): void {
-    this.setState({ loading: true });
-    setTimeout(() => {
       if (getSearchParam('searchValue')) {
         this.getCards(getSearchParam('searchValue'));
         this.setState({ value: `${getSearchParam('searchValue')}` });
       } else {
         this.getCards();
       }
-      this.setState({ loading: false });
-    }, 1500);
   }
 
   getCards = async (value?: string) => {
+    this.setState({ loading: true });
+
+    setTimeout(async () => {
     const cardsData = await fetchCards(value);
-    this.setState({ data: cardsData });
     if (value) {
       setSearchParam('searchValue', value);
     }
+    this.setState({ data: cardsData });
+    this.setState({ loading: false });
+    }, 1500);
   };
 
   handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
