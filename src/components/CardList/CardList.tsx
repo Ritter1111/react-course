@@ -1,5 +1,5 @@
 import Card from '../Card/Card';
-import { ICard } from '../../interfaces/card.interface';
+import { ICard } from '../../interfaces/Card.interface';
 import NotFound from '../NotFound/NotFound';
 
 export default function CardList({ results }: ICard) {
@@ -7,10 +7,9 @@ export default function CardList({ results }: ICard) {
 
   return results.map((item) => (
     <Card
-      key={item.id}
-      image={item.image}
-      species={item.species}
+      key={item.name}
       name={item.name}
+      gender={item.gender}
     />
   ));
 }

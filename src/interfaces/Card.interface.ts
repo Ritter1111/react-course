@@ -1,4 +1,7 @@
 export interface ICard {
+  count?: number,
+  next?: string, 
+  previous?: string,
   results: ICardData[];
 }
 

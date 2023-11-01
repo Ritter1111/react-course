@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import styles from '../styles/App.module.css';
-import { ICardData } from '../interfaces/card.interface';
+import { ICardData } from '../interfaces/Card.interface';
 import CardList from '../components/CardList/CardList';
 import CardSearch from '../components/CardSearch/CardSearch';
 import Loader from '../components/Loader/Loader';
@@ -11,6 +11,9 @@ export default function Main() {
   const [data, setData] = useState({ results: [] as ICardData[] });
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(true);
+  // const [currPage, setCurrPage] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1)
+  const currPage = 1
 
   const getCards = async (value?: string) => {
     setLoading(true);
@@ -19,8 +22,11 @@ export default function Main() {
       setSearchParam('searchValue', value);
     }
 
-    const cardsData = await fetchCards(value);
+    const cardsData = await fetchCards(currPage, value);
     setData(cardsData);
+    if(cardsData.count) {
+      // setTotalPages(cardsData.count)
+    }
     setLoading(false);
   };
 

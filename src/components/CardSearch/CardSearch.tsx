@@ -9,6 +9,7 @@ export default function CardSearch({
   handleInputChange,
   value,
 }: ICardSearchProps) {
+
   return (
     <div className={styles.container}>
       <div className={styles.container_input}>

@@ -1,0 +1,13 @@
+.btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.prev, .next  {
+  text-decoration: none;
+}
