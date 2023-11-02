@@ -6,8 +6,14 @@
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
-.prev, .next  {
+.prev,
+.next {
   text-decoration: none;
+}
+
+.pageNumber {
+  color: white;
 }

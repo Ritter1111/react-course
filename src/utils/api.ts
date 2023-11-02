@@ -1,10 +1,14 @@
 import { API_URL } from './consts';
 import { ICard } from '../interfaces/Card.interface';
 
-export const fetchCards = async (page: number, param?: string): Promise<ICard> => {
+export const fetchCards = async (
+  page: number,
+  param?: string,
+  limit?: number
+): Promise<ICard> => {
   const apiUrl = param
-    ? `${API_URL}/?page=${page}&search=${param.trim()}`
-    : `${API_URL}/?page=${page}`;
+    ? `${API_URL}?page=${page}&limit=${limit}&q=${param.trim()}`
+    : `${API_URL}?page=${page}&limit=${limit}`;
 
   try {
     const response = await fetch(apiUrl);

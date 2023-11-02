@@ -1,33 +1,26 @@
 export interface ICard {
-  count?: number,
-  next?: string, 
-  previous?: string,
-  results: ICardData[];
+  pagination?: Pagination;
+  data: ICardData[];
+}
+
+export interface Pagination {
+  last_visible_page: number;
+  has_next_page: boolean;
+  current_page: number;
 }
 
 export interface ICardData {
-  id?: number;
-  name: string;
-  status?: string;
-  species?: string;
-  type?: string;
-  gender?: string;
-  origin?: IOrigin;
-  location?: ILocation;
-  image?: string;
-  episode?: string[];
-  url?: string;
-  created?: string;
+  mal_id: number;
+  title: string;
+  images: Images;
 }
 
-export interface IOrigin {
-  name: string;
-  url: string;
+export interface Images {
+  jpg: Jpg;
 }
 
-export interface ILocation {
-  name: string;
-  url: string;
+export interface Jpg {
+  image_url: string;
 }
 
 export interface IAppProps {}
