@@ -1,0 +1,15 @@
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputSize {
+  padding: 7px 15px;
+  border-radius: 10px;
+  width: 180px;
+}
+
+.mark {
+  color: white;
+}

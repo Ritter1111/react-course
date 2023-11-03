@@ -10,7 +10,7 @@ export interface IMyInputProps {
 export interface IMyButtonProps {
   className: string;
   children: React.ReactNode;
-  onClick?: (event: MouseEvent) => void;
+  // onClick?: (event: MouseEvent) => void;
 }
 
 export interface ICardSearchProps {

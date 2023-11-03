@@ -8,16 +8,22 @@ import Loader from '../components/Loader/Loader';
 import Pagination from '../components/Pagination/Pagination';
 import { ICardData } from '../interfaces/search-result.interface';
 import { useSearchParams } from 'react-router-dom';
+import PageSize from '../components/PageSize/PageSize';
 
 export default function Main() {
   const [data, setData] = useState<{ data: ICardData[] }>({ data: [] });
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 0 });
-  const limit = 10;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [limitPageItem, setLimitPageItem] = useState(10);
 
-  const getCards = async (value?: string, page?: number) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryPageParam = searchParams.get('page');
+  const queryLimitParam = searchParams.get('limit');
+  const querySearchParam = searchParams.get('q');
+  const searchValue = getSearchParam('searchValue');
+
+  const getCards = async (value?: string, page?: number, limit?: number) => {
     setLoading(true);
 
     value && setSearchParam('searchValue', value);
@@ -31,50 +37,36 @@ export default function Main() {
       });
 
     setData(cardsData);
-    page &&
-      setSearchParams({
-        page: page.toString(),
-        q: getSearchParam('searchValue'),
-      });
+
+    setSearchParams({
+      page: String(page) || queryPageParam || String(pageInfo.currPage),
+      q: value || querySearchParam || searchValue,
+      limit: String(limit) || queryLimitParam || String(limitPageItem),
+    });
     setLoading(false);
   };
 
   useEffect(() => {
-    if (getSearchParam('searchValue')) {
-      setValue(getSearchParam('searchValue'));
-    } else {
-      getCards();
+    if (searchValue) {
+      setValue(searchValue);
     }
+    getCards(
+      querySearchParam || '',
+      Number(queryPageParam),
+      Number(queryLimitParam)
+    );
   }, []);
 
-  const handleSearchClick = () => {
-    getCards(value);
-    setSearchParams({
-      page: pageInfo.currPage.toString(),
-      q: getSearchParam('searchValue'),
-    });
-    setValue('');
+  const handleInputValueChange = (value: string) => {
+    getCards(querySearchParam || '', 1, Number(value));
+    setLimitPageItem(Number(value));
   };
-
-  useEffect(() => {
-    const pageQueryParam = searchParams.get('page');
-    const queryQueryParam = searchParams.get('q');
-
-    if (pageQueryParam && queryQueryParam) {
-      setPageInfo({ ...pageInfo, currPage: parseInt(pageQueryParam) });
-      getCards(queryQueryParam, parseInt(pageQueryParam));
-    }
-
-    if (queryQueryParam) {
-      setValue(queryQueryParam);
-    }
-  }, [searchParams]);
 
   const onPageChange = useCallback(
     (newPage: number) => {
       if (newPage >= 1 && newPage <= pageInfo.totalPages) {
         setPageInfo({ ...pageInfo, currPage: newPage });
-        setSearchParams({ page: newPage.toString(), q: value });
+        getCards(value, newPage, limitPageItem);
       }
     },
     [pageInfo.totalPages]
@@ -84,19 +76,20 @@ export default function Main() {
     <div className={styles.app}>
       <CardSearch
         handleInputChange={(e) => setValue(e.target.value)}
-        handleSearchClick={handleSearchClick}
+        handleSearchClick={() => getCards(value, 1, limitPageItem)}
         value={value}
       />
       {loading ? (
         <Loader />
       ) : (
         <>
-          <CardList data={data.data} />
           <Pagination
             onPageChange={onPageChange}
             currPage={pageInfo.currPage}
             totalPages={pageInfo.totalPages}
           />
+          <PageSize onInputValueChange={handleInputValueChange} />
+          <CardList data={data.data} />
         </>
       )}
     </div>

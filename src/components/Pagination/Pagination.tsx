@@ -15,7 +15,9 @@ export default function Pagination({
       >
         Prev
       </button>
-      <span className={styles.pageNumber}>{currPage}</span>
+      <span className={styles.pageNumber}>
+        {currPage} ... {totalPages}
+      </span>
       <button
         disabled={currPage >= totalPages}
         className={styles.btn}
