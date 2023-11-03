@@ -1,16 +1,21 @@
+import { ICard } from '../../interfaces/search-result.interface';
 import Card from '../Card/Card';
-import { ICard } from '../../interfaces/Card.interface';
 import NotFound from '../NotFound/NotFound';
+import styles from './CardList.module.css';
 
 export default function CardList({ data }: ICard) {
-  if (!data) return <NotFound />;
+  if (!data || data.length === 0) return <NotFound />;
 
-  return data.map((item) => (
-    <Card
-      key={item.mal_id}
-      title={item.title}
-      images={item.images}
-      mal_id={item.mal_id}
-    />
-  ));
+  return (
+    <div className={styles.container}>
+      {data.map((item) => (
+        <Card
+          key={item.mal_id}
+          title={item.title}
+          images={item.images}
+          mal_id={item.mal_id}
+        />
+      ))}
+    </div>
+  );
 }

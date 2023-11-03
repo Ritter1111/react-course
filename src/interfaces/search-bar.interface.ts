@@ -1,18 +1,20 @@
+import { ChangeEvent } from '../types/types';
+
 export interface IMyInputProps {
   className: string;
   placeholder?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: ChangeEvent) => void;
   value?: string;
 }
 
 export interface IMyButtonProps {
   className: string;
   children: React.ReactNode;
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (event: MouseEvent) => void;
 }
 
 export interface ICardSearchProps {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSearchClick: (event: React.MouseEvent<HTMLElement>) => void;
+  handleInputChange: (event: ChangeEvent) => void;
+  handleSearchClick: (event: MouseEvent) => void;
   value: string;
 }

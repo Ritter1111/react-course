@@ -1,4 +1,4 @@
-import { ICardData } from '../../interfaces/Card.interface';
+import { ICardData } from '../../interfaces/search-result.interface';
 import styles from './Card.module.css';
 
 export default function Card({ title, images }: ICardData) {

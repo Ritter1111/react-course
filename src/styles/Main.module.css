@@ -1,0 +1,10 @@
+.app {
+  background-color: #232323;
+  min-height: 100vh;
+}
+
+button:disabled {
+  background-color: #979797;
+  color: #7d7d7d;
+  cursor: auto;
+}

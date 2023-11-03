@@ -1,9 +1,9 @@
 export interface ICard {
-  pagination?: Pagination;
+  pagination?: IPagination;
   data: ICardData[];
 }
 
-export interface Pagination {
+export interface IPagination {
   last_visible_page: number;
   has_next_page: boolean;
   current_page: number;
@@ -16,10 +16,10 @@ export interface ICardData {
 }
 
 export interface Images {
-  jpg: Jpg;
+  jpg: IJpg;
 }
 
-export interface Jpg {
+export interface IJpg {
   image_url: string;
 }
 

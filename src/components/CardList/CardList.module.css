@@ -1,8 +1,3 @@
-.app {
-  background-color: #232323;
-  min-height: 100vh;
-}
-
 .container {
   width: 95%;
   margin: 0 auto;
@@ -11,10 +6,4 @@
   justify-content: space-around;
   align-items: center;
   padding-top: 5vh;
-}
-
-button:disabled {
-  background-color: #979797;
-  color: #7d7d7d;
-  cursor: auto;
 }

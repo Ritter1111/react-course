@@ -1,70 +1,104 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { fetchCards } from '../utils/api';
 import { getSearchParam, setSearchParam } from '../utils/localStorage';
-import styles from '../styles/App.module.css';
-import { ICardData } from '../interfaces/Card.interface';
+import styles from '../styles/Main.module.css';
 import CardList from '../components/CardList/CardList';
 import CardSearch from '../components/CardSearch/CardSearch';
 import Loader from '../components/Loader/Loader';
 import Pagination from '../components/Pagination/Pagination';
+import { ICardData } from '../interfaces/search-result.interface';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Main() {
   const [data, setData] = useState<{ data: ICardData[] }>({ data: [] });
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(true);
-  const [pageInfo, setPageInfo] = useState({currPage: 1, totalPages: 0})
+  const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 0 });
   const limit = 10;
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const getCards = async (value?: string) => {
+  const getCards = async (value?: string, page?: number) => {
     setLoading(true);
 
-    if (value) {
-      setSearchParam('searchValue', value);
-    }
-    const cardsData = await fetchCards(pageInfo.currPage, value, limit);
+    value && setSearchParam('searchValue', value);
+
+    const cardsData = await fetchCards(page || pageInfo.currPage, value, limit);
+
+    cardsData.pagination &&
+      setPageInfo({
+        currPage: cardsData.pagination.current_page,
+        totalPages: cardsData.pagination?.last_visible_page,
+      });
+
     setData(cardsData);
-    if (cardsData.pagination && cardsData.pagination.last_visible_page) {
-      setPageInfo({currPage: cardsData.pagination.current_page , totalPages:cardsData.pagination?.last_visible_page })
-    }
+    page &&
+      setSearchParams({
+        page: page.toString(),
+        q: getSearchParam('searchValue'),
+      });
     setLoading(false);
   };
 
   useEffect(() => {
     if (getSearchParam('searchValue')) {
-      getCards(getSearchParam('searchValue'));
       setValue(getSearchParam('searchValue'));
     } else {
       getCards();
     }
-  }, [pageInfo.currPage]);
+  }, []);
 
   const handleSearchClick = () => {
     getCards(value);
+    setSearchParams({
+      page: pageInfo.currPage.toString(),
+      q: getSearchParam('searchValue'),
+    });
     setValue('');
   };
 
-  const onPageChange = (newPage: number) => {
-    console.log('dsd');
-    if (newPage >= 1 && newPage <= pageInfo.totalPages) {
-      setPageInfo({...pageInfo, currPage: newPage})
+  useEffect(() => {
+    const pageQueryParam = searchParams.get('page');
+    const queryQueryParam = searchParams.get('q');
+
+    if (pageQueryParam && queryQueryParam) {
+      setPageInfo({ ...pageInfo, currPage: parseInt(pageQueryParam) });
+      getCards(queryQueryParam, parseInt(pageQueryParam));
     }
-  };
+
+    if (queryQueryParam) {
+      setValue(queryQueryParam);
+    }
+  }, [searchParams]);
+
+  const onPageChange = useCallback(
+    (newPage: number) => {
+      if (newPage >= 1 && newPage <= pageInfo.totalPages) {
+        setPageInfo({ ...pageInfo, currPage: newPage });
+        setSearchParams({ page: newPage.toString(), q: value });
+      }
+    },
+    [pageInfo.totalPages]
+  );
 
   return (
     <div className={styles.app}>
-      <Pagination
-        onPageChange={onPageChange}
-        currPage={pageInfo.currPage}
-        totalPages={pageInfo.totalPages}
+      <CardSearch
+        handleInputChange={(e) => setValue(e.target.value)}
+        handleSearchClick={handleSearchClick}
+        value={value}
       />
-      <div className={styles.container}>
-        <CardSearch
-          handleInputChange={(e) => setValue(e.target.value)}
-          handleSearchClick={handleSearchClick}
-          value={value}
-        />
-        {loading ? <Loader /> : <CardList data={data.data} />}
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <CardList data={data.data} />
+          <Pagination
+            onPageChange={onPageChange}
+            currPage={pageInfo.currPage}
+            totalPages={pageInfo.totalPages}
+          />
+        </>
+      )}
     </div>
   );
 }

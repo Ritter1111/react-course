@@ -1,5 +1,5 @@
+import { ICard } from '../interfaces/search-result.interface';
 import { API_URL } from './consts';
-import { ICard } from '../interfaces/Card.interface';
 
 export const fetchCards = async (
   page: number,

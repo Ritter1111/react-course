@@ -1,18 +1,13 @@
+import { IPaginationProps } from '../../interfaces/pagination.interface';
 import styles from './Pagination.module.css';
-
-interface IPagination {
-  onPageChange: (currPage: number) => void;
-  currPage: number;
-  totalPages: number;
-}
 
 export default function Pagination({
   onPageChange,
   currPage,
   totalPages,
-}: IPagination) {
+}: IPaginationProps) {
   return (
-    <div>
+    <div className={styles.pagination}>
       <button
         disabled={currPage === 1}
         className={styles.btn}
