@@ -1,4 +1,4 @@
-import { ChangeEvent } from '../types/types';
+import { ChangeEvent, MouseEvent } from '../types/types';
 
 export interface IMyInputProps {
   className: string;
@@ -10,7 +10,7 @@ export interface IMyInputProps {
 export interface IMyButtonProps {
   className: string;
   children: React.ReactNode;
-  // onClick?: (event: MouseEvent) => void;
+  onClick?: (event: MouseEvent) => void;
 }
 
 export interface ICardSearchProps {

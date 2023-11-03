@@ -22,12 +22,3 @@ export interface Images {
 export interface IJpg {
   image_url: string;
 }
-
-export interface IAppProps {}
-
-export interface IAppState {
-  data: ICard;
-  value: string;
-  hasError: boolean;
-  loading: boolean;
-}

@@ -22,6 +22,9 @@ export default function Main() {
   const queryLimitParam = searchParams.get('limit');
   const querySearchParam = searchParams.get('q');
   const searchValue = getSearchParam('searchValue');
+  console.log(queryLimitParam);
+  
+  const defaultLimit = queryLimitParam && queryLimitParam !== "0" ? queryLimitParam : "10";
 
   const getCards = async (value?: string, page?: number, limit?: number) => {
     setLoading(true);
@@ -41,7 +44,7 @@ export default function Main() {
     setSearchParams({
       page: String(page) || queryPageParam || String(pageInfo.currPage),
       q: value || querySearchParam || searchValue,
-      limit: String(limit) || queryLimitParam || String(limitPageItem),
+      limit: String(limit) ||  defaultLimit,
     });
     setLoading(false);
   };
@@ -53,7 +56,7 @@ export default function Main() {
     getCards(
       querySearchParam || '',
       Number(queryPageParam),
-      Number(queryLimitParam)
+      Number(defaultLimit)
     );
   }, []);
 
