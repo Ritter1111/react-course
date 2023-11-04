@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
-import styles from '../styles/Main.module.css';
-import CardList from '../components/CardList/CardList';
-import CardSearch from '../components/CardSearch/CardSearch';
-import Loader from '../components/Loader/Loader';
-import Pagination from '../components/Pagination/Pagination';
-import PageSize from '../components/PageSize/PageSize';
-import NotFoundData from '../components/NotFound/NotFoundData';
-import { useQueryParams } from '../hooks/useQueryParams';
-import useFetching from '../hooks/useFetching';
+import CardList from '../../components/CardList/CardList';
+import CardSearch from '../../components/CardSearch/CardSearch';
+import Loader from '../../components/Loader/Loader';
+import NotFoundData from '../../components/NotFound/NotFoundData';
+import Pagination from '../../components/Pagination/Pagination';
+import SelectPageSize from '../../components/SelectPageSize/SelectPageSize';
+import useFetching from '../../hooks/useFetching';
+import { useQueryParams } from '../../hooks/useQueryParams';
+import styles from './Main.module.css';
 
 export default function Main() {
   const [value, setValue] = useState('');
@@ -27,7 +27,7 @@ export default function Main() {
     fetchAllCards(value, page, limit);
 
     setSearchParams({
-      page: String(page) || queryPage || String(pageInfo.currPage),
+      page: String(page || pageInfo.currPage) || queryPage,
       q: value || querySearch || searchValue,
       limit: String(limit) || setDefaultQueryParametr(queryLimit, '10'),
     });
@@ -44,9 +44,9 @@ export default function Main() {
     );
   }, []);
 
-  const handleInputValueChange = (value: string) => {
-    getCards(querySearch, 1, Number(value));
-    setLimitPageItem(Number(value));
+  const handleInputValueChange = (value: number) => {
+    getCards(querySearch, 1, value);
+    setLimitPageItem(value);
   };
 
   const onPageChange = useCallback(
@@ -70,7 +70,7 @@ export default function Main() {
         <Loader />
       ) : (
         <>
-          {!data.data || data.data.length === 0 ? (
+          {!data || data.length === 0 ? (
             <NotFoundData />
           ) : (
             <>
@@ -79,8 +79,8 @@ export default function Main() {
                 currPage={pageInfo.currPage}
                 totalPages={pageInfo.totalPages}
               />
-              <PageSize onInputValueChange={handleInputValueChange} />
-              <CardList data={data.data} />
+              <SelectPageSize onInputValueChange={handleInputValueChange} value={limitPageItem}/>
+              <CardList data={data} />
             </>
           )}
         </>

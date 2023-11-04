@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { setSearchParam } from '../utils/localStorage';
-import { fetchCards } from '../utils/api';
+import { fetchCard, fetchCards } from '../utils/api';
 import { ICardData } from '../interfaces/search-result.interface';
 
 const useFetching = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<{ data: ICardData[] }>({ data: [] });
+  const [data, setData] = useState<ICardData[]>([]);
+  const [delailsData, setDetailsData] = useState<ICardData>();
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
 
   const fetchAllCards = async (
-    value: string,
+    value?: string,
     page?: number,
     limit?: number
   ) => {
     setLoading(true);
 
-    setSearchParam('searchValue', value);
+    value && setSearchParam('searchValue', value);
 
     const cardsData = await fetchCards(page, value, limit);
 
@@ -26,7 +27,16 @@ const useFetching = () => {
       });
     }
 
-    setData(cardsData);
+    setData(cardsData.data);
+
+    setLoading(false);
+  };
+
+  const fetchCardById = async (id: number) => {
+    setLoading(true);
+
+    const cardsData = await fetchCard(id);
+    setDetailsData(cardsData.data);
 
     setLoading(false);
   };
@@ -37,6 +47,8 @@ const useFetching = () => {
     pageInfo,
     fetchAllCards,
     setPageInfo,
+    fetchCardById,
+    delailsData,
   };
 };
 

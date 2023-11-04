@@ -1,0 +1,43 @@
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.delails {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 50vw;
+  padding: 25px;
+  text-align: center;
+}
+
+.closeBtn {
+  position: fixed;
+  transform: translate(-100%);
+  width: 100%;
+  height: 100%;
+  background-color: #00000094;
+}
+
+.title {
+  color: #124a96;
+  font-size: 2rem;
+}
+
+.close {
+  padding: 4px;
+  background-color: #3498db;
+  border: none;
+  margin-bottom: 10px;
+  border-radius: 7px;
+  font-size: 18px;
+  color: white;
+  transition: 0.5s ease;
+}
+
+.close:hover {
+  background-color: #12679f;
+  transition: 0.5s ease;
+}

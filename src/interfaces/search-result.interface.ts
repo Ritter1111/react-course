@@ -11,8 +11,11 @@ export interface IPagination {
 
 export interface ICardData {
   mal_id: number;
-  title: string;
+  title?: string;
   images: Images;
+  episodes?: number;
+  type?: string;
+  duration?: string;
 }
 
 export interface Images {
@@ -21,4 +24,9 @@ export interface Images {
 
 export interface IJpg {
   image_url: string;
+  large_image_url: string;
+}
+
+export interface IDetailsData {
+  data: ICardData;
 }

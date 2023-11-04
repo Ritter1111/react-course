@@ -3,3 +3,8 @@ export interface IPaginationProps {
   currPage: number;
   totalPages: number;
 }
+
+export interface PageSizeProps {
+  onInputValueChange: (value: number) => void;
+  value: number
+}

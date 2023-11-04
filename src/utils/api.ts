@@ -1,10 +1,10 @@
-import { ICard } from '../interfaces/search-result.interface';
+import { ICard, IDetailsData } from '../interfaces/search-result.interface';
 import { API_URL } from './consts';
 
 export const fetchCards = async (
   page?: number,
   param?: string,
-  limit?: number
+  limit?: number,
 ): Promise<ICard> => {
   const apiUrl = param
     ? `${API_URL}?page=${page}&limit=${limit}&q=${param.trim()}`
@@ -21,7 +21,7 @@ export const fetchCards = async (
   }
 };
 
-export const fetchCard = async (id: number): Promise<ICard> => {
+export const fetchCard = async (id: number): Promise<IDetailsData> => {
   const apiUrl = `${API_URL}/${id}`;
 
   try {
