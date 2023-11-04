@@ -28,7 +28,10 @@ export default function Details() {
             <button onClick={handleCloseButton} className={styles.close}>
               Close
             </button>
-            <img src={delailsData?.images.jpg.large_image_url} />
+            <img
+              src={delailsData?.images.jpg.image_url}
+              className={styles.img}
+            />
             <div className={styles.title}>{delailsData?.title}</div>
             <div>
               Episodes: {delailsData?.episodes}, Type: {delailsData?.type},{' '}

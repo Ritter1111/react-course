@@ -3,7 +3,7 @@ import {
   IErrorBoundaryProps,
   IErrorBoundaryState,
 } from '../../../interfaces/error-boudary.interface';
-import styles from './ErrorBoundary.module.css';
+import NotFound from '../../NotFound/NotFound';
 
 export default class ErrorBoundary extends React.Component<
   IErrorBoundaryProps,
@@ -24,11 +24,7 @@ export default class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className={styles.container_error}>
-          <h1>Something went wrong</h1>
-          <br></br>
-          <span>Reload page</span>
-        </div>
+        <NotFound />
       );
     }
 

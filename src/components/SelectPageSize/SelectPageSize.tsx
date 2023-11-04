@@ -2,8 +2,10 @@ import styles from './SelectPageSize.module.css';
 import { ChangeSelectEvent } from '../../types/types';
 import { PageSizeProps } from '../../interfaces/pagination.interface';
 
-export default function SelectPageSize({ onInputValueChange, value }: PageSizeProps) {
-
+export default function SelectPageSize({
+  onInputValueChange,
+  value,
+}: PageSizeProps) {
   const handleSelectChange = (event: ChangeSelectEvent) => {
     const value = event.target.value;
     onInputValueChange(Number(value));

@@ -8,6 +8,7 @@ import SelectPageSize from '../../components/SelectPageSize/SelectPageSize';
 import useFetching from '../../hooks/useFetching';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import styles from './Main.module.css';
+import ErrorBtn from '../../components/Error/ErrorBtn/ErrorBtn';
 
 export default function Main() {
   const [value, setValue] = useState('');
@@ -61,6 +62,7 @@ export default function Main() {
 
   return (
     <div className={styles.app}>
+      <ErrorBtn />
       <CardSearch
         handleInputChange={(e) => setValue(e.target.value)}
         handleSearchClick={() => getCards(value, 1, limitPageItem)}
@@ -79,7 +81,10 @@ export default function Main() {
                 currPage={pageInfo.currPage}
                 totalPages={pageInfo.totalPages}
               />
-              <SelectPageSize onInputValueChange={handleInputValueChange} value={limitPageItem}/>
+              <SelectPageSize
+                onInputValueChange={handleInputValueChange}
+                value={limitPageItem}
+              />
               <CardList data={data} />
             </>
           )}

@@ -6,5 +6,5 @@ export interface IPaginationProps {
 
 export interface PageSizeProps {
   onInputValueChange: (value: number) => void;
-  value: number
+  value: number;
 }

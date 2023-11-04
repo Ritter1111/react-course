@@ -2,7 +2,6 @@ import MyInput from '../../UI/Input/MyInput';
 import MyButton from '../../UI/Button/MyButton';
 import styles from './CardSearch.module.css';
 import { ICardSearchProps } from '../../interfaces/search-bar.interface';
-import ErrorBtn from '../Error/ErrorBtn/ErrorBtn';
 
 export default function CardSearch({
   handleSearchClick,
@@ -22,7 +21,6 @@ export default function CardSearch({
           <div className={styles.search_icon}>Search</div>
         </MyButton>
       </div>
-      <ErrorBtn />
     </div>
   );
 }

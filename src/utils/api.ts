@@ -4,7 +4,7 @@ import { API_URL } from './consts';
 export const fetchCards = async (
   page?: number,
   param?: string,
-  limit?: number,
+  limit?: number
 ): Promise<ICard> => {
   const apiUrl = param
     ? `${API_URL}?page=${page}&limit=${limit}&q=${param.trim()}`
