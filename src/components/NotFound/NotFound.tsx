@@ -1,9 +1,5 @@
-import styles from './NotFound.module.css';
+import React from 'react';
 
 export default function NotFound() {
-  return (
-    <div className={styles.not_found}>
-      <h2>No data received</h2>
-    </div>
-  );
+  return <div>NotFound</div>;
 }

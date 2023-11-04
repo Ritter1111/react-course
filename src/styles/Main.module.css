@@ -1,6 +1,9 @@
 .app {
   background-color: #232323;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 button:disabled {

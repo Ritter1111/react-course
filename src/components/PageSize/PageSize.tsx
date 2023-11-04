@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './PageSize.module.css';
+import { ChangeSelectEvent } from '../../types/types';
 
 interface PageSizeProps {
   onInputValueChange: (value: string) => void;
@@ -8,7 +9,7 @@ interface PageSizeProps {
 export default function PageSize({ onInputValueChange }: PageSizeProps) {
   const [inputValue] = useState('');
 
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelectChange = (event: ChangeSelectEvent) => {
     const value = event.target.value;
     onInputValueChange(value);
   };

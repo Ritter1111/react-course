@@ -1,52 +1,36 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchCards } from '../utils/api';
-import { getSearchParam, setSearchParam } from '../utils/localStorage';
 import styles from '../styles/Main.module.css';
 import CardList from '../components/CardList/CardList';
 import CardSearch from '../components/CardSearch/CardSearch';
 import Loader from '../components/Loader/Loader';
 import Pagination from '../components/Pagination/Pagination';
-import { ICardData } from '../interfaces/search-result.interface';
-import { useSearchParams } from 'react-router-dom';
 import PageSize from '../components/PageSize/PageSize';
+import NotFoundData from '../components/NotFound/NotFoundData';
+import { useQueryParams } from '../hooks/useQueryParams';
+import useFetching from '../hooks/useFetching';
 
 export default function Main() {
-  const [data, setData] = useState<{ data: ICardData[] }>({ data: [] });
   const [value, setValue] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 0 });
   const [limitPageItem, setLimitPageItem] = useState(10);
+  const {
+    queryPage,
+    queryLimit,
+    querySearch,
+    searchValue,
+    setDefaultQueryParametr,
+    setSearchParams,
+  } = useQueryParams();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const queryPageParam = searchParams.get('page');
-  const queryLimitParam = searchParams.get('limit');
-  const querySearchParam = searchParams.get('q');
-  const searchValue = getSearchParam('searchValue');
-  console.log(queryLimitParam);
-  
-  const defaultLimit = queryLimitParam && queryLimitParam !== "0" ? queryLimitParam : "10";
+  const { loading, data, pageInfo, fetchAllCards, setPageInfo } = useFetching();
 
-  const getCards = async (value?: string, page?: number, limit?: number) => {
-    setLoading(true);
-
-    value && setSearchParam('searchValue', value);
-
-    const cardsData = await fetchCards(page || pageInfo.currPage, value, limit);
-
-    cardsData.pagination &&
-      setPageInfo({
-        currPage: cardsData.pagination.current_page,
-        totalPages: cardsData.pagination?.last_visible_page,
-      });
-
-    setData(cardsData);
+  const getCards = async (value: string, page: number, limit: number) => {
+    fetchAllCards(value, page, limit);
 
     setSearchParams({
-      page: String(page) || queryPageParam || String(pageInfo.currPage),
-      q: value || querySearchParam || searchValue,
-      limit: String(limit) ||  defaultLimit,
+      page: String(page) || queryPage || String(pageInfo.currPage),
+      q: value || querySearch || searchValue,
+      limit: String(limit) || setDefaultQueryParametr(queryLimit, '10'),
     });
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -54,14 +38,14 @@ export default function Main() {
       setValue(searchValue);
     }
     getCards(
-      querySearchParam || '',
-      Number(queryPageParam),
-      Number(defaultLimit)
+      querySearch,
+      Number(setDefaultQueryParametr(queryPage, '1')),
+      Number(setDefaultQueryParametr(queryLimit, '10'))
     );
   }, []);
 
   const handleInputValueChange = (value: string) => {
-    getCards(querySearchParam || '', 1, Number(value));
+    getCards(querySearch, 1, Number(value));
     setLimitPageItem(Number(value));
   };
 
@@ -86,13 +70,19 @@ export default function Main() {
         <Loader />
       ) : (
         <>
-          <Pagination
-            onPageChange={onPageChange}
-            currPage={pageInfo.currPage}
-            totalPages={pageInfo.totalPages}
-          />
-          <PageSize onInputValueChange={handleInputValueChange} />
-          <CardList data={data.data} />
+          {!data.data || data.data.length === 0 ? (
+            <NotFoundData />
+          ) : (
+            <>
+              <Pagination
+                onPageChange={onPageChange}
+                currPage={pageInfo.currPage}
+                totalPages={pageInfo.totalPages}
+              />
+              <PageSize onInputValueChange={handleInputValueChange} />
+              <CardList data={data.data} />
+            </>
+          )}
         </>
       )}
     </div>
