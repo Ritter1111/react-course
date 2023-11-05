@@ -4,7 +4,6 @@ import CardSearch from '../../components/CardSearch/CardSearch';
 import Loader from '../../components/Loader/Loader';
 import NotFoundData from '../../components/NotFound/NotFoundData';
 import Pagination from '../../components/Pagination/Pagination';
-import SelectPageSize from '../../components/SelectPageSize/SelectPageSize';
 import useFetching from '../../hooks/useFetching';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import styles from './Main.module.css';
@@ -12,7 +11,6 @@ import ErrorBtn from '../../components/Error/ErrorBtn/ErrorBtn';
 
 export default function Main() {
   const [value, setValue] = useState('');
-  const [limitPageItem, setLimitPageItem] = useState(10);
   const {
     queryPage,
     queryLimit,
@@ -21,7 +19,8 @@ export default function Main() {
     setDefaultQueryParametr,
     setSearchParams,
   } = useQueryParams();
-
+  const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
+  const [lastClickTime, setLastClickTime] = useState(0);
   const { loading, data, pageInfo, fetchAllCards, setPageInfo } = useFetching();
 
   const getCards = async (value: string, page: number, limit: number) => {
@@ -30,7 +29,7 @@ export default function Main() {
     setSearchParams({
       page: String(page || pageInfo.currPage) || queryPage,
       q: value || querySearch || searchValue,
-      limit: String(limit) || setDefaultQueryParametr(queryLimit, '10'),
+      limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
     });
   };
 
@@ -40,24 +39,28 @@ export default function Main() {
     }
     getCards(
       querySearch,
-      Number(setDefaultQueryParametr(queryPage, '1')),
-      Number(setDefaultQueryParametr(queryLimit, '10'))
+      setDefaultQueryParametr(queryPage, '1'),
+      setDefaultQueryParametr(queryLimit, '10')
     );
   }, []);
 
   const handleInputValueChange = (value: number) => {
     getCards(querySearch, 1, value);
-    setLimitPageItem(value);
+    setLimitPageItem(value);  
   };
 
   const onPageChange = useCallback(
     (newPage: number) => {
-      if (newPage >= 1 && newPage <= pageInfo.totalPages) {
-        setPageInfo({ ...pageInfo, currPage: newPage });
-        getCards(value, newPage, limitPageItem);
+      const now = Date.now();
+      if (now - lastClickTime >= 600) {
+        setLastClickTime(now);
+        if (newPage >= 1 && newPage <= pageInfo.totalPages) {
+          setPageInfo({ ...pageInfo, currPage: newPage });
+          getCards(value, newPage, limitPageItem);
+        }
       }
     },
-    [pageInfo.totalPages]
+    [pageInfo.totalPages, lastClickTime]
   );
 
   return (
@@ -68,9 +71,8 @@ export default function Main() {
         handleSearchClick={() => getCards(value, 1, limitPageItem)}
         value={value}
       />
-      {loading ? (
-        <Loader />
-      ) : (
+      {loading && <Loader />}
+      {!loading && (
         <>
           {!data || data.length === 0 ? (
             <NotFoundData />
@@ -80,10 +82,8 @@ export default function Main() {
                 onPageChange={onPageChange}
                 currPage={pageInfo.currPage}
                 totalPages={pageInfo.totalPages}
-              />
-              <SelectPageSize
-                onInputValueChange={handleInputValueChange}
-                value={limitPageItem}
+                handleInputValueChange={handleInputValueChange}
+                limitPageItem={limitPageItem}
               />
               <CardList data={data} />
             </>

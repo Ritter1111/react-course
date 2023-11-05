@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import MyButton from '../../../UI/Button/MyButton';
 import styles from './ErrorBtn.module.css';
 
 export default function ErrorBtn() {
@@ -8,8 +7,8 @@ export default function ErrorBtn() {
   if (error) throw new Error('Error on click');
 
   return (
-    <MyButton className={styles.error_btn} onClick={() => setError(true)}>
+    <button className={styles.error_btn} onClick={() => setError(true)}>
       Error
-    </MyButton>
+    </button>
   );
 }

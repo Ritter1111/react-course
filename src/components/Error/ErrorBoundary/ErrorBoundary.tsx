@@ -23,9 +23,7 @@ export default class ErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      return (
-        <NotFound />
-      );
+      return <NotFound />;
     }
 
     return this.props.children;

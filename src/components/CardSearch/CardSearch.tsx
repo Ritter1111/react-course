@@ -1,5 +1,3 @@
-import MyInput from '../../UI/Input/MyInput';
-import MyButton from '../../UI/Button/MyButton';
 import styles from './CardSearch.module.css';
 import { ICardSearchProps } from '../../interfaces/search-bar.interface';
 
@@ -11,15 +9,15 @@ export default function CardSearch({
   return (
     <div className={styles.container}>
       <div className={styles.container_input}>
-        <MyInput
+        <input
           value={value}
           placeholder="Type to search..."
           className={styles.input}
           onChange={handleInputChange}
         />
-        <MyButton className={styles.btn_search} onClick={handleSearchClick}>
+        <button className={styles.btn_search} onClick={handleSearchClick}>
           <div className={styles.search_icon}>Search</div>
-        </MyButton>
+        </button>
       </div>
     </div>
   );

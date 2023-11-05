@@ -21,9 +21,8 @@ export default function Details() {
   return (
     <div className={styles.detailsContainer}>
       <div className={styles.delails}>
-        {loading ? (
-          <Loader />
-        ) : (
+        {loading && <Loader />}
+        {!loading && (
           <>
             <button onClick={handleCloseButton} className={styles.close}>
               Close
@@ -33,10 +32,9 @@ export default function Details() {
               className={styles.img}
             />
             <div className={styles.title}>{delailsData?.title}</div>
-            <div>
-              Episodes: {delailsData?.episodes}, Type: {delailsData?.type},{' '}
-              {delailsData?.duration}
-            </div>
+            <div>Episodes: {delailsData?.episodes}</div>
+            <div>Type: {delailsData?.type}</div>
+            <div>{delailsData?.duration}</div>
           </>
         )}
       </div>
