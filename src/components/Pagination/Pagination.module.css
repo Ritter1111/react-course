@@ -1,0 +1,39 @@
+.btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #09629d;
+  transition: 0.2s ease;
+}
+
+.prev,
+.next {
+  text-decoration: none;
+}
+
+.pageNumber {
+  color: white;
+}
+
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  align-items: center;
+}
+
+.mark {
+  color: #fff;
+  font-size: 1rem;
+}

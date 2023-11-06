@@ -1,0 +1,7 @@
+.error_btn {
+  margin: 10px 25px 0 25px;
+  padding: 10px 25px 8px 25px;
+  border-radius: 10px 10px 10px 10px;
+  cursor: pointer;
+  border: none;
+}
