@@ -1,8 +1,8 @@
-import { CardData } from '../components/CardList/CardList';
+import { CardData } from '../types/types';
 import { API_URL } from './consts';
 
 interface ICard {
-  pagination?: IPagination;
+  pagination: IPagination;
   data: CardData[];
 }
 

@@ -27,5 +27,3 @@ export const CardSearch: React.FC<ISearchProps> = ({
     </div>
   );
 };
-
-

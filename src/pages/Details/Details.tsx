@@ -4,11 +4,13 @@ import { Loader } from '../../components/Loader/Loader';
 import { useFetching } from '../../hooks/useFetching';
 import useNavigateToPage from '../../hooks/useNavigate';
 import styles from './Details.module.css';
+import { useAppContext } from '../../context';
 
 export default function Details() {
   const { id } = useParams();
   const { navigateToCard } = useNavigateToPage();
-  const { fetchCardById, loading, delailsData } = useFetching();
+  const { fetchCardById, loading } = useFetching();
+  const { delailsData } = useAppContext();
 
   useEffect(() => {
     fetchCardById(Number(id));
@@ -28,7 +30,6 @@ export default function Details() {
               X
             </button>
             <div className={styles.title}>{delailsData?.title}</div>
-
             <img
               src={delailsData?.images?.jpg.large_image_url}
               className={styles.img}

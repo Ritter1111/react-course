@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { setSearchParam } from '../utils/localStorage';
 import { fetchCard, fetchCards } from '../utils/api';
-import { CardData } from '../components/CardList/CardList';
+import { useAppContext } from '../context';
 
 export const useFetching = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<CardData[]>([]);
-  const [delailsData, setDetailsData] = useState<CardData>();
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
+  const { setItems, setSearchValue, setDetailsData } = useAppContext();
 
   const fetchAllCards = async (
     value?: string,
@@ -15,20 +13,16 @@ export const useFetching = () => {
     limit?: number
   ) => {
     setLoading(true);
-
-    value && setSearchParam('searchValue', value);
+    value && setSearchValue(value);
 
     const cardsData = await fetchCards(page, value, limit);
 
-    if (cardsData.pagination) {
-      setPageInfo({
-        currPage: cardsData.pagination.current_page,
-        totalPages: cardsData.pagination.last_visible_page,
-      });
-    }
+    setPageInfo({
+      currPage: cardsData.pagination.current_page,
+      totalPages: cardsData.pagination.last_visible_page,
+    });
 
-    setData(cardsData.data);
-
+    setItems(cardsData.data);
     setLoading(false);
   };
 
@@ -43,11 +37,9 @@ export const useFetching = () => {
 
   return {
     loading,
-    data,
     pageInfo,
     fetchAllCards,
     setPageInfo,
     fetchCardById,
-    delailsData,
   };
 };

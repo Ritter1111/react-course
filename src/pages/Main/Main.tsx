@@ -10,19 +10,19 @@ import { ErrorBtn } from '../../components/Error/ErrorBtn/ErrorBtn';
 import { SelectPageSize } from '../../components/SelectPageSize/SelectPageSize';
 import { Outlet } from 'react-router-dom';
 import styles from './Main.module.css';
+import { useAppContext } from '../../context';
 
 export default function Main() {
-  const [value, setValue] = useState('');
   const {
     queryPage,
     queryLimit,
     querySearch,
-    searchValue,
     setDefaultQueryParametr,
     setSearchParams,
   } = useQueryParams();
   const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
-  const { loading, data, pageInfo, fetchAllCards, setPageInfo } = useFetching();
+  const { loading, pageInfo, fetchAllCards, setPageInfo } = useFetching();
+  const { items, searchValue, setSearchValue } = useAppContext();
 
   const getCards = useCallback(
     async (value: string, page: number, limit: number) => {
@@ -34,12 +34,21 @@ export default function Main() {
         limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
       });
     },
-    [fetchAllCards, setSearchParams, pageInfo.currPage, queryPage, querySearch, searchValue, setDefaultQueryParametr, queryLimit]
+    [
+      fetchAllCards,
+      setSearchParams,
+      pageInfo.currPage,
+      queryPage,
+      querySearch,
+      searchValue,
+      setDefaultQueryParametr,
+      queryLimit,
+    ]
   );
 
   useEffect(() => {
     if (searchValue) {
-      setValue(searchValue);
+      setSearchValue(searchValue);
     }
     getCards(
       querySearch,
@@ -57,10 +66,10 @@ export default function Main() {
     (newPage: number) => {
       if (newPage >= 1 && newPage <= pageInfo.totalPages) {
         setPageInfo({ ...pageInfo, currPage: newPage });
-        getCards(value, newPage, limitPageItem);
+        getCards(searchValue, newPage, limitPageItem);
       }
     },
-    [getCards, pageInfo.totalPages, value, limitPageItem]
+    [getCards, pageInfo.totalPages, searchValue, limitPageItem]
   );
 
   return (
@@ -68,27 +77,27 @@ export default function Main() {
       <Outlet />
       <ErrorBtn />
       <CardSearch
-        onChange={(e) => setValue(e.target.value)}
-        onClick={() => getCards(value, 1, limitPageItem)}
-        value={value}
+        onChange={(e) => setSearchValue(e.target.value)}
+        onClick={() => getCards(searchValue, 1, limitPageItem)}
+        value={searchValue}
       />
       {loading && <Loader />}
       {!loading && (
         <>
-          {!data || data.length === 0 ? (
+          {!items || items.length === 0 ? (
             <NotFoundData />
           ) : (
             <>
-            <SelectPageSize
-            onInputValueChange={handleInputValueChange}
-            value={limitPageItem}
-          />
-          <CardList cards={data} />
-          <Pagination
-            onPageChange={onPageChange}
-            currPage={pageInfo.currPage}
-            totalPages={pageInfo.totalPages}
-          />
+              <SelectPageSize
+                onInputValueChange={handleInputValueChange}
+                value={limitPageItem}
+              />
+              <CardList />
+              <Pagination
+                onPageChange={onPageChange}
+                currPage={pageInfo.currPage}
+                totalPages={pageInfo.totalPages}
+              />
             </>
           )}
         </>
