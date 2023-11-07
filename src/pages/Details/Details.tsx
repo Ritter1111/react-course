@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Loader from '../../components/Loader/Loader';
-import useFetching from '../../hooks/useFetching';
+import { Loader } from '../../components/Loader/Loader';
+import { useFetching } from '../../hooks/useFetching';
 import useNavigateToPage from '../../hooks/useNavigate';
 import styles from './Details.module.css';
 
@@ -25,16 +25,24 @@ export default function Details() {
         {!loading && (
           <>
             <button onClick={handleCloseButton} className={styles.close}>
-              Close
+              X
             </button>
+            <div className={styles.title}>{delailsData?.title}</div>
+
             <img
-              src={delailsData?.images.jpg.image_url}
+              src={delailsData?.images?.jpg.large_image_url}
               className={styles.img}
             />
-            <div className={styles.title}>{delailsData?.title}</div>
-            <div>Episodes: {delailsData?.episodes}</div>
-            <div>Type: {delailsData?.type}</div>
-            <div>{delailsData?.duration}</div>
+            <div className={styles.description}>
+              <div className={styles.name}>Chapters:</div>
+              <div>{delailsData?.chapters}</div>
+              <div className={styles.name}>Type:</div>
+              <div>{delailsData?.type}</div>
+              <div className={styles.name}>Score:</div>
+              <div>{delailsData?.score}</div>
+              <div className={styles.name}>Description: </div>
+              <div>{delailsData?.synopsis}</div>
+            </div>
           </>
         )}
       </div>

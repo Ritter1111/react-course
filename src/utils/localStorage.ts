@@ -1,5 +1,5 @@
 export const getSearchParam = (key: string) => {
-  const searchParam = localStorage.getItem(key) || '';
+  const searchParam = localStorage.getItem(key) ?? '';
   return searchParam;
 };
 

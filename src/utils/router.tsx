@@ -1,12 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
-import NotFound from '../components/NotFound/NotFound';
+import { NotFound } from '../components/NotFound/NotFound';
 import Details from '../pages/Details/Details';
+import Main from '../pages/Main/Main';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Main />,
     children: [
       {
         path: '/:id',

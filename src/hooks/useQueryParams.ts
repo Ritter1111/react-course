@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { getSearchParam } from '../utils/localStorage';
 
-export function useQueryParams() {
+export const useQueryParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryPage = searchParams.get('page') || '';
   let queryLimit = searchParams.get('limit') || '';
@@ -25,4 +25,4 @@ export function useQueryParams() {
     setDefaultQueryParametr,
     setSearchParams,
   };
-}
+};

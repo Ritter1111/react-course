@@ -1,16 +1,18 @@
 .container {
-  width: 300px;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: grid;
-  box-shadow: 0px 0px 15px -5px;
+  color: white;
   margin: 10px 10px 20px 10px;
-  border-bottom: 1px solid #d00efe;
-  border-left: 1px solid #fe77d4;
-  border-right: 1px solid #4091f9;
-  border-top: 1px solid #22f45a;
-  border-radius: 10px;
+  border-radius: 3px;
   transition: 0.2s ease-in-out;
-  background-color: #e7ecf4;
+  /* max-height: 400px; */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex: 0 1 10%;
+  /* background: black; */
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .container:hover {
@@ -18,18 +20,20 @@
   transform: scale(1.1);
 }
 
-.img {
-  width: 100%;
-  height: 55vh;
-}
-
 .title {
+  /* width: 200px; */
   display: flex;
   justify-content: center;
-  padding: 10px;
+  flex-wrap: wrap;
+  padding: 15px 0;
+  text-align: center;
 }
 
 .species {
   display: flex;
   justify-content: center;
+}
+
+.img {
+  max-height: 320px;
 }

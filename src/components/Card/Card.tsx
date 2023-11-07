@@ -1,17 +1,19 @@
 import useNavigateToPage from '../../hooks/useNavigate';
-import { ICardData } from '../../interfaces/search-result.interface';
 import styles from './Card.module.css';
 
-export default function Card({ title, images, mal_id }: ICardData) {
+export type CardProps = {
+  id: number;
+  title: string;
+  images: string;
+};
+
+export const Card: React.FC<CardProps> = ({ title, images, id }) => {
   const { navigateToCard } = useNavigateToPage();
 
   return (
-    <div
-      className={styles.container}
-      onClick={() => navigateToCard(`/${mal_id}`)}
-    >
+    <div className={styles.container} onClick={() => navigateToCard(`/${id}`)}>
+      <img className={styles.img} src={images} alt={title} />
       <h4 className={styles.title}>{title}</h4>
-      <img className={styles.img} src={images.jpg.image_url} alt={title} />
     </div>
   );
-}
+};

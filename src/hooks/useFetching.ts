@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { setSearchParam } from '../utils/localStorage';
 import { fetchCard, fetchCards } from '../utils/api';
-import { ICardData } from '../interfaces/search-result.interface';
+import { CardData } from '../components/CardList/CardList';
 
-const useFetching = () => {
+export const useFetching = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<ICardData[]>([]);
-  const [delailsData, setDetailsData] = useState<ICardData>();
+  const [data, setData] = useState<CardData[]>([]);
+  const [delailsData, setDetailsData] = useState<CardData>();
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
 
   const fetchAllCards = async (
@@ -51,5 +51,3 @@ const useFetching = () => {
     delailsData,
   };
 };
-
-export default useFetching;

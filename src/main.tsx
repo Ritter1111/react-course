@@ -7,8 +7,8 @@ import React from 'react';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
+  <ErrorBoundary>
+    <RouterProvider router={router} />
+  </ErrorBoundary>
   </React.StrictMode>
 );

@@ -4,6 +4,6 @@
   display: flex;
   flex-flow: wrap;
   justify-content: space-around;
-  align-items: center;
-  padding-top: 5vh;
+  align-items: flex-start;
+  margin-top: 15px;
 }

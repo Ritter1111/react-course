@@ -1,11 +1,16 @@
 import styles from './CardSearch.module.css';
-import { ICardSearchProps } from '../../interfaces/search-bar.interface';
 
-export default function CardSearch({
-  handleSearchClick,
-  handleInputChange,
+export interface ISearchProps {
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  value: string;
+}
+
+export const CardSearch: React.FC<ISearchProps> = ({
   value,
-}: ICardSearchProps) {
+  onChange,
+  onClick,
+}) => {
   return (
     <div className={styles.container}>
       <div className={styles.container_input}>
@@ -13,12 +18,14 @@ export default function CardSearch({
           value={value}
           placeholder="Type to search..."
           className={styles.input}
-          onChange={handleInputChange}
+          onChange={onChange}
         />
-        <button className={styles.btn_search} onClick={handleSearchClick}>
+        <button className={styles.btn_search} onClick={onClick}>
           <div className={styles.search_icon}>Search</div>
         </button>
       </div>
     </div>
   );
-}
+};
+
+

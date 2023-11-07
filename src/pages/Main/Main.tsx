@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import CardList from '../../components/CardList/CardList';
-import CardSearch from '../../components/CardSearch/CardSearch';
-import Loader from '../../components/Loader/Loader';
-import NotFoundData from '../../components/NotFound/NotFoundData';
-import Pagination from '../../components/Pagination/Pagination';
-import useFetching from '../../hooks/useFetching';
+import { CardList } from '../../components/CardList/CardList';
+import { CardSearch } from '../../components/CardSearch/CardSearch';
+import { Loader } from '../../components/Loader/Loader';
+import { NotFoundData } from '../../components/NotFound/NotFoundData';
+import { Pagination } from '../../components/Pagination/Pagination';
+import { useFetching } from '../../hooks/useFetching';
 import { useQueryParams } from '../../hooks/useQueryParams';
+import { ErrorBtn } from '../../components/Error/ErrorBtn/ErrorBtn';
+import { SelectPageSize } from '../../components/SelectPageSize/SelectPageSize';
+import { Outlet } from 'react-router-dom';
 import styles from './Main.module.css';
-import ErrorBtn from '../../components/Error/ErrorBtn/ErrorBtn';
 
 export default function Main() {
   const [value, setValue] = useState('');
@@ -20,18 +22,20 @@ export default function Main() {
     setSearchParams,
   } = useQueryParams();
   const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
-  const [lastClickTime, setLastClickTime] = useState(0);
   const { loading, data, pageInfo, fetchAllCards, setPageInfo } = useFetching();
 
-  const getCards = async (value: string, page: number, limit: number) => {
-    fetchAllCards(value, page, limit);
+  const getCards = useCallback(
+    async (value: string, page: number, limit: number) => {
+      fetchAllCards(value, page, limit);
 
-    setSearchParams({
-      page: String(page || pageInfo.currPage) || queryPage,
-      q: value || querySearch || searchValue,
-      limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
-    });
-  };
+      setSearchParams({
+        page: String(page || pageInfo.currPage) || queryPage,
+        q: value || querySearch || searchValue,
+        limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
+      });
+    },
+    [fetchAllCards, setSearchParams, pageInfo.currPage, queryPage, querySearch, searchValue, setDefaultQueryParametr, queryLimit]
+  );
 
   useEffect(() => {
     if (searchValue) {
@@ -46,29 +50,26 @@ export default function Main() {
 
   const handleInputValueChange = (value: number) => {
     getCards(querySearch, 1, value);
-    setLimitPageItem(value);  
+    setLimitPageItem(value);
   };
 
   const onPageChange = useCallback(
     (newPage: number) => {
-      const now = Date.now();
-      if (now - lastClickTime >= 600) {
-        setLastClickTime(now);
-        if (newPage >= 1 && newPage <= pageInfo.totalPages) {
-          setPageInfo({ ...pageInfo, currPage: newPage });
-          getCards(value, newPage, limitPageItem);
-        }
+      if (newPage >= 1 && newPage <= pageInfo.totalPages) {
+        setPageInfo({ ...pageInfo, currPage: newPage });
+        getCards(value, newPage, limitPageItem);
       }
     },
-    [pageInfo.totalPages, lastClickTime]
+    [getCards, pageInfo.totalPages, value, limitPageItem]
   );
 
   return (
     <div className={styles.app}>
+      <Outlet />
       <ErrorBtn />
       <CardSearch
-        handleInputChange={(e) => setValue(e.target.value)}
-        handleSearchClick={() => getCards(value, 1, limitPageItem)}
+        onChange={(e) => setValue(e.target.value)}
+        onClick={() => getCards(value, 1, limitPageItem)}
         value={value}
       />
       {loading && <Loader />}
@@ -78,14 +79,16 @@ export default function Main() {
             <NotFoundData />
           ) : (
             <>
-              <Pagination
-                onPageChange={onPageChange}
-                currPage={pageInfo.currPage}
-                totalPages={pageInfo.totalPages}
-                handleInputValueChange={handleInputValueChange}
-                limitPageItem={limitPageItem}
-              />
-              <CardList data={data} />
+            <SelectPageSize
+            onInputValueChange={handleInputValueChange}
+            value={limitPageItem}
+          />
+          <CardList cards={data} />
+          <Pagination
+            onPageChange={onPageChange}
+            currPage={pageInfo.currPage}
+            totalPages={pageInfo.totalPages}
+          />
             </>
           )}
         </>
