@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { CardList } from '../../components/CardList/CardList';
 import { CardSearch } from '../../components/CardSearch/CardSearch';
 import { Loader } from '../../components/Loader/Loader';
-import { NotFoundData } from '../../components/NotFound/NotFoundData';
 import { Pagination } from '../../components/Pagination/Pagination';
 import { useFetching } from '../../hooks/useFetching';
 import { useQueryParams } from '../../hooks/useQueryParams';
@@ -22,7 +21,7 @@ export default function Main() {
   } = useQueryParams();
   const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
   const { loading, pageInfo, fetchAllCards, setPageInfo } = useFetching();
-  const { items, searchValue, setSearchValue } = useAppContext();
+  const { searchValue, setSearchValue } = useAppContext();
 
   const getCards = useCallback(
     async (value: string, page: number, limit: number) => {
@@ -84,22 +83,16 @@ export default function Main() {
       {loading && <Loader />}
       {!loading && (
         <>
-          {!items || items.length === 0 ? (
-            <NotFoundData />
-          ) : (
-            <>
-              <SelectPageSize
-                onInputValueChange={handleInputValueChange}
-                value={limitPageItem}
-              />
-              <CardList />
-              <Pagination
-                onPageChange={onPageChange}
-                currPage={pageInfo.currPage}
-                totalPages={pageInfo.totalPages}
-              />
-            </>
-          )}
+          <SelectPageSize
+            onInputValueChange={handleInputValueChange}
+            value={limitPageItem}
+          />
+          <CardList />
+          <Pagination
+            onPageChange={onPageChange}
+            currPage={pageInfo.currPage}
+            totalPages={pageInfo.totalPages}
+          />
         </>
       )}
     </div>

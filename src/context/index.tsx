@@ -21,7 +21,14 @@ export const AppContextProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <AppContext.Provider
-      value={{ searchValue, items, setSearchValue, setItems, delailsData, setDetailsData }}
+      value={{
+        searchValue,
+        items,
+        setSearchValue,
+        setItems,
+        delailsData,
+        setDetailsData,
+      }}
     >
       {children}
     </AppContext.Provider>
