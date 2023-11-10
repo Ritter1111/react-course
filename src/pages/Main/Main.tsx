@@ -10,6 +10,7 @@ import { SelectPageSize } from '../../components/SelectPageSize/SelectPageSize';
 import { Outlet } from 'react-router-dom';
 import styles from './Main.module.css';
 import { useAppContext } from '../../context';
+import { setSearchParam } from '../../utils/localStorage';
 
 export default function Main() {
   const {
@@ -21,7 +22,7 @@ export default function Main() {
   } = useQueryParams();
   const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
   const { loading, pageInfo, fetchAllCards, setPageInfo } = useFetching();
-  const { searchValue, setSearchValue } = useAppContext();
+  const { searchValue } = useAppContext();
 
   const getCards = useCallback(
     async (value: string, page: number, limit: number) => {
@@ -29,26 +30,26 @@ export default function Main() {
 
       setSearchParams({
         page: String(page || pageInfo.currPage) || queryPage,
-        q: value || querySearch || searchValue,
+        q: value === '' ? '' : value || searchValue || querySearch,
         limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
       });
+      if (querySearch) {
+        setSearchParam('searchValue', querySearch);
+      }
     },
     [
       fetchAllCards,
       setSearchParams,
       pageInfo.currPage,
       queryPage,
-      querySearch,
       searchValue,
+      querySearch,
       setDefaultQueryParametr,
       queryLimit,
     ]
   );
 
   useEffect(() => {
-    if (searchValue) {
-      setSearchValue(searchValue);
-    }
     getCards(
       querySearch,
       setDefaultQueryParametr(queryPage, '1'),
@@ -75,11 +76,7 @@ export default function Main() {
     <div className={styles.app}>
       <Outlet />
       <ErrorBtn />
-      <CardSearch
-        onChange={(e) => setSearchValue(e.target.value)}
-        onClick={() => getCards(searchValue, 1, limitPageItem)}
-        value={searchValue}
-      />
+      <CardSearch getCards={getCards} limitItem={limitPageItem} />
       {loading && <Loader />}
       {!loading && (
         <>

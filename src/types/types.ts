@@ -4,14 +4,14 @@ export type CardData = {
   images: {
     jpg: {
       image_url: string;
-      large_image_url: string;
+      large_image_url?: string;
     };
   };
-  chapters: number;
-  type: string;
-  duration: string;
-  synopsis: string;
-  score: number;
+  chapters?: number;
+  type?: string;
+  duration?: string;
+  synopsis?: string;
+  score?: number;
 };
 
 export type CardDataProps = {
