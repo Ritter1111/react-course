@@ -15,12 +15,16 @@ export default function Details() {
   }, [id]);
 
   return (
-    <div className={styles.detailsContainer}>
+    <div className={styles.detailsContainer} data-testid="details">
       <div className={styles.delails}>
         {loading && <Loader data-testid="loader" />}
         {!loading && (
           <>
-            <Link className={styles.close} to={`/${window.location.search}`}>
+            <Link
+              className={styles.close}
+              to={`/${window.location.search}`}
+              data-testid="close-link"
+            >
               {' '}
               X
             </Link>

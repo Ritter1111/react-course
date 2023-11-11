@@ -1,3 +1,5 @@
+import React from 'react';
+import { useQueryParams } from '../../hooks/useQueryParams';
 import styles from './Pagination.module.css';
 
 export interface IPaginationProps {
@@ -11,6 +13,28 @@ export const Pagination: React.FC<IPaginationProps> = ({
   currPage,
   totalPages,
 }) => {
+  const { querySearch, queryLimit, setSearchParams } = useQueryParams();
+
+  const handlePrevClick = () => {
+    const newPage = currPage - 1;
+    onPageChange(newPage);
+    updateQueryParams(newPage);
+  };
+
+  const handleNextClick = () => {
+    const newPage = currPage + 1;
+    onPageChange(newPage);
+    updateQueryParams(newPage);
+  };
+
+  const updateQueryParams = (newPage: number) => {
+    setSearchParams({
+      page: `${newPage}`,
+      q: querySearch,
+      limit: queryLimit,
+    });
+  };
+
   return (
     <div>
       <div className={styles.pagination}>
@@ -18,7 +42,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
           <button
             disabled={currPage === 1}
             className={styles.btn}
-            onClick={() => onPageChange(currPage - 1)}
+            onClick={handlePrevClick}
           >
             Prev
           </button>
@@ -28,7 +52,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
           <button
             disabled={currPage >= totalPages}
             className={styles.btn}
-            onClick={() => onPageChange(currPage + 1)}
+            onClick={handleNextClick}
           >
             Next
           </button>

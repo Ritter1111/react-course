@@ -29,7 +29,7 @@ export default function Main() {
       fetchAllCards(value, page, limit);
 
       setSearchParams({
-        page: String(page || pageInfo.currPage) || queryPage,
+        page: String(page),
         q: value === '' ? '' : value || searchValue || querySearch,
         limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
       });
@@ -41,15 +41,15 @@ export default function Main() {
       fetchAllCards,
       setSearchParams,
       pageInfo.currPage,
-      queryPage,
       searchValue,
       querySearch,
       setDefaultQueryParametr,
       queryLimit,
     ]
   );
-
   useEffect(() => {
+    console.log(querySearch);
+
     getCards(
       querySearch,
       setDefaultQueryParametr(queryPage, '1'),
@@ -73,7 +73,7 @@ export default function Main() {
   );
 
   return (
-    <div className={styles.app}>
+    <div className={styles.app} data-testid="main">
       <Outlet />
       <ErrorBtn />
       <CardSearch getCards={getCards} limitItem={limitPageItem} />

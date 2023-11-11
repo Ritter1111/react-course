@@ -1,4 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  createEvent,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Card } from './Card';
 
@@ -9,7 +16,17 @@ const cardProps = {
 };
 
 describe('Card component', () => {
+  const mockedUseFetching = vi.hoisted(() => vi.fn());
+
+  vi.mock('../../hooks/useFetching', () => ({
+    useFetching: mockedUseFetching,
+  }));
+
   beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
     vi.clearAllMocks();
   });
 
@@ -28,14 +45,27 @@ describe('Card component', () => {
   });
 
   it.skip('Validate that clicking on a card opens a detailed card component', async () => {
+    mockedUseFetching.mockImplementationOnce(() => ({
+      fetchCardById: vi.fn(),
+      loading: false,
+    }));
+
     render(
       <MemoryRouter initialEntries={['/']}>
         <Card {...cardProps} />
       </MemoryRouter>
     );
 
-    const cardContainer = screen.getByTestId('card-container');
-    fireEvent.click(cardContainer);
-    expect(window.location.pathname).toBe(`detail/${cardProps.id}`);
+    await act(async () => {
+      const cardContainer = screen.getByTestId('card-container');
+      const myEvent = createEvent.click(cardContainer, { button: 0 });
+      fireEvent(cardContainer, myEvent);
+    });
+    await waitFor(() => {
+      // screen.debug()
+      const cardContainer = screen.getByTestId('details');
+      expect(cardContainer).toBeInTheDocument();
+      // expect(window.location.pathname).toEqual('/');
+    });
   });
 });

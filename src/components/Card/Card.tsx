@@ -9,8 +9,11 @@ export type CardProps = {
 
 export const Card: React.FC<CardProps> = ({ title, images, id }) => {
   return (
-    <Link to={`detail/${id}${window.location.search}`}>
-      <div className={styles.container} data-testid="card-container">
+    <Link
+      to={`detail/${id}${window.location.search}`}
+      data-testid="card-container"
+    >
+      <div className={styles.container}>
         <img
           className={styles.img}
           src={images}

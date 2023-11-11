@@ -13,26 +13,36 @@ export const useFetching = () => {
     limit?: number
   ) => {
     setLoading(true);
-    value && setSearchValue(value);
 
-    const cardsData = await fetchCards(page, value, limit);
+    try {
+      value && setSearchValue(value);
 
-    setPageInfo({
-      currPage: cardsData.pagination.current_page,
-      totalPages: cardsData.pagination.last_visible_page,
-    });
+      const cardsData = await fetchCards(page, value, limit);
 
-    setItems(cardsData.data);
-    setLoading(false);
+      setPageInfo({
+        currPage: cardsData.pagination.current_page,
+        totalPages: cardsData.pagination.last_visible_page,
+      });
+
+      setItems(cardsData.data);
+    } catch (error) {
+      console.error('Error fetching cards:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchCardById = async (id: number) => {
     setLoading(true);
 
-    const cardsData = await fetchCard(id);
-    setDetailsData(cardsData.data);
-
-    setLoading(false);
+    try {
+      const cardsData = await fetchCard(id);
+      setDetailsData(cardsData.data);
+    } catch (error) {
+      console.error('Error fetching card by ID:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
