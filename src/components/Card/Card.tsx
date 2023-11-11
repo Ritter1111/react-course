@@ -1,4 +1,4 @@
-import { useNavigateToPage } from '../../hooks/useNavigate';
+import { Link } from 'react-router-dom';
 import styles from './Card.module.css';
 
 export type CardProps = {
@@ -8,21 +8,17 @@ export type CardProps = {
 };
 
 export const Card: React.FC<CardProps> = ({ title, images, id }) => {
-  const { navigateToCard } = useNavigateToPage();
-
   return (
-    <div
-      className={styles.container}
-      data-testid="card-container"
-      onClick={() => navigateToCard(`/${id}`)}
-    >
-      <img
-        className={styles.img}
-        src={images}
-        alt={title}
-        data-testid="card-image"
-      />
-      <h4 className={styles.title}>{title}</h4>
-    </div>
+    <Link to={`detail/${id}${window.location.search}`}>
+      <div className={styles.container} data-testid="card-container">
+        <img
+          className={styles.img}
+          src={images}
+          alt={title}
+          data-testid="card-image"
+        />
+        <h4 className={styles.title}>{title}</h4>
+      </div>
+    </Link>
   );
 };

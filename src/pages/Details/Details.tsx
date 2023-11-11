@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Loader } from '../../components/Loader/Loader';
 import { useFetching } from '../../hooks/useFetching';
 import styles from './Details.module.css';
@@ -7,19 +7,12 @@ import { useAppContext } from '../../context';
 
 export default function Details() {
   const { id } = useParams();
-  // const { navigateToCard } = useNavigateToPage();
   const { fetchCardById, loading } = useFetching();
   const { delailsData } = useAppContext();
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCardById(Number(id));
   }, [id]);
-
-  function handleCloseButton() {
-    // navigateToCard('/');
-    navigate({ pathname: '/', search: window.location.search });
-  }
 
   return (
     <div className={styles.detailsContainer}>
@@ -27,9 +20,10 @@ export default function Details() {
         {loading && <Loader data-testid="loader" />}
         {!loading && (
           <>
-            <button onClick={handleCloseButton} className={styles.close}>
+            <Link className={styles.close} to={`/${window.location.search}`}>
+              {' '}
               X
-            </button>
+            </Link>
             <div className={styles.title}>{delailsData?.title}</div>
             <img
               src={delailsData?.images?.jpg.large_image_url}
@@ -49,9 +43,9 @@ export default function Details() {
           </>
         )}
       </div>
-      <button className={styles.closeBtn} onClick={handleCloseButton}>
+      <Link className={styles.closeBtn} to={`/${window.location.search}`}>
         Closed
-      </button>
+      </Link>
     </div>
   );
 }

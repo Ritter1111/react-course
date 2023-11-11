@@ -34,12 +34,12 @@
 }
 
 .close {
+  text-decoration: none;
   background-color: transparent;
   position: absolute;
   border: none;
-  left: 0;
   margin-bottom: 10px;
-  top: 5px;
+  top: 15px;
   left: 5px;
   border-radius: 50%;
   height: 38px;
@@ -47,6 +47,9 @@
   font-size: 18px;
   color: white;
   transition: 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .close:hover {
