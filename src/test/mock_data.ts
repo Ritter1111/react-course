@@ -18,24 +18,13 @@ export const detailedMockData = {
   synopsis: 'Sample description',
 };
 
-export const mockData = {
-  mal_id: 1,
-  title: 'Sample Title',
-  images: {
-    jpg: {
-      image_url: 'sample-image.jpg',
-      large_image_url: 'sample-image.jpg',
-    },
-  },
-  chapters: 10,
-  type: 'Manga',
-  score: 9.5,
-  synopsis: 'Sample description',
-  duration: '10',
-};
-
 export const cardProps = {
   id: 1,
   title: 'Sample Card',
   images: 'sample-image.jpg',
+};
+
+export const mockData = {
+  pagination: { last_visible_page: 1, has_next_page: false, current_page: 1 },
+  data: [detailedMockData],
 };
