@@ -1,11 +1,10 @@
 import styles from '../Error/ErrorBoundary/ErrorBoundary.module.css';
 
-export default function NotFound() {
+export const NotFound: React.FC = () => {
   return (
     <div className={styles.container_error}>
+      <h1>404</h1>
       <h1>Something went wrong</h1>
-      <br></br>
-      <span>Reload page</span>
     </div>
   );
-}
+};

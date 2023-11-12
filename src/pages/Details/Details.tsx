@@ -1,46 +1,51 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Loader from '../../components/Loader/Loader';
-import useFetching from '../../hooks/useFetching';
-import useNavigateToPage from '../../hooks/useNavigate';
+import { Link, useParams } from 'react-router-dom';
+import { Loader } from '../../components/Loader/Loader';
+import { useFetching } from '../../hooks/useFetching';
 import styles from './Details.module.css';
+import { useAppContext } from '../../context';
 
 export default function Details() {
   const { id } = useParams();
-  const { navigateToCard } = useNavigateToPage();
-  const { fetchCardById, loading, delailsData } = useFetching();
+  const { fetchCardById, loading } = useFetching();
+  const { delailsData } = useAppContext();
 
   useEffect(() => {
     fetchCardById(Number(id));
   }, [id]);
 
-  function handleCloseButton() {
-    navigateToCard('/');
-  }
-
   return (
-    <div className={styles.detailsContainer}>
+    <div className={styles.detailsContainer} data-testid="details">
       <div className={styles.delails}>
-        {loading && <Loader />}
+        {loading && <Loader data-testid="loader" />}
         {!loading && (
           <>
-            <button onClick={handleCloseButton} className={styles.close}>
-              Close
-            </button>
-            <img
-              src={delailsData?.images.jpg.image_url}
-              className={styles.img}
-            />
+            <Link className={styles.close} to={`/${window.location.search}`}>
+              {' '}
+              X
+            </Link>
             <div className={styles.title}>{delailsData?.title}</div>
-            <div>Episodes: {delailsData?.episodes}</div>
-            <div>Type: {delailsData?.type}</div>
-            <div>{delailsData?.duration}</div>
+            <img
+              src={delailsData?.images?.jpg.large_image_url}
+              className={styles.img}
+              data-testid="card-image"
+            />
+            <div className={styles.description}>
+              <div className={styles.name}>Chapters:</div>
+              <div>{delailsData?.chapters}</div>
+              <div className={styles.name}>Type:</div>
+              <div>{delailsData?.type}</div>
+              <div className={styles.name}>Score:</div>
+              <div>{delailsData?.score}</div>
+              <div className={styles.name}>Description: </div>
+              <div>{delailsData?.synopsis}</div>
+            </div>
           </>
         )}
       </div>
-      <button className={styles.closeBtn} onClick={handleCloseButton}>
+      <Link className={styles.closeBtn} to={`/${window.location.search}`}>
         Closed
-      </button>
+      </Link>
     </div>
   );
 }

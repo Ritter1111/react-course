@@ -1,3 +1,19 @@
-export type MouseEvent = React.MouseEvent<HTMLElement>;
-export type ChangeEvent = React.ChangeEvent<HTMLInputElement>;
-export type ChangeSelectEvent = React.ChangeEvent<HTMLSelectElement>;
+export type CardData = {
+  mal_id: number;
+  title: string;
+  images: {
+    jpg: {
+      image_url: string;
+      large_image_url?: string;
+    };
+  };
+  chapters?: number;
+  type?: string;
+  duration?: string;
+  synopsis?: string;
+  score?: number;
+};
+
+export type CardDataProps = {
+  cards: CardData[];
+};

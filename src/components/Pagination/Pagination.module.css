@@ -1,8 +1,9 @@
 .btn {
   display: inline-block;
   margin: 5px;
-  padding: 10px;
-  background-color: #3498db;
+  width: 70px;
+  padding: 12px;
+  background-color: #dc2222;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
@@ -12,7 +13,7 @@
 }
 
 .btn:hover {
-  background-color: #09629d;
+  background-color: #b00f0f;
   transition: 0.2s ease;
 }
 
@@ -26,14 +27,7 @@
 }
 
 .pagination {
-  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 20px;
-  align-items: center;
-}
-
-.mark {
-  color: #fff;
-  font-size: 1rem;
 }

@@ -1,5 +1,20 @@
-import { ICard, IDetailsData } from '../interfaces/search-result.interface';
+import { CardData } from '../types/types';
 import { API_URL } from './consts';
+
+interface ICard {
+  pagination: IPagination;
+  data: CardData[];
+}
+
+interface IPagination {
+  last_visible_page: number;
+  has_next_page: boolean;
+  current_page: number;
+}
+
+type DataInfo = {
+  data: CardData;
+};
 
 export const fetchCards = async (
   page?: number,
@@ -21,7 +36,7 @@ export const fetchCards = async (
   }
 };
 
-export const fetchCard = async (id: number): Promise<IDetailsData> => {
+export const fetchCard = async (id: number): Promise<DataInfo> => {
   const apiUrl = `${API_URL}/${id}`;
 
   try {

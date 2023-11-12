@@ -1,17 +1,27 @@
-import useNavigateToPage from '../../hooks/useNavigate';
-import { ICardData } from '../../interfaces/search-result.interface';
+import { Link } from 'react-router-dom';
 import styles from './Card.module.css';
 
-export default function Card({ title, images, mal_id }: ICardData) {
-  const { navigateToCard } = useNavigateToPage();
+export type CardProps = {
+  id: number;
+  title: string;
+  images: string;
+};
 
+export const Card: React.FC<CardProps> = ({ title, images, id }) => {
   return (
-    <div
-      className={styles.container}
-      onClick={() => navigateToCard(`/${mal_id}`)}
+    <Link
+      to={`detail/${id}${window.location.search}`}
+      data-testid="card-container"
     >
-      <h4 className={styles.title}>{title}</h4>
-      <img className={styles.img} src={images.jpg.image_url} alt={title} />
-    </div>
+      <div className={styles.container}>
+        <img
+          className={styles.img}
+          src={images}
+          alt={title}
+          data-testid="card-image"
+        />
+        <h4 className={styles.title}>{title}</h4>
+      </div>
+    </Link>
   );
-}
+};

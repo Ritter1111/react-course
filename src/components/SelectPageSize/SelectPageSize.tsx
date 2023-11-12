@@ -1,32 +1,36 @@
 import styles from './SelectPageSize.module.css';
-import { ChangeSelectEvent } from '../../types/types';
-import { PageSizeProps } from '../../interfaces/pagination.interface';
+import { optionValues } from '../../utils/consts';
 
-const optionValues = [1, 5, 10, 15, 20, 25];
+export interface PageSizeProps {
+  onInputValueChange: (value: number) => void;
+  value: number;
+}
 
-export default function SelectPageSize({
+export const SelectPageSize: React.FC<PageSizeProps> = ({
   onInputValueChange,
   value,
-}: PageSizeProps) {
-  const handleSelectChange = (event: ChangeSelectEvent) => {
+}) => {
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     onInputValueChange(Number(value));
   };
 
   return (
-    <div className={styles.inputContainer}>
-      <h6 className={styles.mark}>Items on page: </h6>
-      <select
-        className={styles.inputSize}
-        value={value}
-        onChange={handleSelectChange}
-      >
-        {optionValues.map((item) => (
-          <option value={item} key={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-    </div>
+    <>
+      <div className={styles.inputContainer}>
+        <select
+          className={styles.inputSize}
+          value={value}
+          onChange={handleSelectChange}
+          data-testid="select-input"
+        >
+          {optionValues.map((item) => (
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+    </>
   );
-}
+};

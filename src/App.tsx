@@ -1,11 +1,14 @@
-import { Outlet } from 'react-router-dom';
-import Main from './pages/Main/Main';
+import { BrowserRouter } from 'react-router-dom';
+import ErrorBoundary from './components/Error/ErrorBoundary/ErrorBoundary';
+import { AppContextProvider } from './context';
+import { Router } from './router/router';
 
-export default function App() {
-  return (
-    <div style={{ display: 'flex' }}>
-      <Main />
-      <Outlet />
-    </div>
-  );
-}
+export const App = () => (
+  <ErrorBoundary>
+    <AppContextProvider>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </AppContextProvider>
+  </ErrorBoundary>
+);

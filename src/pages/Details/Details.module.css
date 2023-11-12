@@ -1,49 +1,75 @@
 .detailsContainer {
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
 .delails {
   display: flex;
+  background-color: #0d0d0d;
   flex-direction: column;
   position: fixed;
-  width: 50vw;
-  padding: 25px;
+  width: 51vw;
   text-align: center;
   align-items: center;
+  padding: 50px 25px;
+  overflow-y: auto;
+  bottom: 0;
+  top: 0;
+  right: -20px;
+  z-index: 22;
 }
 
 .closeBtn {
   position: fixed;
-  transform: translate(-100%);
+  transform: translate(-99%);
   width: 100%;
   height: 100%;
   background-color: #00000094;
 }
 
 .title {
-  color: #124a96;
+  color: white;
   font-size: 2rem;
+  margin: 10px;
 }
 
 .close {
-  padding: 4px;
-  background-color: #3498db;
+  text-decoration: none;
+  background-color: transparent;
+  position: absolute;
   border: none;
   margin-bottom: 10px;
-  border-radius: 7px;
+  top: 15px;
+  left: 5px;
+  border-radius: 50%;
+  height: 38px;
+  width: 38px;
   font-size: 18px;
   color: white;
   transition: 0.2s ease;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .close:hover {
-  background-color: #12679f;
+  background-color: #ff0000;
   transition: 0.2s ease;
 }
 
 .img {
-  width: 23vw;
+  max-width: 100%;
+}
+
+.description {
+  color: rgba(255, 255, 255, 0.863);
+  text-align: start;
+  padding: 12px 0px;
+}
+
+.name {
+  color: #ff0000;
+  margin: 10px 0px;
+  font-size: 17px;
+  font-weight: 800;
 }

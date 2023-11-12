@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from './ErrorBtn.module.css';
 
-export default function ErrorBtn() {
+export const ErrorBtn: React.FC = () => {
   const [error, setError] = useState(false);
 
   if (error) throw new Error('Error on click');
@@ -11,4 +11,4 @@ export default function ErrorBtn() {
       Error
     </button>
   );
-}
+};

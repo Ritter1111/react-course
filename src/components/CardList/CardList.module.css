@@ -4,6 +4,16 @@
   display: flex;
   flex-flow: wrap;
   justify-content: space-around;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+
+.not_found {
+  display: flex;
   align-items: center;
-  padding-top: 5vh;
+  margin-top: 20px;
+  color: #ffffff;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
 }

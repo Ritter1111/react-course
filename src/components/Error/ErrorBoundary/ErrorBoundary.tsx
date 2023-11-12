@@ -1,9 +1,13 @@
 import React from 'react';
-import {
-  IErrorBoundaryProps,
-  IErrorBoundaryState,
-} from '../../../interfaces/error-boudary.interface';
-import NotFound from '../../NotFound/NotFound';
+import { NotFound } from '../../NotFound/NotFound';
+
+interface IErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface IErrorBoundaryState {
+  hasError: unknown;
+}
 
 export default class ErrorBoundary extends React.Component<
   IErrorBoundaryProps,

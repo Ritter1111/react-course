@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { setSearchParam } from '../utils/localStorage';
 import { fetchCard, fetchCards } from '../utils/api';
-import { ICardData } from '../interfaces/search-result.interface';
+import { useAppContext } from '../context';
 
-const useFetching = () => {
+export const useFetching = () => {
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<ICardData[]>([]);
-  const [delailsData, setDetailsData] = useState<ICardData>();
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
+  const { setItems, setSearchValue, setDetailsData } = useAppContext();
 
   const fetchAllCards = async (
     value?: string,
@@ -16,40 +14,42 @@ const useFetching = () => {
   ) => {
     setLoading(true);
 
-    value && setSearchParam('searchValue', value);
+    try {
+      value && setSearchValue(value);
 
-    const cardsData = await fetchCards(page, value, limit);
+      const cardsData = await fetchCards(page, value, limit);
 
-    if (cardsData.pagination) {
       setPageInfo({
         currPage: cardsData.pagination.current_page,
         totalPages: cardsData.pagination.last_visible_page,
       });
+
+      setItems(cardsData.data);
+    } catch (error) {
+      console.error('Error fetching cards:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setData(cardsData.data);
-
-    setLoading(false);
   };
 
   const fetchCardById = async (id: number) => {
     setLoading(true);
 
-    const cardsData = await fetchCard(id);
-    setDetailsData(cardsData.data);
-
-    setLoading(false);
+    try {
+      const cardsData = await fetchCard(id);
+      setDetailsData(cardsData.data);
+    } catch (error) {
+      console.error('Error fetching card by ID:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
     loading,
-    data,
     pageInfo,
     fetchAllCards,
     setPageInfo,
     fetchCardById,
-    delailsData,
   };
 };
-
-export default useFetching;
