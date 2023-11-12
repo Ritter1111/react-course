@@ -20,11 +20,7 @@ export default function Details() {
         {loading && <Loader data-testid="loader" />}
         {!loading && (
           <>
-            <Link
-              className={styles.close}
-              to={`/${window.location.search}`}
-              data-testid="close-link"
-            >
+            <Link className={styles.close} to={`/${window.location.search}`}>
               {' '}
               X
             </Link>

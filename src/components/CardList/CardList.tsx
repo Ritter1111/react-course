@@ -6,7 +6,7 @@ export const CardList: React.FC = () => {
   const { items } = useAppContext();
 
   return (
-    <div className={styles.container} data-testid="card-test-container">
+    <div className={styles.container}>
       {!items ||
         (items.length === 0 && (
           <h2 className={styles.not_found} data-testid="no-data-message">

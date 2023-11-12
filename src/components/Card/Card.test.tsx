@@ -7,15 +7,8 @@ import {
 } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Card } from './Card';
-const MockDetails = () => {
-  return <div data-testid="mock-details">Mock Details Component</div>;
-};
-
-const cardProps = {
-  id: 1,
-  title: 'Sample Card',
-  images: 'sample-image.jpg',
-};
+import { cardProps } from '../../test/mock_data';
+import { MockDetails } from '../../test/MockDetails';
 
 describe('Card component', async () => {
   const mockedUseFetching = vi.hoisted(() => vi.fn());
@@ -57,44 +50,41 @@ describe('Card component', async () => {
     );
 
     await act(async () => {
-      screen.debug();
-
       const cardContainer = screen.getByTestId('card-container');
       fireEvent.click(cardContainer);
     });
+
     await waitFor(() => {
       const cardContainer = screen.getByTestId('mock-details');
       expect(cardContainer).toBeInTheDocument();
     });
   });
 
-  // it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
-  //  const fetchCard = mockedUseFetching.mockImplementationOnce(() => ({
-  //     fetchCardById: vi.fn(),
-  //   }));
+  it.skip('Check that clicking triggers an additional API call to fetch detailed information', async () => {
+    const fetchCard = mockedUseFetching.mockImplementationOnce(() => ({
+      fetchCardById: vi.fn(),
+    }));
 
-  // const fetchCard = vi.fn();
-  // mockedUseFetching.mockImplementationOnce(() => ({
-  //   fetchCardById: fetchCard,
-  // }));
+    // const fetchCard = vi.fn();
+    // mockedUseFetching.mockImplementationOnce(() => ({
+    //   fetchCardById: fetchCard,
+    // }));
 
-  //   render(
-  //     <MemoryRouter initialEntries={['/']}>
-  //       <Card {...cardProps} />
-  //     </MemoryRouter>
-  //   );
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/" element={<Card {...cardProps} />} />
+          <Route path="detail/:id" element={<MockDetails />} />
+        </Routes>
+      </MemoryRouter>
+    );
 
-  //   const cardContainer = screen.getByTestId('card-container');
-  //   fireEvent.click(cardContainer);
+    await act(async () => {
+      const cardContainer = screen.getByTestId('card-container');
+      fireEvent.click(cardContainer);
+    });
 
-  //   await waitFor(() => expect(fetchCard).toHaveBeenCalled());
-  //     //   const cardContainer = screen.getByText(/Sample Card/i);
-
-  //     //   const myEvent = createEvent.click(cardContainer, { button: 0 });
-  //     //   fireEvent(cardContainer, myEvent);
-
-  //     // screen.debug();
-  //     // await waitFor(async () => expect(fetchCard).toHaveBeenCalled())
-
-  // })
+    screen.debug();
+    await waitFor(async () => expect(fetchCard).toHaveBeenCalled());
+  });
 });

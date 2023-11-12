@@ -6,9 +6,10 @@ import {
   fireEvent,
 } from '@testing-library/react';
 import Details from './Details';
-import { MemoryRouter } from 'react-router-dom';
-import { detailedMockData } from '../../test/mock_data';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { cardProps, detailedMockData } from '../../test/mock_data';
 import { AppContext, AppContextProvider } from '../../context';
+import { Card } from '../../components/Card/Card';
 
 describe('Details component', () => {
   const mockedUseFetching = vi.hoisted(() => vi.fn());
@@ -24,10 +25,6 @@ describe('Details component', () => {
   afterEach(() => {
     vi.clearAllMocks();
   });
-
-  const mockUseParams = {
-    id: '1',
-  };
 
   it('indicator loading', async () => {
     mockedUseFetching.mockImplementationOnce(() => ({
@@ -135,8 +132,11 @@ describe('Details component', () => {
     }));
     render(
       <AppContextProvider>
-        <MemoryRouter initialEntries={[`/detail/${mockUseParams.id}`]}>
-          <Details />
+        <MemoryRouter initialEntries={['/detail/1']}>
+          <Routes>
+            <Route path="/" element={<Card {...cardProps} />} />
+            <Route path="detail/:id" element={<Details />} />
+          </Routes>
         </MemoryRouter>
       </AppContextProvider>
     );
@@ -144,11 +144,11 @@ describe('Details component', () => {
     const detailsComponent = screen.getByTestId('details');
     expect(detailsComponent).toBeInTheDocument();
 
-    const cardContainer = screen.getByTestId('close-link');
-    fireEvent.click(cardContainer);
+    const closeButton = screen.getByText('Closed');
+    fireEvent.click(closeButton);
 
     await waitFor(() => {
-      expect(window.location.pathname).toBe(`/`);
+      expect(screen.queryByTestId('details')).toBeNull();
     });
   });
 });

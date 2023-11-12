@@ -22,7 +22,7 @@ export const SelectPageSize: React.FC<PageSizeProps> = ({
           className={styles.inputSize}
           value={value}
           onChange={handleSelectChange}
-          data-testId="select-input"
+          data-testid="select-input"
         >
           {optionValues.map((item) => (
             <option value={item} key={item}>

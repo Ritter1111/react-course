@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format:fix": "prettier --write ./src",
     "prepare": "husky install",
-    "test": "vitest run --coverage"
+    "test": "vitest run",
+    "test-coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",

@@ -33,3 +33,9 @@ export const mockData = {
   synopsis: 'Sample description',
   duration: '10',
 };
+
+export const cardProps = {
+  id: 1,
+  title: 'Sample Card',
+  images: 'sample-image.jpg',
+};
