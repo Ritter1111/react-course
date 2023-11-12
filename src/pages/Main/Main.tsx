@@ -31,7 +31,7 @@ export default function Main() {
       setSearchParams({
         page: String(page),
         q: value === '' ? '' : value || searchValue || querySearch,
-        limit: String(limit || setDefaultQueryParametr(queryLimit, '10')),
+        limit: String(limit || queryLimit),
       });
       if (querySearch) {
         setSearchParam('searchValue', querySearch);
@@ -48,13 +48,12 @@ export default function Main() {
     ]
   );
   useEffect(() => {
-    console.log(querySearch);
-
     getCards(
       querySearch,
-      setDefaultQueryParametr(queryPage, '1'),
-      setDefaultQueryParametr(queryLimit, '10')
+      setDefaultQueryParametr(queryPage, 1),
+      setDefaultQueryParametr(queryLimit, 10)
     );
+    setLimitPageItem(10);
   }, []);
 
   const handleInputValueChange = (value: number) => {

@@ -10,7 +10,7 @@ export function Router(): ReactElement {
       <Route path="/" element={<Main />}>
         <Route path="detail/:id" element={<Details />} />
       </Route>
-      <Route path="*" element={<NotFound />} />
+      <Route path="/*" element={<NotFound />} />
     </Routes>
   );
 }

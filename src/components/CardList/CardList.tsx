@@ -9,12 +9,10 @@ export const CardList: React.FC = () => {
     <div className={styles.container}>
       {!items ||
         (items.length === 0 && (
-          <h2 className={styles.not_found} data-testid="no-data-message">
-            No data received
-          </h2>
+          <h2 className={styles.not_found}>No data received</h2>
         ))}
       {items.map((item) => (
-        <div className="card">
+        <div className="card" key={item.mal_id}>
           <Card
             key={item.mal_id}
             title={item.title}
