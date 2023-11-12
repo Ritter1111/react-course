@@ -31,12 +31,6 @@ describe('Details component', () => {
       fetchCardById: vi.fn(),
       loading: true,
     }));
-
-    const mResponce = {
-      ok: true,
-      json: vi.fn().mockResolvedValue(detailedMockData),
-    };
-    global.fetch = vi.fn().mockResolvedValue(mResponce as unknown as Response);
     render(
       <AppContext.Provider
         value={{

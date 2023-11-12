@@ -7,8 +7,9 @@ import {
 } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Card } from './Card';
-import { cardProps } from '../../test/mock_data';
-import { MockDetails } from '../../test/MockDetails';
+import { cardProps, detailedMockData } from '../../test/mock_data';
+import Details from '../../pages/Details/Details';
+import { AppContext } from '../../context';
 
 describe('Card component', async () => {
   const mockedUseFetching = vi.hoisted(() => vi.fn());
@@ -40,13 +41,28 @@ describe('Card component', async () => {
   });
 
   it('Validate that clicking on a card opens a detailed card component', async () => {
+    mockedUseFetching.mockImplementation(() => ({
+      fetchCardById: vi.fn(),
+      loading: true,
+    }));
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<Card {...cardProps} />} />
-          <Route path="detail/:id" element={<MockDetails />} />
-        </Routes>
-      </MemoryRouter>
+      <AppContext.Provider
+        value={{
+          items: [],
+          searchValue: '',
+          delailsData: detailedMockData,
+          setDetailsData: vi.fn,
+          setItems: vi.fn,
+          setSearchValue: vi.fn,
+        }}
+      >
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Card {...cardProps} />} />
+            <Route path="detail/:id" element={<Details />} />
+          </Routes>
+        </MemoryRouter>
+      </AppContext.Provider>
     );
 
     await act(async () => {
@@ -55,28 +71,35 @@ describe('Card component', async () => {
     });
 
     await waitFor(() => {
-      const cardContainer = screen.getByTestId('mock-details');
+      const cardContainer = screen.getByTestId('details');
       expect(cardContainer).toBeInTheDocument();
     });
   });
 
-  it.skip('Check that clicking triggers an additional API call to fetch detailed information', async () => {
-    const fetchCard = mockedUseFetching.mockImplementationOnce(() => ({
-      fetchCardById: vi.fn(),
+  it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
+    const mockFetchCard = vi.fn();
+    mockedUseFetching.mockImplementationOnce(() => ({
+      fetchCardById: mockFetchCard,
     }));
 
-    // const fetchCard = vi.fn();
-    // mockedUseFetching.mockImplementationOnce(() => ({
-    //   fetchCardById: fetchCard,
-    // }));
-
     render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<Card {...cardProps} />} />
-          <Route path="detail/:id" element={<MockDetails />} />
-        </Routes>
-      </MemoryRouter>
+      <AppContext.Provider
+        value={{
+          items: [],
+          searchValue: '',
+          delailsData: detailedMockData,
+          setDetailsData: vi.fn,
+          setItems: vi.fn,
+          setSearchValue: vi.fn,
+        }}
+      >
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
+            <Route path="/" element={<Card {...cardProps} />} />
+            <Route path="detail/:id" element={<Details />} />
+          </Routes>
+        </MemoryRouter>
+      </AppContext.Provider>
     );
 
     await act(async () => {
@@ -84,7 +107,6 @@ describe('Card component', async () => {
       fireEvent.click(cardContainer);
     });
 
-    screen.debug();
-    await waitFor(async () => expect(fetchCard).toHaveBeenCalled());
+    await waitFor(async () => expect(mockFetchCard).toHaveBeenCalledWith(1));
   });
 });
