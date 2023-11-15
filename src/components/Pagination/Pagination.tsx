@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQueryParams } from '../../hooks/useQueryParams';
 import styles from './Pagination.module.css';
+// import { IPagination } from '../../utils/api';
 
 export interface IPaginationProps {
   onPageChange: (currPage: number) => void;
@@ -23,6 +24,8 @@ export const Pagination: React.FC<IPaginationProps> = ({
 
   const handleNextClick = () => {
     const newPage = currPage + 1;
+    console.log(newPage);
+
     onPageChange(newPage);
     updateQueryParams(newPage);
   };

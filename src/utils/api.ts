@@ -1,18 +1,18 @@
 import { CardData } from '../types/types';
 import { API_URL } from './consts';
 
-interface ICard {
+export interface ICard {
   pagination: IPagination;
   data: CardData[];
 }
 
-interface IPagination {
+export interface IPagination {
   last_visible_page: number;
   has_next_page: boolean;
   current_page: number;
 }
 
-type DataInfo = {
+export type DataInfo = {
   data: CardData;
 };
 
