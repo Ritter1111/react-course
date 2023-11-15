@@ -5,7 +5,7 @@ import { useAppContext } from '../context';
 export const useFetching = () => {
   const [loading, setLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
-  const { setItems, setSearchValue, setDetailsData } = useAppContext();
+  const { setItems, setDetailsData } = useAppContext();
 
   const fetchAllCards = async (
     value?: string,
@@ -15,7 +15,7 @@ export const useFetching = () => {
     setLoading(true);
 
     try {
-      value && setSearchValue(value);
+      // value && setSearchValue(value);
 
       const cardsData = await fetchCards(page, value, limit);
 

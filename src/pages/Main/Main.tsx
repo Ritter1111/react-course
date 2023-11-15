@@ -9,8 +9,9 @@ import { ErrorBtn } from '../../components/Error/ErrorBtn/ErrorBtn';
 import { SelectPageSize } from '../../components/SelectPageSize/SelectPageSize';
 import { Outlet } from 'react-router-dom';
 import styles from './Main.module.css';
-import { useAppContext } from '../../context';
 import { setSearchParam } from '../../utils/localStorage';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export default function Main() {
   const {
@@ -22,7 +23,7 @@ export default function Main() {
   } = useQueryParams();
   const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
   const { loading, pageInfo, fetchAllCards, setPageInfo } = useFetching();
-  const { searchValue } = useAppContext();
+  const sValue = useSelector((state: RootState) => state.search.searchTerm);
 
   const getCards = useCallback(
     async (value: string, page: number, limit: number) => {
@@ -30,7 +31,7 @@ export default function Main() {
 
       setSearchParams({
         page: String(page),
-        q: value === '' ? '' : value || searchValue || querySearch,
+        q: value === '' ? '' : value || sValue || querySearch,
         limit: String(limit || queryLimit),
       });
       if (querySearch) {
@@ -41,7 +42,7 @@ export default function Main() {
       fetchAllCards,
       setSearchParams,
       pageInfo.currPage,
-      searchValue,
+      sValue,
       querySearch,
       setDefaultQueryParametr,
       queryLimit,
@@ -65,10 +66,10 @@ export default function Main() {
     (newPage: number) => {
       if (newPage >= 1 && newPage <= pageInfo.totalPages) {
         setPageInfo({ ...pageInfo, currPage: newPage });
-        getCards(searchValue, newPage, limitPageItem);
+        getCards(sValue, newPage, limitPageItem);
       }
     },
-    [getCards, pageInfo.totalPages, searchValue, limitPageItem]
+    [getCards, pageInfo.totalPages, sValue, limitPageItem]
   );
 
   return (
