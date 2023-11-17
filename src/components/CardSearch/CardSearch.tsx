@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './CardSearch.module.css';
 import { getSearchParam, setSearchParam } from '../../utils/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,27 +13,34 @@ export interface ISearchProps {
 export const CardSearch: React.FC<ISearchProps> = ({ getCards, limitItem }) => {
   const dispatch = useDispatch();
   const sValue = useSelector((state: RootState) => state.search.searchTerm);
+  const [inputValue, setInputValue] = useState(sValue);
 
   useEffect(() => {
     const storedValue = getSearchParam('searchValue');
     if (storedValue) {
       dispatch(saveSearchTerm(storedValue));
+      setInputValue(storedValue);
     }
-  }, [dispatch]);
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
 
   const handleButtonClick = () => {
-    setSearchParam('searchValue', sValue);
-    getCards(sValue, 1, limitItem);
+    dispatch(saveSearchTerm(inputValue));
+    setSearchParam('searchValue', inputValue);
+    getCards(inputValue, 1, limitItem);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.container_input}>
         <input
-          value={sValue}
+          value={inputValue}
           placeholder="Type to search..."
           className={styles.input}
-          onChange={(e) => dispatch(saveSearchTerm(e.target.value))}
+          onChange={handleInputChange}
         />
         <button className={styles.btn_search} onClick={handleButtonClick}>
           <div className={styles.search_icon}>Search</div>

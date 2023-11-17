@@ -7,21 +7,14 @@ import {
 } from '@testing-library/react';
 import Details from './Details';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { cardProps } from '../../test/mock_data';
-// import { AppContext, AppContextProvider } from '../../context';
+import { cardProps, detailedMockData } from '../../test/mock_data';
 import { Card } from '../../components/Card/Card';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
-// import { rest } from 'msw'
 import { server } from '../../test/server';
+import { rest } from 'msw';
 
 describe('Details component', () => {
-  // const mockedUseFetching = vi.hoisted(() => vi.fn());
-
-  // vi.mock('../../hooks/useFetching', () => ({
-  //   useFetching: mockedUseFetching,
-  // }));
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -35,27 +28,12 @@ describe('Details component', () => {
   afterAll(() => server.close());
 
   it('indicator loading', async () => {
-    // mockedUseFetching.mockImplementationOnce(() => ({
-    //   fetchCardById: vi.fn(),
-    //   loading: true,
-    // }));
     render(
-      // <AppContext.Provider
-      //   value={{
-      //     items: [],
-      //     searchValue: '',
-      //     delailsData: detailedMockData,
-      //     setDetailsData: vi.fn,
-      //     setItems: vi.fn,
-      //     setSearchValue: vi.fn,
-      //   }}
-      // >
       <Provider store={store}>
         <MemoryRouter>
           <Details />
         </MemoryRouter>
       </Provider>
-      // </AppContext.Provider>
     );
 
     await waitFor(() => {
@@ -65,28 +43,12 @@ describe('Details component', () => {
   });
 
   it('no loading indicator when loading finished', async () => {
-    // mockedUseFetching.mockImplementationOnce(() => ({
-    //   fetchCardById: vi.fn(),
-    //   loading: false,
-    // }));
-
     render(
-      // <AppContext.Provider
-      //   value={{
-      //     items: [],
-      //     searchValue: '',
-      //     delailsData: detailedMockData,
-      //     setDetailsData: vi.fn,
-      //     setItems: vi.fn,
-      //     setSearchValue: vi.fn,
-      //   }}
-      // >
       <Provider store={store}>
         <MemoryRouter>
           <Details />
         </MemoryRouter>
       </Provider>
-      // </AppContext.Provider>
     );
 
     await waitFor(() => {
@@ -95,30 +57,22 @@ describe('Details component', () => {
   });
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
-    // mockedUseFetching.mockImplementationOnce(() => ({
-    //   fetchCardById: vi.fn(),
-    //   loading: false,
-    // }));
     await act(async () => {
       render(
-        // <AppContext.Provider
-        //   value={{
-        //     items: [],
-        //     searchValue: '',
-        //     delailsData: detailedMockData,
-        //     setDetailsData: vi.fn,
-        //     setItems: vi.fn,
-        //     setSearchValue: vi.fn,
-        //   }}
-        // >
         <Provider store={store}>
           <MemoryRouter>
             <Details />
           </MemoryRouter>
         </Provider>
-        // </AppContext.Provider>
       );
     });
+
+    server.use(
+      rest.get('https://api.jikan.moe/v4/manga/1', (_, res, ctx) => {
+        return res(ctx.status(200), ctx.json(detailedMockData));
+      })
+    );
+
     await waitFor(() => {
       expect(screen.getByText('Monster')).toBeInTheDocument();
       expect(screen.getByText('162')).toBeInTheDocument();
@@ -134,12 +88,7 @@ describe('Details component', () => {
   });
 
   it('clicking the close button should hide the component', async () => {
-    // mockedUseFetching.mockImplementationOnce(() => ({
-    //   fetchCardById: vi.fn(),
-    //   loading: false,
-    // }));
     render(
-      // <AppContextProvider>
       <Provider store={store}>
         <MemoryRouter initialEntries={['/detail/1']}>
           <Routes>
@@ -148,7 +97,6 @@ describe('Details component', () => {
           </Routes>
         </MemoryRouter>
       </Provider>
-      // </AppContextProvider>
     );
 
     const detailsComponent = screen.getByTestId('details');

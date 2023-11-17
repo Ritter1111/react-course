@@ -25,14 +25,15 @@ export default function Main() {
   // const [limitPageItem, setLimitPageItem] = useState(Number(queryLimit));
   // const { pageInfo, fetchAllCards, setPageInfo } = useFetching();
   const sValue = useSelector((state: RootState) => state.search.searchTerm);
-  // const dispatch = useDispatch();
   const itemLimit = useSelector((state: RootState) => state.limit.itemLimit);
-  // console.log(itemLimit);
   const { data, isLoading } = useGetCardsQuery({
     page: Number(queryPage),
     param: sValue || querySearch,
     limit: itemLimit || Number(queryLimit),
   });
+
+  console.log(queryPage);
+
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
 
   useEffect(() => {
@@ -43,8 +44,6 @@ export default function Main() {
       });
     }
   }, [data]);
-
-  // console.log(pageInfo);
 
   const getCards = useCallback(
     async (value: string, page: number, limit: number) => {
@@ -82,11 +81,6 @@ export default function Main() {
     getCards(querySearch, 1, itemLimit);
     // setLimitPageItem(itemLimit);
   }, [itemLimit]);
-
-  // const handleInputValueChange = () => {
-  //   getCards(querySearch, 1, itemLimit);
-  //   setLimitPageItem(itemLimit);
-  // };
 
   const onPageChange = useCallback(
     (newPage: number) => {
