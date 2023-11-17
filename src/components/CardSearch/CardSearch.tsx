@@ -6,7 +6,7 @@ import { RootState } from '../../store/store';
 import { saveSearchTerm } from '../../store/Search/search.slice';
 
 export interface ISearchProps {
-  getCards: (value: string, page: number, limit: number) => void;
+  getCards: (page: number, limit: number) => void;
   limitItem: number;
 }
 
@@ -30,7 +30,7 @@ export const CardSearch: React.FC<ISearchProps> = ({ getCards, limitItem }) => {
   const handleButtonClick = () => {
     dispatch(saveSearchTerm(inputValue));
     setSearchParam('searchValue', inputValue);
-    getCards(inputValue, 1, limitItem);
+    getCards(1, limitItem);
   };
 
   return (

@@ -57,6 +57,12 @@ describe('Details component', () => {
   });
 
   it('Make sure the detailed card component correctly displays the detailed card data', async () => {
+    server.use(
+      rest.get('https://api.jikan.moe/v4/manga/1', (_, res, ctx) => {
+        return res(ctx.status(200), ctx.json(detailedMockData));
+      })
+    );
+
     await act(async () => {
       render(
         <Provider store={store}>
@@ -66,12 +72,6 @@ describe('Details component', () => {
         </Provider>
       );
     });
-
-    server.use(
-      rest.get('https://api.jikan.moe/v4/manga/1', (_, res, ctx) => {
-        return res(ctx.status(200), ctx.json(detailedMockData));
-      })
-    );
 
     await waitFor(() => {
       expect(screen.getByText('Monster')).toBeInTheDocument();

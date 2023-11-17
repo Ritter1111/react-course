@@ -28,3 +28,7 @@ export const mockData = {
   pagination: { last_visible_page: 1, has_next_page: false, current_page: 1 },
   data: [detailedMockData],
 };
+
+export const detailedMockResponce = {
+  data: detailedMockData,
+};

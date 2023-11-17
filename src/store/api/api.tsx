@@ -30,7 +30,10 @@ export const animeApi = createApi({
           ? `?page=${page}&limit=${limit}&q=${param.trim()}`
           : `?page=${page}&limit=${limit}`,
     }),
-    getCard: builder.query<CardData, string>({ query: (id) => `${id}` }),
+    getCard: builder.query<CardData, string>({
+      query: (id) => `${id}`,
+      transformResponse: (response: DataInfo) => response.data,
+    }),
   }),
 });
 
