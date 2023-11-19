@@ -1,27 +1,24 @@
 import styles from './SelectPageSize.module.css';
 import { optionValues } from '../../utils/consts';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { saveLimitItem } from '../../store/ItemsLimit/items.slice';
 
-export interface PageSizeProps {
-  onInputValueChange: (value: number) => void;
-  value: number;
-}
+export const SelectPageSize: React.FC = () => {
+  const dispatch = useDispatch();
+  const itemLimit = useSelector((state: RootState) => state.limit.itemLimit);
 
-export const SelectPageSize: React.FC<PageSizeProps> = ({
-  onInputValueChange,
-  value,
-}) => {
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const limitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
-    onInputValueChange(Number(value));
+    dispatch(saveLimitItem(Number(value)));
   };
-
   return (
     <>
       <div className={styles.inputContainer}>
         <select
           className={styles.inputSize}
-          value={value}
-          onChange={handleSelectChange}
+          value={itemLimit}
+          onChange={limitChange}
           data-testid="select-input"
         >
           {optionValues.map((item) => (

@@ -1,17 +1,19 @@
-import { useAppContext } from '../../context';
+import { CardData } from '../../types/types';
 import { Card } from '../Card/Card';
 import styles from './CardList.module.css';
 
-export const CardList: React.FC = () => {
-  const { items } = useAppContext();
+export interface CardList {
+  cards: CardData[];
+}
 
+export const CardList: React.FC<CardList> = ({ cards }) => {
   return (
     <div className={styles.container}>
-      {!items ||
-        (items.length === 0 && (
+      {!cards ||
+        (cards.length === 0 && (
           <h2 className={styles.not_found}>No data received</h2>
         ))}
-      {items.map((item) => (
+      {cards.map((item) => (
         <div className="card" key={item.mal_id}>
           <Card
             key={item.mal_id}

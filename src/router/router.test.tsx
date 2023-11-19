@@ -1,25 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Router } from './router';
-import { AppContext } from '../context';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 describe('Router', () => {
   it('renders Main component', () => {
     render(
-      <AppContext.Provider
-        value={{
-          items: [],
-          searchValue: '',
-          delailsData: undefined,
-          setDetailsData: vi.fn,
-          setItems: vi.fn,
-          setSearchValue: vi.fn,
-        }}
-      >
+      <Provider store={store}>
         <MemoryRouter initialEntries={['/']}>
           <Router />
         </MemoryRouter>
-      </AppContext.Provider>
+      </Provider>
     );
 
     const mainComponent = screen.getByTestId('main');
@@ -28,20 +20,11 @@ describe('Router', () => {
 
   it('render Details component for /detail/:id path', () => {
     render(
-      <AppContext.Provider
-        value={{
-          items: [],
-          searchValue: '',
-          delailsData: undefined,
-          setDetailsData: vi.fn,
-          setItems: vi.fn,
-          setSearchValue: vi.fn,
-        }}
-      >
+      <Provider store={store}>
         <MemoryRouter initialEntries={['/detail/1']}>
           <Router />
         </MemoryRouter>
-      </AppContext.Provider>
+      </Provider>
     );
 
     const detailsComponent = screen.getByTestId('details');
@@ -50,20 +33,11 @@ describe('Router', () => {
 
   it('Ensure that the 404 page is displayed when navigating to an invalid route', () => {
     render(
-      <AppContext.Provider
-        value={{
-          items: [],
-          searchValue: '',
-          delailsData: undefined,
-          setDetailsData: vi.fn,
-          setItems: vi.fn,
-          setSearchValue: vi.fn,
-        }}
-      >
+      <Provider store={store}>
         <MemoryRouter initialEntries={['/unkdcncdks']}>
           <Router />
         </MemoryRouter>
-      </AppContext.Provider>
+      </Provider>
     );
     expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
   });

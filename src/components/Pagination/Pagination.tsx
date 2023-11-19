@@ -13,7 +13,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
   currPage,
   totalPages,
 }) => {
-  const { querySearch, queryLimit, setSearchParams } = useQueryParams();
+  const { queryLimit, setSearchParams } = useQueryParams();
 
   const handlePrevClick = () => {
     const newPage = currPage - 1;
@@ -30,7 +30,6 @@ export const Pagination: React.FC<IPaginationProps> = ({
   const updateQueryParams = (newPage: number) => {
     setSearchParams({
       page: `${newPage}`,
-      q: querySearch,
       limit: queryLimit,
     });
   };

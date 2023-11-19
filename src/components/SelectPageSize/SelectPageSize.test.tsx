@@ -1,17 +1,15 @@
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { SelectPageSize } from './SelectPageSize';
-
-const mockOnInputValueChange = vi.fn();
-
-const renderComponent = (value: number) => {
-  return render(
-    <SelectPageSize onInputValueChange={mockOnInputValueChange} value={value} />
-  );
-};
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 describe('SelectPageSize component', () => {
   test('renders correctly', () => {
-    const { getByTestId } = renderComponent(10);
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SelectPageSize />
+      </Provider>
+    );
 
     const selectInput = getByTestId('select-input');
     expect(selectInput).toBeInTheDocument();
@@ -20,14 +18,5 @@ describe('SelectPageSize component', () => {
     inputSizeOptions.forEach((option) => {
       expect(option).toBeInTheDocument();
     });
-  });
-
-  test('calls onInputValueChange with the correct value when select input changes', () => {
-    const { getByTestId } = renderComponent(10);
-    const selectInput = getByTestId('select-input');
-
-    fireEvent.change(selectInput, { target: { value: '15' } });
-
-    expect(mockOnInputValueChange).toHaveBeenCalledWith(15);
   });
 });

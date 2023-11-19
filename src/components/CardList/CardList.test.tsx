@@ -2,7 +2,8 @@ import React from 'react';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import { CardList } from './CardList';
 import { MemoryRouter } from 'react-router-dom';
-import { AppContext } from '../../context';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 const items = [
   {
@@ -18,20 +19,11 @@ describe('CardList component', () => {
   it('renders the specified number of cards', async () => {
     await act(async () => {
       render(
-        <AppContext.Provider
-          value={{
-            items,
-            searchValue: '',
-            delailsData: undefined,
-            setDetailsData: vi.fn,
-            setItems: vi.fn,
-            setSearchValue: vi.fn,
-          }}
-        >
+        <Provider store={store}>
           <MemoryRouter initialEntries={['/']}>
-            <CardList />
+            <CardList cards={items} />
           </MemoryRouter>
-        </AppContext.Provider>
+        </Provider>
       );
     });
 
@@ -45,18 +37,9 @@ describe('CardList component', () => {
   it('Check that an appropriate message is displayed if no cards are present', async () => {
     await act(async () => {
       render(
-        <AppContext.Provider
-          value={{
-            items: [],
-            searchValue: '',
-            delailsData: undefined,
-            setDetailsData: vi.fn,
-            setItems: vi.fn,
-            setSearchValue: vi.fn,
-          }}
-        >
-          <CardList />
-        </AppContext.Provider>
+        <Provider store={store}>
+          <CardList cards={[]} />
+        </Provider>
       );
     });
 

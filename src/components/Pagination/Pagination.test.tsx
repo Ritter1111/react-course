@@ -20,13 +20,11 @@ describe('Pagination', () => {
   const onPageChangeMock = vi.fn();
   const setSearchParamsMock = vi.fn();
   const queryPageMock = '2';
-  const querySearchMock = 'example';
   const queryLimitMock = '10';
 
   beforeEach(() => {
     mockedUseQuery.mockImplementationOnce(() => ({
       queryPage: queryPageMock,
-      querySearch: querySearchMock,
       queryLimit: queryLimitMock,
       setSearchParams: setSearchParamsMock,
     }));
@@ -50,7 +48,6 @@ describe('Pagination', () => {
 
     expect(setSearchParamsMock).toHaveBeenCalledWith({
       page: '3',
-      q: querySearchMock,
       limit: queryLimitMock,
     });
   });

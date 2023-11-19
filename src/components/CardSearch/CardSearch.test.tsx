@@ -1,5 +1,7 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { CardSearch } from './CardSearch';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 describe('CardSearch component', () => {
   const storage: Record<string, string> = {};
@@ -13,7 +15,11 @@ describe('CardSearch component', () => {
   });
 
   it('Verify that clicking the Search button saves the entered value to the local storage', async () => {
-    render(<CardSearch getCards={vi.fn()} limitItem={10} />);
+    render(
+      <Provider store={store}>
+        <CardSearch getCards={vi.fn()} limitItem={10} />
+      </Provider>
+    );
 
     const searchInput = screen.getByPlaceholderText('Type to search...');
     fireEvent.change(searchInput, { target: { value: 'TestValue' } });
@@ -30,7 +36,11 @@ describe('CardSearch component', () => {
   });
 
   it('component retrieves the value from the local storage upon mounting', () => {
-    render(<CardSearch getCards={vi.fn()} limitItem={10} />);
+    render(
+      <Provider store={store}>
+        <CardSearch getCards={vi.fn()} limitItem={10} />
+      </Provider>
+    );
 
     expect(window.localStorage.getItem).toHaveBeenCalledWith('searchValue');
 
