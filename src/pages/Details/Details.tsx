@@ -2,16 +2,28 @@ import { Link, useParams } from 'react-router-dom';
 import { Loader } from '../../components/Loader/Loader';
 import styles from './Details.module.css';
 import { useGetCardQuery } from '../../store/api/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { useEffect } from 'react';
+import { setDetailsPageLoading } from '../../store/loadingSlice/loading.slice';
 
-export default function Details() {
+export const Details: React.FC = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetCardQuery(`${id}`);
+  const dispatch = useDispatch();
+  const detailsLoading = useSelector(
+    (state: RootState) => state.loading.detailsLoading
+  );
+
+  useEffect(() => {
+    dispatch(setDetailsPageLoading(isLoading));
+  }, [isLoading, dispatch]);
 
   return (
     <div className={styles.detailsContainer} data-testid="details">
       <div className={styles.delails}>
-        {isLoading && <Loader data-testid="loader" />}
-        {!isLoading && (
+        {detailsLoading && <Loader data-testid="loader" />}
+        {!detailsLoading && (
           <>
             <Link className={styles.close} to={`/${window.location.search}`}>
               {' '}
@@ -41,4 +53,4 @@ export default function Details() {
       </Link>
     </div>
   );
-}
+};

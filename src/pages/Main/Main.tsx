@@ -11,13 +11,13 @@ import styles from './Main.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { useGetCardsQuery } from '../../store/api/api';
-import { setPageLoading } from '../../store/loadingSlice/loading.slice';
+import { setMainPageLoading } from '../../store/loadingSlice/loading.slice';
 
 export default function Main() {
   const { queryPage, queryLimit, setSearchParams } = useQueryParams();
   const sValue = useSelector((state: RootState) => state.search.searchTerm);
   const itemLimit = useSelector((state: RootState) => state.limit.itemLimit);
-  const loading = useSelector((state: RootState) => state.loading.loading);
+  const loading = useSelector((state: RootState) => state.loading.mainLoading);
   const [pageInfo, setPageInfo] = useState({ currPage: 1, totalPages: 1 });
   const dispatch = useDispatch();
 
@@ -28,11 +28,7 @@ export default function Main() {
   });
 
   useEffect(() => {
-    if (isFetching) {
-      dispatch(setPageLoading(true));
-    } else {
-      dispatch(setPageLoading(false));
-    }
+    dispatch(setMainPageLoading(isFetching));
 
     if (data) {
       setPageInfo({
@@ -50,7 +46,7 @@ export default function Main() {
   };
 
   useEffect(() => {
-    setParams(pageInfo.currPage, itemLimit);
+    setParams(1, itemLimit);
   }, [itemLimit]);
 
   const onPageChange = (newPage: number) => {

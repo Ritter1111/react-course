@@ -8,7 +8,7 @@ import {
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Card } from './Card';
 import { cardProps, detailedMockData } from '../../test/mock_data';
-import Details from '../../pages/Details/Details';
+import { Details } from '../../pages/Details/Details';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import { server } from '../../test/server';

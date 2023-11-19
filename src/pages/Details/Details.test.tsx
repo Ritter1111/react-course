@@ -5,7 +5,7 @@ import {
   waitFor,
   fireEvent,
 } from '@testing-library/react';
-import Details from './Details';
+import { Details } from './Details';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { cardProps, detailedMockData } from '../../test/mock_data';
 import { Card } from '../../components/Card/Card';
