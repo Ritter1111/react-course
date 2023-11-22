@@ -1,0 +1,19 @@
+.container {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+
+.not_found {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  color: #ffffff;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
