@@ -1,22 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../../utils/consts";
-import { CardData } from "../../types/types";
+import { CardData, DataInfo, ICard } from "../../types/types";
 import { HYDRATE } from "next-redux-wrapper";
-
-export interface ICard {
-  pagination: IPagination;
-  data: CardData[];
-}
-
-export interface IPagination {
-  last_visible_page: number;
-  has_next_page: boolean;
-  current_page: number;
-}
-
-export type DataInfo = {
-  data: CardData;
-};
 
 export const animeApi = createApi({
   reducerPath: "animeApi",
