@@ -21,9 +21,9 @@ describe("SelectPageSize component", () => {
 
   test("renders correctly", () => {
     const { getByTestId } = render(
-      <Provider store={store}>
-        <SelectPageSize />
-      </Provider>,
+      // <Provider store={store}>
+      <SelectPageSize />,
+      // </Provider>,
     );
 
     const selectInput = getByTestId("select-input");

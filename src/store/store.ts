@@ -1,16 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { searchReducer } from "./Search/search.slice";
-import { limitReducer } from "./ItemsLimit/items.slice";
 import { animeApi } from "./api/api";
-import { loadingReducer } from "./loadingSlice/loading.slice";
 import { createWrapper } from "next-redux-wrapper";
 
 export const store = () =>
   configureStore({
     reducer: {
-      search: searchReducer,
-      limit: limitReducer,
-      loading: loadingReducer,
       [animeApi.reducerPath]: animeApi.reducer,
     },
     middleware: (getDefaultMiddlware) =>

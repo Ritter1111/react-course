@@ -12,7 +12,6 @@ import { Provider } from "react-redux";
 import { store } from "../../store/store";
 import { server } from "../../test/server";
 import { rest } from "msw";
-import { Details } from "@/screens/Details/Details";
 
 describe("Card component", async () => {
   beforeAll(() => server.listen());
@@ -35,14 +34,12 @@ describe("Card component", async () => {
 
   it.skip("Validate that clicking on a card opens a detailed card component", async () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={["/"]}>
-          <Routes>
-            <Route path="/" element={<Card {...cardProps} />} />
-            <Route path="detail/:id" element={<Details />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter initialEntries={["/"]}>
+        <Routes>
+          <Route path="/" element={<Card {...cardProps} />} />
+          {/* <Route path="detail/:id" element={<Details />} /> */}
+        </Routes>
+      </MemoryRouter>,
     );
 
     await act(async () => {
@@ -64,14 +61,12 @@ describe("Card component", async () => {
 
   it("Check that clicking triggers an additional API call to fetch detailed information", async () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={["/"]}>
-          <Routes>
-            <Route path="/" element={<Card {...cardProps} />} />
-            <Route path="detail/:id" element={<Details />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
+      <MemoryRouter initialEntries={["/"]}>
+        <Routes>
+          <Route path="/" element={<Card {...cardProps} />} />
+          {/* <Route path="detail/:id" element={<Details />} /> */}
+        </Routes>
+      </MemoryRouter>,
     );
 
     server.use(

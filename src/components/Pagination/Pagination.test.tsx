@@ -35,7 +35,7 @@ describe("Pagination", () => {
 
     render(
       <BrowserRouter>
-        <Pagination onPageChange={onPageChangeMock} pageInfo={pageInfo} />
+        <Pagination pageInfo={pageInfo} />
       </BrowserRouter>,
     );
   });

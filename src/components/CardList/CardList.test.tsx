@@ -1,8 +1,6 @@
 import React from "react";
 import { render, screen, act, waitFor } from "@testing-library/react";
 import { CardList } from "./CardList";
-import { Provider } from "react-redux";
-import { store } from "../../store/store";
 
 const items = [
   {
@@ -17,11 +15,7 @@ describe("CardList component", () => {
 
   it("renders the specified number of cards", async () => {
     await act(async () => {
-      render(
-        <Provider store={store}>
-          <CardList cards={items} />
-        </Provider>,
-      );
+      render(<CardList cards={items} />);
     });
 
     await waitFor(() => {
@@ -33,11 +27,7 @@ describe("CardList component", () => {
 
   it("Check that an appropriate message is displayed if no cards are present", async () => {
     await act(async () => {
-      render(
-        <Provider store={store}>
-          <CardList cards={[]} />
-        </Provider>,
-      );
+      render(<CardList cards={[]} />);
     });
 
     await waitFor(() => {
