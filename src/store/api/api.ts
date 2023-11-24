@@ -43,4 +43,10 @@ export const animeApi = createApi({
   }),
 });
 
-export const { useGetCardsQuery, useGetCardQuery } = animeApi;
+export const {
+  useGetCardsQuery,
+  useGetCardQuery,
+  util: { getRunningQueriesThunk },
+} = animeApi;
+
+export const { getCards, getCard } = animeApi.endpoints;

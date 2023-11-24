@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import styles from "./CardSearch.module.css";
 import { useRouter } from "next/router";
 
-export const CardSearch: React.FC = () => {
+export const CardSearch: FC = () => {
   const router = useRouter();
   const inputValueRef = useRef("");
 

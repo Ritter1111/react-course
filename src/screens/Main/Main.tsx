@@ -15,7 +15,10 @@ export default function Main() {
 
   const { data, isFetching } = useGetCardsQuery({
     page: Number(router.query.page) || 1,
-    param: String(router.query.q) || "",
+    param:
+      String(router.query.q) || router.query.q === undefined
+        ? ""
+        : String(router.query.q),
     limit: Number(router.query.limit) || 10,
   });
 
@@ -47,7 +50,7 @@ export default function Main() {
         <>
           <SelectPageSize />
           <CardList cards={data?.data} />
-          <Pagination onPageChange={onPageChange} pageInfo={pageInfo} />
+          <Pagination pageInfo={data.pagination} />
         </>
       )}
     </div>

@@ -1,8 +1,9 @@
+import { FC } from "react";
 import { optionValues } from "../../utils/consts";
 import styles from "./SelectPageSize.module.css";
 import { useRouter } from "next/router";
 
-export const SelectPageSize: React.FC = () => {
+export const SelectPageSize: FC = () => {
   const router = useRouter();
 
   const limitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

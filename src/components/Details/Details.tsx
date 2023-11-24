@@ -16,7 +16,7 @@ export const Details: React.FC = () => {
         {isLoading && <Loader data-testid="loader" />}
         {!isLoading && (
           <>
-            <Link className={styles.close} href={`/`}>
+            <Link className={styles.close} href={`/page/${router.query.page}`}>
               {" "}
               X
             </Link>
@@ -42,7 +42,7 @@ export const Details: React.FC = () => {
           </>
         )}
       </div>
-      <Link className={styles.closeBtn} href={`/`}>
+      <Link className={styles.closeBtn} href={`/page/${router.query.page}`}>
         Closed
       </Link>
     </div>

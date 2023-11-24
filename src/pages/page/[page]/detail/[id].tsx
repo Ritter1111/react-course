@@ -1,5 +1,5 @@
+import { Details } from "@/components/Details/Details";
 import { MainLayout } from "@/components/layout/mainLayout";
-import { Details } from "@/screens/Details/Details";
 
 export default function DetailsContent() {
   return (

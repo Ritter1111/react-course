@@ -1,28 +1,42 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./Pagination.module.css";
+import { useRouter } from "next/router";
+import { IPagination } from "@/store/api/api";
 
 export interface PageInfo {
   currPage: number;
   totalPages: number;
 }
 
+// pagination: IPagination;
+
 export interface IPaginationProps {
-  onPageChange: (currPage: number) => void;
-  pageInfo: PageInfo;
+  // onPageChange: (currPage: number) => void;
+  pageInfo: IPagination;
 }
 
-export const Pagination: React.FC<IPaginationProps> = ({
-  onPageChange,
+export const Pagination: FC<IPaginationProps> = ({
+  // onPageChange,
   pageInfo,
 }) => {
+  const router = useRouter();
+
   const handlePrevClick = () => {
-    const newPage = pageInfo.currPage - 1;
-    onPageChange(newPage);
+    const newPage = pageInfo.current_page - 1;
+    // onPageChange(newPage);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: newPage },
+    });
   };
 
   const handleNextClick = () => {
-    const newPage = pageInfo.currPage + 1;
-    onPageChange(newPage);
+    const newPage = pageInfo.current_page + 1;
+    // onPageChange(newPage);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: newPage },
+    });
   };
 
   return (
@@ -30,17 +44,17 @@ export const Pagination: React.FC<IPaginationProps> = ({
       <div className={styles.pagination}>
         <div>
           <button
-            disabled={pageInfo.currPage === 1}
+            disabled={pageInfo.current_page === 1}
             className={styles.btn}
             onClick={handlePrevClick}
           >
             Prev
           </button>
           <span className={styles.pageNumber}>
-            {pageInfo.currPage} ... {pageInfo.totalPages}
+            {pageInfo.current_page} ... {pageInfo.last_visible_page}
           </span>
           <button
-            disabled={pageInfo.currPage >= pageInfo.totalPages}
+            disabled={pageInfo.current_page >= pageInfo.last_visible_page}
             className={styles.btn}
             onClick={handleNextClick}
           >

@@ -1,17 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Card.module.css";
+import { useRouter } from "next/router";
+import { FC } from "react";
 
 export type CardProps = {
   id: number;
   title: string;
   images: string;
-  pageId: number; // Assuming you have a pageId to replace [page] in the path
 };
 
-export const Card = ({ title, images, id, pageId }: CardProps) => {
+export const Card: FC<CardProps> = ({ title, images, id }) => {
+  const router = useRouter();
+
   return (
-    <Link href={`/page/[page]/detail/[id]`} as={`/page/${pageId}/detail/${id}`}>
+    <Link href={`/page/${router.query.page}/detail/${id}`}>
       <div className={styles.container}>
         <Image
           className={styles.img}
