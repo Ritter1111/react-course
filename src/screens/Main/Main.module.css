@@ -4,6 +4,6 @@
   flex-direction: column;
   width: 100%;
   align-items: center;
-  position: relative;
-  z-index: 999;
+  position: sticky;
+  z-index: 222;
 }

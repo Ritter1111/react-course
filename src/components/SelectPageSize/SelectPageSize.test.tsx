@@ -3,7 +3,22 @@ import { SelectPageSize } from "./SelectPageSize";
 import { Provider } from "react-redux";
 import { store } from "../../store/store";
 
+const mockedUseRouter = vi.hoisted(() => vi.fn());
+const mockedRouter = {
+  query: { limit: "10" },
+  push: vi.fn(),
+};
+
+vi.mock("next/router", () => ({
+  useRouter: () => mockedRouter,
+  ...mockedUseRouter,
+}));
+
 describe("SelectPageSize component", () => {
+  beforeEach(() => {
+    mockedRouter.query.limit = "10";
+  });
+
   test("renders correctly", () => {
     const { getByTestId } = render(
       <Provider store={store}>

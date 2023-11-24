@@ -1,32 +1,22 @@
-import { Link, useParams } from "react-router-dom";
 import { Loader } from "../../components/Loader/Loader";
-import styles from "./Details.module.css";
+import { useRouter } from "next/router";
 import { useGetCardQuery } from "../../store/api/api";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import { useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { setDetailsPageLoading } from "../../store/loadingSlice/loading.slice";
+import styles from "./Details.module.css";
 
 export const Details: React.FC = () => {
-  const { id } = useParams();
+  const router = useRouter();
+  const { id } = router.query;
   const { data, isLoading } = useGetCardQuery(`${id}`);
-  const dispatch = useDispatch();
-  const detailsLoading = useSelector(
-    (state: RootState) => state.loading.detailsLoading,
-  );
-
-  useEffect(() => {
-    dispatch(setDetailsPageLoading(isLoading));
-  }, [isLoading, dispatch]);
 
   return (
     <div className={styles.detailsContainer} data-testid="details">
       <div className={styles.delails}>
-        {detailsLoading && <Loader data-testid="loader" />}
-        {!detailsLoading && (
+        {isLoading && <Loader data-testid="loader" />}
+        {!isLoading && (
           <>
-            <Link className={styles.close} to={`/${window.location.search}`}>
+            <Link className={styles.close} href={`/`}>
               {" "}
               X
             </Link>
@@ -35,6 +25,8 @@ export const Details: React.FC = () => {
               src={data?.images.jpg.image_url || ""}
               className={styles.img}
               alt={data?.title || ""}
+              width={200}
+              height={300}
               data-testid="card-image"
             />
             <div className={styles.description}>
@@ -50,7 +42,7 @@ export const Details: React.FC = () => {
           </>
         )}
       </div>
-      <Link className={styles.closeBtn} to={`/${window.location.search}`}>
+      <Link className={styles.closeBtn} href={`/`}>
         Closed
       </Link>
     </div>

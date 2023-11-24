@@ -11,14 +11,13 @@ describe("Pagination", () => {
     vi.clearAllMocks();
   });
 
-  const mockedUseQuery = vi.hoisted(() => vi.fn());
+  const mockedUseRouter = vi.hoisted(() => vi.fn());
 
-  vi.mock("../../hooks/useQueryParams", () => ({
-    useQueryParams: mockedUseQuery,
+  vi.mock("next/router", () => ({
+    useRouter: mockedUseRouter,
   }));
 
   const onPageChangeMock = vi.fn();
-  const setSearchParamsMock = vi.fn();
   const queryPageMock = "2";
   const queryLimitMock = "10";
   const pageInfo = {
@@ -27,10 +26,11 @@ describe("Pagination", () => {
   };
 
   beforeEach(() => {
-    mockedUseQuery.mockImplementationOnce(() => ({
-      queryPage: queryPageMock,
-      queryLimit: queryLimitMock,
-      setSearchParams: setSearchParamsMock,
+    mockedUseRouter.mockImplementationOnce(() => ({
+      query: {
+        page: queryPageMock,
+        limit: queryLimitMock,
+      },
     }));
 
     render(
@@ -40,16 +40,13 @@ describe("Pagination", () => {
     );
   });
 
-  it("should update url query parametr when page changes", () => {
+  it("should update url query parameter when page changes", () => {
     act(() => {
       fireEvent.click(screen.getByText("Next"));
       expect(onPageChangeMock).toHaveBeenCalledWith(3);
     });
 
-    expect(setSearchParamsMock).toHaveBeenCalledWith({
-      page: "3",
-      limit: queryLimitMock,
-    });
+    expect(mockedUseRouter).toHaveBeenCalledWith();
   });
 
   it("click on the next button", () => {

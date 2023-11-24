@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen, act, waitFor } from "@testing-library/react";
 import { CardList } from "./CardList";
-import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../../store/store";
 
@@ -9,7 +8,7 @@ const items = [
   {
     mal_id: 1,
     title: "Card 1",
-    images: { jpg: { image_url: "image1.jpg" } },
+    images: { jpg: { image_url: "https://image1.jpg" } },
   },
 ];
 
@@ -20,9 +19,7 @@ describe("CardList component", () => {
     await act(async () => {
       render(
         <Provider store={store}>
-          <MemoryRouter initialEntries={["/"]}>
-            <CardList cards={items} />
-          </MemoryRouter>
+          <CardList cards={items} />
         </Provider>,
       );
     });

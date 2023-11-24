@@ -6,14 +6,12 @@ export type CardProps = {
   id: number;
   title: string;
   images: string;
+  pageId: number; // Assuming you have a pageId to replace [page] in the path
 };
 
-export const Card = ({ title, images, id }: CardProps) => {
+export const Card = ({ title, images, id, pageId }: CardProps) => {
   return (
-    <Link
-      href={`detail/${id}${window.location.search}`}
-      data-testid="card-container"
-    >
+    <Link href={`/page/[page]/detail/[id]`} as={`/page/${pageId}/detail/${id}`}>
       <div className={styles.container}>
         <Image
           className={styles.img}

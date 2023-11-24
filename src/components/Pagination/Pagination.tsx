@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/router";
 import styles from "./Pagination.module.css";
 
 export interface PageInfo {
@@ -15,29 +14,16 @@ export interface IPaginationProps {
 export const Pagination: React.FC<IPaginationProps> = ({
   onPageChange,
   pageInfo,
-  // currPage,
-  // totalPages,
 }) => {
-  const router = useRouter();
-
   const handlePrevClick = () => {
     const newPage = pageInfo.currPage - 1;
     onPageChange(newPage);
-    // updateQueryParams(newPage);
   };
 
   const handleNextClick = () => {
     const newPage = pageInfo.currPage + 1;
     onPageChange(newPage);
-    // updateQueryParams(newPage);
   };
-
-  // const updateQueryParams = (newPage: number) => {
-  //   router.push({
-  //     pathname: router.pathname,
-  //     query: {...router.query, page: newPage}
-  //   })
-  // };
 
   return (
     <div>

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../../utils/consts";
 import { CardData } from "../../types/types";
+import { HYDRATE } from "next-redux-wrapper";
 
 export interface ICard {
   pagination: IPagination;
@@ -20,6 +21,11 @@ export type DataInfo = {
 export const animeApi = createApi({
   reducerPath: "animeApi",
   baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}` }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getCards: builder.query<
       ICard,
