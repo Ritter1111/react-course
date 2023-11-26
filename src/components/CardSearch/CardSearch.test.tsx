@@ -1,49 +1,32 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import { CardSearch } from './CardSearch';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store';
+import React from "react";
+import { render, act, fireEvent, screen } from "@testing-library/react";
+import { CardSearch } from "./CardSearch";
 
-describe('CardSearch component', () => {
-  const storage: Record<string, string> = {};
+const mockedUseRouter = vi.hoisted(() => vi.fn());
+const mockedRouter = {
+  query: { limit: "10", page: "2" },
+  push: vi.fn(),
+};
 
-  Object.defineProperty(window, 'localStorage', {
-    value: {
-      getItem: vi.fn((key: string) => storage[key]),
-      setItem: vi.fn((key: string, value: string) => (storage[key] = value)),
-    },
-    writable: true,
-  });
+vi.mock("next/router", () => ({
+  useRouter: () => mockedRouter,
+  ...mockedUseRouter,
+}));
 
-  it('Verify that clicking the Search button saves the entered value to the local storage', async () => {
-    render(
-      <Provider store={store}>
-        <CardSearch getCards={vi.fn()} limitItem={10} />
-      </Provider>
-    );
-
-    const searchInput = screen.getByPlaceholderText('Type to search...');
-    fireEvent.change(searchInput, { target: { value: 'TestValue' } });
-
-    const searchButton = screen.getByText('Search');
-    act(() => {
-      fireEvent.click(searchButton);
+describe("CardList component", () => {
+  it("handles button click", async () => {
+    await act(async () => {
+      render(<CardSearch />);
     });
 
-    expect(window.localStorage.setItem).toHaveBeenCalledWith(
-      'searchValue',
-      'TestValue'
-    );
-  });
+    const inputElement = screen.getByPlaceholderText("Type to search...");
 
-  it('component retrieves the value from the local storage upon mounting', () => {
-    render(
-      <Provider store={store}>
-        <CardSearch getCards={vi.fn()} limitItem={10} />
-      </Provider>
-    );
+    fireEvent.change(inputElement, { target: { value: "newQuery" } });
 
-    expect(window.localStorage.getItem).toHaveBeenCalledWith('searchValue');
+    fireEvent.click(screen.getByText("Search"));
 
-    expect(screen.getByDisplayValue('TestValue')).toBeInTheDocument();
+    expect(mockedRouter.push).toHaveBeenCalledWith({
+      query: { ...mockedRouter.query, q: "newQuery" },
+    });
   });
 });

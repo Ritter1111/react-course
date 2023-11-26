@@ -1,12 +1,12 @@
-import { CardData } from '../../types/types';
-import { Card } from '../Card/Card';
-import styles from './CardList.module.css';
+import { CardData } from "@/types/types";
+import { Card } from "../Card/Card";
+import styles from "./CardList.module.css";
 
-export interface CardList {
+export interface CardListProps {
   cards: CardData[];
 }
 
-export const CardList: React.FC<CardList> = ({ cards }) => {
+export const CardList: React.FC<CardListProps> = ({ cards }) => {
   return (
     <div className={styles.container}>
       {!cards ||

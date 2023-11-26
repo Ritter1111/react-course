@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom';
-import styles from './Card.module.css';
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./Card.module.css";
+import { useRouter } from "next/router";
+import { FC } from "react";
 
 export type CardProps = {
   id: number;
@@ -7,16 +10,20 @@ export type CardProps = {
   images: string;
 };
 
-export const Card: React.FC<CardProps> = ({ title, images, id }) => {
+export const Card: FC<CardProps> = ({ title, images, id }) => {
+  const router = useRouter();
+
   return (
     <Link
-      to={`detail/${id}${window.location.search}`}
+      href={`/page/${router.query.page}/detail/${id}`}
       data-testid="card-container"
     >
       <div className={styles.container}>
-        <img
+        <Image
           className={styles.img}
           src={images}
+          width={200}
+          height={300}
           alt={title}
           data-testid="card-image"
         />

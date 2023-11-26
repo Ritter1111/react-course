@@ -1,5 +1,5 @@
-import React from 'react';
-import { NotFound } from '../../NotFound/NotFound';
+import React from "react";
+import { NotFound } from "../../NotFound/NotFound";
 
 interface IErrorBoundaryProps {
   children: React.ReactNode;
@@ -22,7 +22,7 @@ export default class ErrorBoundary extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     this.setState({ hasError: error });
-    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+    console.error("Error caught by ErrorBoundary:", error, errorInfo);
   }
 
   render() {

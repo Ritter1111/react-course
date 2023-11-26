@@ -1,43 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import styles from './CardSearch.module.css';
-import { getSearchParam, setSearchParam } from '../../utils/localStorage';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { saveSearchTerm } from '../../store/Search/search.slice';
+import React, { FC, useEffect, useRef, useState } from "react";
+import styles from "./CardSearch.module.css";
+import { useRouter } from "next/router";
 
-export interface ISearchProps {
-  getCards: (page: number, limit: number) => void;
-  limitItem: number;
-}
-
-export const CardSearch: React.FC<ISearchProps> = ({ getCards, limitItem }) => {
-  const dispatch = useDispatch();
-  const sValue = useSelector((state: RootState) => state.search.searchTerm);
-  const [inputValue, setInputValue] = useState(sValue);
+export const CardSearch: FC = () => {
+  const router = useRouter();
+  const inputValueRef = useRef("");
 
   useEffect(() => {
-    const storedValue = getSearchParam('searchValue');
-    if (storedValue) {
-      dispatch(saveSearchTerm(storedValue));
-      setInputValue(storedValue);
-    }
-  }, []);
+    inputValueRef.current = String(router.query.q) || "";
+  }, [router.query.q]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    inputValueRef.current = e.target.value;
   };
 
   const handleButtonClick = () => {
-    dispatch(saveSearchTerm(inputValue));
-    setSearchParam('searchValue', inputValue);
-    getCards(1, limitItem);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, q: inputValueRef.current },
+    });
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.container_input}>
         <input
-          value={inputValue}
+          defaultValue={router.query.q}
           placeholder="Type to search..."
           className={styles.input}
           onChange={handleInputChange}

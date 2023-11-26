@@ -1,27 +1,27 @@
 export const detailedMockData = {
   mal_id: 1,
-  url: 'https://myanimelist.net/manga/1/Monster',
+  url: "https://myanimelist.net/manga/1/Monster",
   images: {
     jpg: {
-      image_url: 'sample-image.jpg',
-      small_image_url: 'sample-image.jpg',
-      large_image_url: 'sample-image.jpg',
+      image_url: "https://sample-image.jpg",
+      small_image_url: "https://sample-image.jpg",
+      large_image_url: "https://sample-image.jpg",
     },
   },
-  title: 'Monster',
-  type: 'Manga',
+  title: "Monster",
+  type: "Manga",
   chapters: 162,
   volumes: 18,
   score: 9.15,
   scored: 9.15,
   rank: 5,
-  synopsis: 'Sample description',
+  synopsis: "Sample description",
 };
 
 export const cardProps = {
   id: 1,
-  title: 'Sample Card',
-  images: 'sample-image.jpg',
+  title: "Sample Card",
+  images: "https://sample-image.jpg",
 };
 
 export const mockData = {

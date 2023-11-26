@@ -1,37 +1,30 @@
-import React from 'react';
-import { useQueryParams } from '../../hooks/useQueryParams';
-import styles from './Pagination.module.css';
+import React, { FC } from "react";
+import styles from "./Pagination.module.css";
+import { useRouter } from "next/router";
+import { IPagination } from "@/types/types";
 
 export interface IPaginationProps {
-  onPageChange: (currPage: number) => void;
-  currPage: number;
-  totalPages: number;
+  pageInfo: IPagination;
 }
 
-export const Pagination: React.FC<IPaginationProps> = ({
-  onPageChange,
-  currPage,
-  totalPages,
-}) => {
-  const { queryLimit, setSearchParams } = useQueryParams();
+export const Pagination: FC<IPaginationProps> = ({ pageInfo }) => {
+  const router = useRouter();
+
+  const onPageChange = (newPage: number) => {
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: newPage },
+    });
+  };
 
   const handlePrevClick = () => {
-    const newPage = currPage - 1;
+    const newPage = pageInfo.current_page - 1;
     onPageChange(newPage);
-    updateQueryParams(newPage);
   };
 
   const handleNextClick = () => {
-    const newPage = currPage + 1;
+    const newPage = pageInfo.current_page + 1;
     onPageChange(newPage);
-    updateQueryParams(newPage);
-  };
-
-  const updateQueryParams = (newPage: number) => {
-    setSearchParams({
-      page: `${newPage}`,
-      limit: queryLimit,
-    });
   };
 
   return (
@@ -39,17 +32,17 @@ export const Pagination: React.FC<IPaginationProps> = ({
       <div className={styles.pagination}>
         <div>
           <button
-            disabled={currPage === 1}
+            disabled={pageInfo.current_page === 1}
             className={styles.btn}
             onClick={handlePrevClick}
           >
             Prev
           </button>
           <span className={styles.pageNumber}>
-            {currPage} ... {totalPages}
+            {pageInfo.current_page} ... {pageInfo.last_visible_page}
           </span>
           <button
-            disabled={currPage >= totalPages}
+            disabled={pageInfo.current_page >= pageInfo.last_visible_page}
             className={styles.btn}
             onClick={handleNextClick}
           >

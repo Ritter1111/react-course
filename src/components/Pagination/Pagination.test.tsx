@@ -1,8 +1,19 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { Pagination } from './Pagination';
+import { act, fireEvent, render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import { Pagination } from "./Pagination";
 
-describe('Pagination', () => {
+const mockedUseRouter = vi.hoisted(() => vi.fn());
+const mockedRouter = {
+  query: { limit: "10", page: "2" },
+  push: vi.fn(),
+};
+
+vi.mock("next/router", () => ({
+  useRouter: () => mockedRouter,
+  ...mockedUseRouter,
+}));
+
+describe("Pagination", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -11,58 +22,46 @@ describe('Pagination', () => {
     vi.clearAllMocks();
   });
 
-  const mockedUseQuery = vi.hoisted(() => vi.fn());
-
-  vi.mock('../../hooks/useQueryParams', () => ({
-    useQueryParams: mockedUseQuery,
-  }));
-
-  const onPageChangeMock = vi.fn();
-  const setSearchParamsMock = vi.fn();
-  const queryPageMock = '2';
-  const queryLimitMock = '10';
+  const pageInfo = {
+    last_visible_page: 5,
+    has_next_page: true,
+    current_page: 2,
+  };
 
   beforeEach(() => {
-    mockedUseQuery.mockImplementationOnce(() => ({
-      queryPage: queryPageMock,
-      queryLimit: queryLimitMock,
-      setSearchParams: setSearchParamsMock,
-    }));
-
     render(
       <BrowserRouter>
-        <Pagination
-          onPageChange={onPageChangeMock}
-          currPage={2}
-          totalPages={5}
-        />
-      </BrowserRouter>
+        <Pagination pageInfo={pageInfo} />
+      </BrowserRouter>,
     );
   });
 
-  it('should update url query parametr when page changes', () => {
+  it("should update url query parameter when page changes", () => {
     act(() => {
-      fireEvent.click(screen.getByText('Next'));
-      expect(onPageChangeMock).toHaveBeenCalledWith(3);
+      fireEvent.click(screen.getByText("Next"));
     });
 
-    expect(setSearchParamsMock).toHaveBeenCalledWith({
-      page: '3',
-      limit: queryLimitMock,
+    expect(mockedRouter.push).toHaveBeenCalledWith({
+      query: { ...mockedRouter.query, page: 3 },
     });
   });
 
-  it('click on the next button', () => {
+  it("click on the next button", () => {
     act(() => {
-      fireEvent.click(screen.getByText('Next'));
-      expect(onPageChangeMock).toHaveBeenCalledWith(3);
+      fireEvent.click(screen.getByText("Next"));
+    });
+    expect(mockedRouter.push).toHaveBeenCalledWith({
+      query: { ...mockedRouter.query, page: pageInfo.current_page + 1 },
     });
   });
 
-  it('click on the prev button', () => {
+  it("click on the prev button", () => {
     act(() => {
-      fireEvent.click(screen.getByText('Prev'));
-      expect(onPageChangeMock).toHaveBeenCalledWith(1);
+      fireEvent.click(screen.getByText("Prev"));
+    });
+
+    expect(mockedRouter.push).toHaveBeenCalledWith({
+      query: { ...mockedRouter.query, page: pageInfo.current_page - 1 },
     });
   });
 });

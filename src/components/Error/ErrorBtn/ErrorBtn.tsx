@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
-import styles from './ErrorBtn.module.css';
+import React, { FC, useState } from "react";
+import styles from "./ErrorBtn.module.css";
 
-export const ErrorBtn: React.FC = () => {
+export const ErrorBtn: FC = () => {
   const [error, setError] = useState(false);
 
-  if (error) throw new Error('Error on click');
+  if (error) throw new Error("Error on click");
 
   return (
-    <button className={styles.error_btn} onClick={() => setError(true)}>
+    <button
+      className={styles.error_btn}
+      onClick={() => setError(true)}
+      data-testid="error-btn"
+    >
       Error
     </button>
   );
