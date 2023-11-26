@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import styles from "./Pagination.module.css";
 import { useRouter } from "next/router";
-import { IPagination } from "@/store/api/api";
+import { IPagination } from "@/types/types";
 
 export interface IPaginationProps {
   pageInfo: IPagination;

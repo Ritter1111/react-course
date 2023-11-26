@@ -7,7 +7,11 @@ export const ErrorBtn: FC = () => {
   if (error) throw new Error("Error on click");
 
   return (
-    <button className={styles.error_btn} onClick={() => setError(true)}>
+    <button
+      className={styles.error_btn}
+      onClick={() => setError(true)}
+      data-testid="error-btn"
+    >
       Error
     </button>
   );

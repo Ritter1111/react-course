@@ -3,9 +3,9 @@ export const detailedMockData = {
   url: "https://myanimelist.net/manga/1/Monster",
   images: {
     jpg: {
-      image_url: "sample-image.jpg",
-      small_image_url: "sample-image.jpg",
-      large_image_url: "sample-image.jpg",
+      image_url: "https://sample-image.jpg",
+      small_image_url: "https://sample-image.jpg",
+      large_image_url: "https://sample-image.jpg",
     },
   },
   title: "Monster",
@@ -21,7 +21,7 @@ export const detailedMockData = {
 export const cardProps = {
   id: 1,
   title: "Sample Card",
-  images: "sample-image.jpg",
+  images: "https://sample-image.jpg",
 };
 
 export const mockData = {

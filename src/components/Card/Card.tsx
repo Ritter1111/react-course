@@ -14,7 +14,10 @@ export const Card: FC<CardProps> = ({ title, images, id }) => {
   const router = useRouter();
 
   return (
-    <Link href={`/page/${router.query.page}/detail/${id}`}>
+    <Link
+      href={`/page/${router.query.page}/detail/${id}`}
+      data-testid="card-container"
+    >
       <div className={styles.container}>
         <Image
           className={styles.img}

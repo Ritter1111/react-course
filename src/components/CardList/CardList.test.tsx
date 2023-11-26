@@ -10,19 +10,26 @@ const items = [
   },
 ];
 
-describe("CardList component", () => {
-  beforeEach(() => {});
+const mockedUseRouter = vi.hoisted(() => vi.fn());
+const mockedRouter = {
+  query: { limit: "10", page: "2" },
+  push: vi.fn(),
+};
 
+vi.mock("next/router", () => ({
+  useRouter: () => mockedRouter,
+  ...mockedUseRouter,
+}));
+
+describe("CardList component", () => {
   it("renders the specified number of cards", async () => {
     await act(async () => {
       render(<CardList cards={items} />);
     });
 
-    await waitFor(() => {
-      expect(document.body.getElementsByClassName("card").length).toBe(
-        items.length,
-      );
-    });
+    const cards = document.body.getElementsByClassName("card");
+
+    expect(cards).toHaveLength(items.length);
   });
 
   it("Check that an appropriate message is displayed if no cards are present", async () => {
