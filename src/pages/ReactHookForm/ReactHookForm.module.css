@@ -1,0 +1,10 @@
+.uncontrolled__form {
+  display: grid;
+  width: 300px;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
