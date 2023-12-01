@@ -1,0 +1,50 @@
+.listContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.container {
+  background-color: #3d3f3e;
+  min-height: 100vh;
+}
+
+.uncontrolledBox {
+  margin: 10px;
+  min-width: 230px;
+  background-color: rgba(255, 0, 251, 0.418);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navItem {
+  margin: 0 10px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.navLink:hover {
+  color: yellow;
+}
