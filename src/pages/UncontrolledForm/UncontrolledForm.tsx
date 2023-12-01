@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './UncontrolledForm.module.css';
 import { saveFormData } from '../../store/Forms/Uncontrolled_form.slice';
 import { useNavigate } from 'react-router-dom';
+import { imageToBase64 } from '../../utils/imageReader';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -18,24 +19,32 @@ export default function UncontrolledForm() {
   const acceptTermRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
 
+  const saveDataInStorage = (base64String: string) => {
+      dispatch(
+        saveFormData({
+          name: nameRef.current!.value,
+          age: ageRef.current!.value,
+          email: emailRef.current!.value,
+          // country: countryRef.current!.value,
+          password: passwordRef.current!.value,
+          password2: password2Ref.current!.value,
+          gender: genderRef.current!.value,
+          acceptTerm: acceptTermRef.current!.checked,
+          picture: base64String,
+          newData: true,
+        })
+      );
+  }
+
+  const handleLoadLocalFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      imageToBase64(file, saveDataInStorage);
+    }
+  };
+
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    dispatch(
-      saveFormData({
-        name: nameRef.current!.value,
-        age: ageRef.current!.value,
-        email: emailRef.current!.value,
-        // country: countryRef.current!.value,
-        password: passwordRef.current!.value,
-        password2: password2Ref.current!.value,
-        gender: genderRef.current!.value,
-        acceptTerm: acceptTermRef.current!.checked,
-        picture: pictureRef.current!.value,
-        newData: true,
-      })
-    );
-
     navigate('/');
   };
 
@@ -82,7 +91,13 @@ export default function UncontrolledForm() {
           </label>
 
           <label htmlFor="picture">Choose Picture:</label>
-          <input type="file" name="picture" id="picture" ref={pictureRef} />
+          <input
+            type="file"
+            name="picture"
+            id="picture"
+            ref={pictureRef}
+            onChange={handleLoadLocalFile}
+          />
 
           <label>
             <input type="checkbox" name="acceptTerm" ref={acceptTermRef} />

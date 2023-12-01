@@ -4,15 +4,26 @@ import { IFormData } from '../../types/types';
 import { useDispatch } from 'react-redux';
 import { saveFormData } from '../../store/Forms/Uncontrolled_form.slice';
 import { useNavigate } from 'react-router-dom';
+import { ChangeEvent } from 'react';
+import { imageToBase64 } from '../../utils/imageReader';
 
 export default function ReactHookForm() {
-  const { register, handleSubmit } = useForm<IFormData>();
+  const { register, handleSubmit, setValue, getValues } = useForm<IFormData>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (data: IFormData) => {
-    dispatch(saveFormData(data));
+  const onSubmit = () => {
     navigate('/');
+  };
+
+  const handleLoadLocalFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      imageToBase64(file, (base64String) => {
+        setValue('picture', base64String)
+        dispatch(saveFormData({...getValues(), picture: base64String}))
+      });
+    }
   };
 
   return (
@@ -64,7 +75,8 @@ export default function ReactHookForm() {
           </label>
 
           <label htmlFor="picture">Choose Picture:</label>
-          <input type="file" name="picture" id="picture" />
+           
+          <input type="file" id="picture" {...register('picture')} onChange={handleLoadLocalFile}/>
 
           <label>
             <input type="checkbox" {...register('acceptTerm')} />
