@@ -17,9 +17,9 @@ export default function ReactHookForm() {
 
   return (
     <div className={styles.container}>
-      ReactHookForm:
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.uncontrolled__form}>
+          <h3> ReactHookForm:</h3>
           <label htmlFor="name">Name:</label>
           <input placeholder="Name" id="name" {...register('name')} />
 
@@ -63,15 +63,17 @@ export default function ReactHookForm() {
             female
           </label>
 
+          <label htmlFor="picture">Choose Picture:</label>
+          <input type="file" name="picture" id="picture" />
+
           <label>
             <input type="checkbox" {...register('acceptTerm')} />
             Accept terms & Conditions
           </label>
 
-          <label htmlFor="picture">Choose Picture:</label>
-          <input type="file" name="picture" id="picture" />
-
-          <button type="submit">Submit</button>
+          <button className={styles.submit} type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>

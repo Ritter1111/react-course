@@ -1,33 +1,32 @@
-import { Link } from 'react-router-dom';
 import styles from './Main.module.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { useEffect, useState } from 'react';
 
 export default function Main() {
   const uncontrolledData = useSelector(
     (state: RootState) => state.uncontrolledForm.list
   );
+  const [newIndex, setNewIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const newIndex = uncontrolledData.findIndex((item) => item.newData);
+    setNewIndex(newIndex);
+    setTimeout(() => {
+      setNewIndex(null);
+    }, 1500);
+  }, [uncontrolledData]);
+
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <nav className={styles.nav}>
-          <ul className={styles.navList}>
-            <li className={styles.navItem}>
-              <Link to="/uncontrolled-form" className={styles.navLink}>
-                uncontrolled-form
-              </Link>
-            </li>
-            <li>
-              <Link to="/react-hook-form" className={styles.navLink}>
-                react-hook-form
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
       <div className={styles.listContainer}>
         {uncontrolledData.map((item, idx) => (
-          <div key={idx} className={styles.uncontrolledBox}>
+          <div
+            key={idx}
+            className={
+              newIndex === idx ? styles.indicator : styles.uncontrolledBox
+            }
+          >
             <div>Age: {item.age}</div>
             <div>Name: {item.name}</div>
             <div>Email: {item.email}</div>

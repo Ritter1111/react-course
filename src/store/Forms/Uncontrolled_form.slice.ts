@@ -7,15 +7,6 @@ interface IUncontrolledFormList {
 
 const initialState: IUncontrolledFormList = {
   list: [],
-  // name: '',
-  // age: '',
-  // email: '',
-  // password: '',
-  // password2: '',
-  // // country: '',
-  // gender: '',
-  // acceptTerm: false,
-  // picture: '',
 };
 
 export const uncontrolledFormSlice = createSlice({
@@ -23,6 +14,10 @@ export const uncontrolledFormSlice = createSlice({
   initialState: initialState,
   reducers: {
     saveFormData: (state, action: PayloadAction<IFormData>) => {
+      state.list.forEach((item) => {
+        item.newData = false;
+      });
+
       state.list.push(action.payload);
     },
   },

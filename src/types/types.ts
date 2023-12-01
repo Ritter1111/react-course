@@ -8,4 +8,5 @@ export interface IFormData {
   gender: string;
   acceptTerm: boolean;
   picture: string;
+  newData: boolean;
 }

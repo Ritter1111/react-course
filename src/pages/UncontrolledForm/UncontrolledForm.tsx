@@ -32,6 +32,7 @@ export default function UncontrolledForm() {
         gender: genderRef.current!.value,
         acceptTerm: acceptTermRef.current!.checked,
         picture: pictureRef.current!.value,
+        newData: true,
       })
     );
 
@@ -40,9 +41,9 @@ export default function UncontrolledForm() {
 
   return (
     <div className={styles.container}>
-      UncontrolledForm:
       <form onSubmit={submitForm}>
         <div className={styles.uncontrolled__form}>
+          <h3> UncontrolledForm:</h3>
           <label htmlFor="name">Name:</label>
           <input placeholder="Name" id="name" ref={nameRef} />
 
@@ -80,15 +81,17 @@ export default function UncontrolledForm() {
             female
           </label>
 
+          <label htmlFor="picture">Choose Picture:</label>
+          <input type="file" name="picture" id="picture" ref={pictureRef} />
+
           <label>
             <input type="checkbox" name="acceptTerm" ref={acceptTermRef} />
             Accept terms & Conditions
           </label>
 
-          <label htmlFor="picture">Choose Picture:</label>
-          <input type="file" name="picture" id="picture" ref={pictureRef} />
-
-          <button type="submit">Submit</button>
+          <button className={styles.submit} type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>
