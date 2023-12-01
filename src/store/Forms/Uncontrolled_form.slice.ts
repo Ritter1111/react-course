@@ -1,19 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { IFormData } from '../../types/types';
 
 interface IUncontrolledFormList {
-  list: IUncontrolledFormState[];
-}
-
-interface IUncontrolledFormState {
-  name: string;
-  age: string;
-  email: string;
-  password: string;
-  password2: string;
-  // country: string,
-  gender: string;
-  acceptTerm: boolean;
-  picture: string;
+  list: IFormData[];
 }
 
 const initialState: IUncontrolledFormList = {
@@ -33,7 +22,7 @@ export const uncontrolledFormSlice = createSlice({
   name: 'uncontrolled_form',
   initialState: initialState,
   reducers: {
-    saveFormData: (state, action: PayloadAction<IUncontrolledFormState>) => {
+    saveFormData: (state, action: PayloadAction<IFormData>) => {
       state.list.push(action.payload);
     },
   },

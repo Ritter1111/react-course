@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from './UncontrolledForm.module.css';
 import { saveFormData } from '../../store/Forms/Uncontrolled_form.slice';
-import { store } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 
 export default function UncontrolledForm() {
@@ -37,8 +36,6 @@ export default function UncontrolledForm() {
     );
 
     navigate('/');
-
-    console.log('Updated State:', store.getState().uncontrolledForm);
   };
 
   return (

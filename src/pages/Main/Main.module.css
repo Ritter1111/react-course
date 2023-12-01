@@ -12,7 +12,8 @@
 .uncontrolledBox {
   margin: 10px;
   min-width: 230px;
-  background-color: rgba(255, 0, 251, 0.418);
+  background-color: rgb(91 0 228 / 60%);
+  color: aliceblue;
   padding: 20px;
   border-radius: 5px;
 }
