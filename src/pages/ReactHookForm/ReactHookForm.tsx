@@ -20,8 +20,8 @@ export default function ReactHookForm() {
     const file = event.target.files?.[0];
     if (file) {
       imageToBase64(file, (base64String) => {
-        setValue('picture', base64String)
-        dispatch(saveFormData({...getValues(), picture: base64String}))
+        setValue('picture', base64String);
+        dispatch(saveFormData({ ...getValues(), picture: base64String }));
       });
     }
   };
@@ -75,8 +75,13 @@ export default function ReactHookForm() {
           </label>
 
           <label htmlFor="picture">Choose Picture:</label>
-           
-          <input type="file" id="picture" {...register('picture')} onChange={handleLoadLocalFile}/>
+
+          <input
+            type="file"
+            id="picture"
+            {...register('picture')}
+            onChange={handleLoadLocalFile}
+          />
 
           <label>
             <input type="checkbox" {...register('acceptTerm')} />

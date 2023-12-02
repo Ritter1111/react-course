@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
- export default function Header () {
+export default function Header() {
   return (
     <div>
       <header className={styles.header}>
@@ -22,6 +22,6 @@ import styles from './Header.module.css';
       </header>
     </div>
   );
-};
+}
 
 // export default Header
