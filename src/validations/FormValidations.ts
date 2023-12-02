@@ -1,11 +1,11 @@
 import * as yup from 'yup';
 
-export const userSchema = yup.object({
+export const userSchema = yup.object().shape({
   name: yup
     .string()
     .required('Required')
     .matches(/^[A-Z]/, 'Name must start with a capital letter'),
-  age: yup.number().required('this field is required').min(0),
+  age: yup.string().required('this field is required').min(0),
   email: yup
     .string()
     .required('this field is required')

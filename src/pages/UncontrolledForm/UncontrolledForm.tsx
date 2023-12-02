@@ -5,10 +5,7 @@ import { saveFormData } from '../../store/Forms/Uncontrolled_form.slice';
 import { useNavigate } from 'react-router-dom';
 import { userSchema } from '../../validations/FormValidations';
 import * as yup from 'yup';
-
-interface ValidationErrors {
-  [key: string]: string;
-}
+import { ValidationErrors } from '../../types/types';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -85,40 +82,51 @@ export default function UncontrolledForm() {
     }
   };
 
-  console.log(validateErrors);
-  console.log(pictureRef.current?.files![0]);
-
   return (
     <div className={styles.container}>
       <form onSubmit={submitForm}>
         <div className={styles.uncontrolled__form}>
           <h3> UncontrolledForm:</h3>
           <label htmlFor="name">Name:</label>
-          <input placeholder="Name" id="name" ref={nameRef} />
-          <div style={{ color: 'red' }}>{validateErrors['name']}</div>
+          <input type="text" placeholder="Name" id="name" ref={nameRef} />
+          <div className={styles.errorMessage}>{validateErrors['name']}</div>
 
           <label htmlFor="age">Age:</label>
-          <input placeholder="Age" id="age" ref={ageRef} />
-          <div style={{ color: 'red' }}>{validateErrors['age']}</div>
+          <input type="text" placeholder="Age" id="age" ref={ageRef} />
+          <div className={styles.errorMessage}>{validateErrors['age']}</div>
 
-          <label htmlFor="email">email :</label>
-          <input placeholder="email" id="email" ref={emailRef} />
-          <div style={{ color: 'red' }}>{validateErrors['email']}</div>
+          <label htmlFor="email">Email :</label>
+          <input placeholder="email" type="text" id="email" ref={emailRef} />
+          <div className={styles.errorMessage}>{validateErrors['email']}</div>
 
-          <label htmlFor="password">password:</label>
-          <input placeholder="password" id="password" ref={passwordRef} />
-          <div style={{ color: 'red' }}>{validateErrors['password']}</div>
+          <label htmlFor="password">Password:</label>
+          <input
+            placeholder="password"
+            type="text"
+            id="password"
+            ref={passwordRef}
+          />
+          <div className={styles.errorMessage}>
+            {validateErrors['password']}
+          </div>
 
-          <label htmlFor="password2"> confirm password:</label>
-          <input placeholder="password" id="password2" ref={password2Ref} />
-          <div style={{ color: 'red' }}>{validateErrors['password2']}</div>
+          <label htmlFor="password2">Confirm password:</label>
+          <input
+            placeholder="password"
+            type="text"
+            id="password2"
+            ref={password2Ref}
+          />
+          <div className={styles.errorMessage}>
+            {validateErrors['password2']}
+          </div>
 
-          <label>gender :</label>
-          <select id="gender" ref={genderRef}>
+          <label>Gender :</label>
+          <select id="gender" ref={genderRef} className={styles.gender}>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
-          <div style={{ color: 'red' }}>{validateErrors['gender']}</div>
+          <div>{validateErrors['gender']}</div>
 
           <label htmlFor="picture">Choose Picture:</label>
           <input
@@ -128,13 +136,15 @@ export default function UncontrolledForm() {
             ref={pictureRef}
             onChange={handleLoadLocalFile}
           />
-          <div style={{ color: 'red' }}>{validateErrors['picture']}</div>
+          <div className={styles.errorMessage}>{validateErrors['picture']}</div>
 
           <label>
             <input type="checkbox" name="acceptTerm" ref={acceptTermRef} />
             Accept terms & Conditions
           </label>
-          <div style={{ color: 'red' }}>{validateErrors['acceptTerm']}</div>
+          <div className={styles.errorMessage}>
+            {validateErrors['acceptTerm']}
+          </div>
 
           <button className={styles.submit} type="submit">
             Submit

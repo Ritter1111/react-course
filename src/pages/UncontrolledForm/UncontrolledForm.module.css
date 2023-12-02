@@ -2,16 +2,29 @@
   display: grid;
   width: 300px;
   justify-content: center;
+  gap: 5px;
 }
 
 .container {
   display: flex;
   justify-content: center;
-  background-color: #3d3f3e;
+  background-color: #ffdd0073;
   min-height: 100vh;
 }
 
 .submit {
   padding: 11px;
   border-radius: 10px;
+  margin-top: 5px;
+}
+
+.errorMessage {
+  color: red;
+  height: 10px;
+  font-size: 14px;
+}
+
+.gender {
+  border-radius: 3px;
+  border: none;
 }
