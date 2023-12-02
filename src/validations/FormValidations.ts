@@ -5,7 +5,12 @@ export const userSchema = yup.object().shape({
     .string()
     .required('Required')
     .matches(/^[A-Z]/, 'Name must start with a capital letter'),
-  age: yup.string().required('this field is required').min(0),
+  age: yup.number()
+  .required('this field is required')
+  .positive('Only positive number')
+  .integer('Only whole numbers are allowed')
+  .typeError('Only numbers are allowed'),
+  country: yup.string().required('is required'),
   email: yup
     .string()
     .required('this field is required')

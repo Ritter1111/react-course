@@ -9,8 +9,6 @@ export default function Main() {
   );
   const [newIndex, setNewIndex] = useState<number | null>(null);
 
-  console.log(uncontrolledData);
-
   useEffect(() => {
     const newIndex = uncontrolledData.findIndex((item) => item.newData);
     setNewIndex(newIndex);
@@ -36,6 +34,7 @@ export default function Main() {
             <div>Password: {item.password}</div>
             <div>Password2: {item.password2}</div>
             <div>Accept Terms: {item.acceptTerm}</div>
+            <div>Country: {item.country}</div>
             <img src={item.picture} className={styles.image} />
           </div>
         ))}

@@ -6,13 +6,15 @@ import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from '../../validations/FormValidations';
 import { imageToBase64 } from '../../utils/imageReader';
+// import { Autocomplete } from '../../components/AutocompleteInput/Autocomplete';
 
 export interface IFormData {
   name: string;
-  age: string;
+  age: number;
   email: string;
   password: string;
   password2: string;
+  country: string,
   gender: string;
   acceptTerm: boolean;
   picture: FileList;
@@ -25,6 +27,7 @@ export const ReactHookForm: React.FC= () => {
     getValues,
     formState: { errors },
   } = useForm({
+    mode: 'onChange',
     resolver: yupResolver(userSchema),
   });
   const dispatch = useDispatch();
@@ -37,6 +40,9 @@ export const ReactHookForm: React.FC= () => {
     );
     navigate('/');
   };
+
+  console.log(errors);
+  
 
   return (
     <div className={styles.container}>
@@ -60,7 +66,7 @@ export const ReactHookForm: React.FC= () => {
             {errors.age && errors.age.message}
           </p>
 
-          <label htmlFor="email">email :</label>
+          <label htmlFor="email">Email :</label>
           <input
             type="text"
             placeholder="email"
@@ -71,7 +77,7 @@ export const ReactHookForm: React.FC= () => {
             {errors.email && errors.email.message}
           </p>
 
-          <label htmlFor="password">password:</label>
+          <label htmlFor="password">Password:</label>
           <input
             type="text"
             placeholder="password"
@@ -82,10 +88,11 @@ export const ReactHookForm: React.FC= () => {
             {errors.password && errors.password.message}
           </p>
 
-          <label htmlFor="password2"> confirm password:</label>
+          <label htmlFor="password2">Confirm password:</label>
           <input
             placeholder="password"
             id="password2"
+            type="text"
             {...register('password2')}
           />
           <p className={styles.errorMessage}>
@@ -104,6 +111,8 @@ export const ReactHookForm: React.FC= () => {
           <p className={styles.errorMessage}>
             {errors.picture && errors.picture.message}
           </p>
+
+          {/* <Autocomplete /> */}
 
           <label>
             <input type="checkbox" {...register('acceptTerm')} />

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { userSchema } from '../../validations/FormValidations';
 import * as yup from 'yup';
 import { ValidationErrors } from '../../types/types';
+import { Autocomplete } from '../../components/AutocompleteInput/Autocomplete';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ export default function UncontrolledForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
-  // const countryRef =  useRef<HTMLInputElement>(null)
+  const countryRef =  useRef<HTMLInputElement>(null)
   const genderRef = useRef<HTMLSelectElement>(null);
   const acceptTermRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
@@ -29,9 +30,9 @@ export default function UncontrolledForm() {
       dispatch(
         saveFormData({
           name: nameRef.current!.value,
-          age: ageRef.current!.value,
+          age: ageRef.current?.valueAsNumber || 0,
           email: emailRef.current!.value,
-          // country: countryRef.current!.value,
+          country: countryRef.current!.value,
           password: passwordRef.current!.value,
           password2: password2Ref.current!.value,
           gender: genderRef.current!.value,
@@ -65,6 +66,7 @@ export default function UncontrolledForm() {
           password2: password2Ref.current?.value,
           gender: genderRef.current?.value || '',
           acceptTerm: acceptTermRef.current?.checked,
+          country: countryRef.current?.value,
           picture: pictureRef.current?.files,
         },
         { abortEarly: false }
@@ -81,6 +83,9 @@ export default function UncontrolledForm() {
       setValidateErrors(errors);
     }
   };
+
+  console.log(countryRef.current?.value);
+
 
   return (
     <div className={styles.container}>
@@ -126,7 +131,6 @@ export default function UncontrolledForm() {
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
-          <div>{validateErrors['gender']}</div>
 
           <label htmlFor="picture">Choose Picture:</label>
           <input
@@ -137,6 +141,10 @@ export default function UncontrolledForm() {
             onChange={handleLoadLocalFile}
           />
           <div className={styles.errorMessage}>{validateErrors['picture']}</div>
+
+           <Autocomplete country={countryRef}/>
+          <div className={styles.errorMessage}>{validateErrors['country']}</div>
+
 
           <label>
             <input type="checkbox" name="acceptTerm" ref={acceptTermRef} />
