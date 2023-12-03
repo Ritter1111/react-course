@@ -1,0 +1,33 @@
+.listContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.container {
+  background-color: #ffdd0073;
+  min-height: 100vh;
+}
+
+.uncontrolledBox {
+  margin: 10px;
+  min-width: 230px;
+  background-color: rgb(91 0 228 / 60%);
+  color: aliceblue;
+  padding: 20px;
+  border-radius: 5px;
+  transition: 0.7s all ease;
+}
+
+.indicator {
+  margin: 10px;
+  min-width: 230px;
+  background-color: rgba(74, 118, 7, 0.6);
+  color: aliceblue;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.image {
+  width: 200px;
+}

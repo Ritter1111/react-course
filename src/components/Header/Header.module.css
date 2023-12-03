@@ -1,0 +1,31 @@
+.header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navItem {
+  margin: 0 10px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.navLink:hover {
+  color: yellow;
+}
