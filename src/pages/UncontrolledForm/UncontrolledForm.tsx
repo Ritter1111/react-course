@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styles from './UncontrolledForm.module.css';
 import { saveFormData } from '../../store/Forms/Uncontrolled_form.slice';
 import { useNavigate } from 'react-router-dom';
 import { userSchema } from '../../validations/FormValidations';
 import * as yup from 'yup';
 import { ValidationErrors } from '../../types/types';
 import { Autocomplete } from '../../components/AutocompleteInput/Autocomplete';
+import styles from './UncontrolledForm.module.css';
 
 export default function UncontrolledForm() {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function UncontrolledForm() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const password2Ref = useRef<HTMLInputElement>(null);
-  const countryRef =  useRef<HTMLInputElement>(null)
+  const countryRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
   const acceptTermRef = useRef<HTMLInputElement>(null);
   const pictureRef = useRef<HTMLInputElement>(null);
@@ -30,7 +30,7 @@ export default function UncontrolledForm() {
       dispatch(
         saveFormData({
           name: nameRef.current!.value,
-          age: ageRef.current?.valueAsNumber || 0,
+          age: Number(ageRef.current!.value),
           email: emailRef.current!.value,
           country: countryRef.current!.value,
           password: passwordRef.current!.value,
@@ -83,9 +83,6 @@ export default function UncontrolledForm() {
       setValidateErrors(errors);
     }
   };
-
-  console.log(countryRef.current?.value);
-
 
   return (
     <div className={styles.container}>
@@ -142,9 +139,8 @@ export default function UncontrolledForm() {
           />
           <div className={styles.errorMessage}>{validateErrors['picture']}</div>
 
-           <Autocomplete country={countryRef}/>
+          <Autocomplete country={countryRef} />
           <div className={styles.errorMessage}>{validateErrors['country']}</div>
-
 
           <label>
             <input type="checkbox" name="acceptTerm" ref={acceptTermRef} />
@@ -154,7 +150,7 @@ export default function UncontrolledForm() {
             {validateErrors['acceptTerm']}
           </div>
 
-          <button className={styles.submit} type="submit">
+          <button className={styles.submit} type="submit" >
             Submit
           </button>
         </div>

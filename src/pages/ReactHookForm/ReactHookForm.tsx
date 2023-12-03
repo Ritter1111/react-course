@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from '../../validations/FormValidations';
 import { imageToBase64 } from '../../utils/imageReader';
-// import { Autocomplete } from '../../components/AutocompleteInput/Autocomplete';
+import { useState } from 'react';
+import { countries } from '../../utils/countries';
 
 export interface IFormData {
   name: string;
@@ -14,13 +15,13 @@ export interface IFormData {
   email: string;
   password: string;
   password2: string;
-  country: string,
+  country: string;
   gender: string;
   acceptTerm: boolean;
   picture: FileList;
 }
 
-export const ReactHookForm: React.FC= () => {
+export const ReactHookForm: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -30,6 +31,11 @@ export const ReactHookForm: React.FC= () => {
     mode: 'onChange',
     resolver: yupResolver(userSchema),
   });
+  const [value] = useState('');
+  const allCountries = countries.filter((item) =>
+    item.toLowerCase().includes(value.toLowerCase())
+  );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,9 +46,6 @@ export const ReactHookForm: React.FC= () => {
     );
     navigate('/');
   };
-
-  console.log(errors);
-  
 
   return (
     <div className={styles.container}>
@@ -112,7 +115,26 @@ export const ReactHookForm: React.FC= () => {
             {errors.picture && errors.picture.message}
           </p>
 
-          {/* <Autocomplete /> */}
+          <div className={styles.autocomplete}>
+            <div className={styles.inputContainer}>
+              <label htmlFor="countries"></label>
+              <input
+                type="text"
+                placeholder="Search country"
+                {...register('country')}
+                list="country-list"
+              />
+            </div>
+            <datalist id="country-list">
+              {allCountries.map((item) => (
+                <option key={item} value={item} />
+              ))}
+            </datalist>
+          </div>
+
+          <p className={styles.errorMessage}>
+            {errors.picture && errors.country?.message}
+          </p>
 
           <label>
             <input type="checkbox" {...register('acceptTerm')} />
@@ -129,4 +151,4 @@ export const ReactHookForm: React.FC= () => {
       </form>
     </div>
   );
-}
+};

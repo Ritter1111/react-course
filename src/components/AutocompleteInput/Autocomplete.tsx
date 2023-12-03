@@ -1,15 +1,12 @@
 import { useState, ChangeEvent } from "react";
 import { countries } from "../../utils/countries";
 import styles from "./Autocomplete.module.css";
-import { UseFormRegister } from "react-hook-form";
-import { IFormData } from "../../types/types";
 
 interface AutocompleteProps {
   country?: React.RefObject<HTMLInputElement>;
-  register?: UseFormRegister<IFormData>;
 }
 
-export const Autocomplete: React.FC<AutocompleteProps> = ({ country, register }) => {
+export const Autocomplete: React.FC<AutocompleteProps> = ({ country }) => {
   const [value, setValue] = useState("");
   const allCountries = countries.filter((item) =>
     item.toLowerCase().includes(value.toLowerCase())
@@ -29,7 +26,6 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({ country, register })
           onChange={handleChange}
           value={value}
           ref={country}
-          {...(register && register('country'))}
           list="country-list"
         />
       </div>
